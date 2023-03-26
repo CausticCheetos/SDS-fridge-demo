@@ -1,0 +1,12 @@
+.table {
+    margin: 0;
+}
+
+.dashboard {
+    text-align: left;
+    margin: 0;
+}
+
+th {
+    border: 0 !important;
+}

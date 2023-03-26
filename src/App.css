@@ -1,0 +1,18 @@
+.App {
+  background-color: #FFFEFE;
+  
+}
+
+.container {
+  height: 100vh;
+}
+
+.contents {
+  position: absolute;
+  left: 18%;
+  margin-left: 1%;
+}
+
+body {
+  margin: 0;
+}

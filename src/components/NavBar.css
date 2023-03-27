@@ -1,22 +1,12 @@
 .NavBar {
-    width: 18%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
     height: 100%;
     background-color: #010001;
     color: #FFFEFE;
-    position: absolute;
     left: 0;
-}
-
-h1 {
-    margin: 0;
-    padding: 10px;
-    text-align: center;
-    font-size: x-large !important;
-}
-
-h2 {
-    padding-left: 20px;
-    font-size: large !important;
 }
 
 button {

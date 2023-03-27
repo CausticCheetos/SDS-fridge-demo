@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className='App'>
-      <div className='container'>
+      <div className='appContainer'>
         
         <NavBar {...{user, handleNav}}/>
         <div className='contents'>

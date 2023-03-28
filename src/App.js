@@ -2,24 +2,25 @@ import { useState } from 'react';
 import './App.css';
 import NavBar from './components/NavBar';
 import Dashboard from  './components/Dashboard'
+import DataVisualisation from  './components/DataVisualisation'
+import BlueFors from './components/BlueFors'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { Route, Routes } from "react-router-dom"
 
 
 function App() {
   const [user, setUser] = useState('User Name')
-  const [displayed, setDisplayed] = useState(<Dashboard/>)
-  
-  const handleNav = (item) => {
-    setDisplayed(item)
-  }
 
   return (
     <div className='App'>
       <div className='appContainer'>
-        
-        <NavBar {...{user, handleNav}}/>
+        <NavBar {...{user}}/>
         <div className='contents'>
-          {displayed}
+          <Routes>
+            <Route path='/' element={<Dashboard/>}/>
+            <Route path='/data_visulisation' element={<DataVisualisation/>}/>
+            <Route path='/bluefors_interface' element={<BlueFors/>}/>
+          </Routes>
         </div>
       </div>
       

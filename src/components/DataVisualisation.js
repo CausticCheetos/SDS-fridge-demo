@@ -1,12 +1,12 @@
 const DataVisualisation = () => {
 
     return (
-        <>
-            <div>
+        <div>
+            <div className="header">
                 <h1>Data Visualisation</h1>
-                This is Data Visualisation
             </div>
-        </>
+            This is Data Visualisation
+        </div>
     )
 }
 

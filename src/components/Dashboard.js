@@ -3,18 +3,28 @@ import './Dashboard.css'
 import Card from 'react-bootstrap/Card'
 import GaugeChart from 'react-gauge-chart'
 
-function getRandomInt(max) {
+function wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+      end = new Date().getTime();
+   }
+ }
 
+function getRandomInt(max) {
+    Math.floor(Math.random(100) * max);
+    wait(1500);
     return Math.floor(Math.random(100) * max);
-    
   }
+
+
 const Dashboard = () => {
     const [date, setDate] = useState(new Date())
     
     const testData = [
         {
             name: "Fridge 1",
-            temperature: {
+            temperature1: {
                 value: getRandomInt(100), 
                 unit: "C\u00B0"},
             temperature2: {
@@ -55,7 +65,7 @@ const Dashboard = () => {
         },
         {
             name: "Fridge 2",
-            temperature: {
+            temperature1: {
                 value: 80, 
                 unit: "C\u00B0"},
                 temperature2: {
@@ -95,6 +105,7 @@ const Dashboard = () => {
                 value: false}
         }
     ]
+    
 
     useEffect(() => {
         setInterval(() => {
@@ -111,26 +122,27 @@ const Dashboard = () => {
                 <tbody>
                     <tr>
                         {testData.map(fridge =>
-                        <td className="dashboardCells"> 
+                        <td className="dashboardCells">     
                             <Card className ="card">
                                 <Card.Title>{fridge.name}</Card.Title>
+                                <button onClick={console.log("nice")}>Default</button>
                                 <Card.Body>
                                     <GaugeChart
                                         id="gauge-chart1"
                                         nrOfLevels={10}
                                         colors={["green", "orange", "red"]}
                                         arcWidth={0.3}
-                                        percent={(fridge.temperature.value/100)}
-                                        formatTextValue={value=> fridge.temperature.value + " C\u00B0"}
+                                        percent={(fridge.temperature1.value/100)}
+                                        formatTextValue={value=> fridge.temperature1.value + " C\u00B0"}
                                         textColor={'black'}
                                         animate={false}
                                         />
                                 </Card.Body>
                                 <Card.Text className="cardText">
-                                    Temperature 1: {fridge.temperature.value + fridge.temperature.unit} <br/>
-                                    Temperature 2: {fridge.temperature2.value + fridge.temperature.unit}<br/>
-                                    Temperature 3: {fridge.temperature3.value + fridge.temperature.unit} <br/>
-                                    Temperature 4: {fridge.temperature4.value + fridge.temperature.unit}<br/>
+                                    Temperature 1: {fridge.temperature1.value + fridge.temperature1.unit} <br/>
+                                    Temperature 2: {fridge.temperature2.value + fridge.temperature1.unit}<br/>
+                                    Temperature 3: {fridge.temperature3.value + fridge.temperature1.unit} <br/>
+                                    Temperature 4: {fridge.temperature4.value + fridge.temperature1.unit}<br/>
                                     Pressure 1: {fridge.pressure.value + fridge.pressure.unit}<br/>
                                     Pressure 2: {fridge.pressure2.value + fridge.pressure.unit}<br/>
                                     Pressure 3: {fridge.pressure3.value + fridge.pressure.unit}<br/>

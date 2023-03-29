@@ -103,47 +103,6 @@ const Dashboard = () => {
                 unit: ""},
             status: {
                 value: false}
-        },
-        {
-            name: "Fridge 3",
-            temperature: {
-                value: 80, 
-                unit: "C\u00B0"},
-                temperature2: {
-                    value: 82, 
-                    unit: "C\u00B0"},
-                temperature3: {
-                    value: 94, 
-                    unit: "C\u00B0"},
-                temperature4: {
-                    value: 75, 
-                    unit: "C\u00B0"},
-                pressure: {
-                    value: 2200, 
-                    unit: "psi"},
-                pressure2: {
-                    value: 2155, 
-                    unit: "psi"},
-                pressure3: {
-                    value: 1884, 
-                    unit: "psi"},
-                pressure4: {
-                    value: 1974, 
-                    unit: "psi"},
-                pressure5: {
-                    value: 2301, 
-                    unit: "psi"},
-                pressure6: {
-                    value: 2100, 
-                    unit: "psi"},
-            power: {
-                value: 2000, 
-                unit: "mW"},
-            runtime: {
-                value: "", 
-                unit: ""},
-            status: {
-                value: false}
         }
         
     ]
@@ -162,45 +121,40 @@ const Dashboard = () => {
                 <div className="clock">{date.toLocaleString("en-AU")}</div>
             </div> 
             <div className="table">
-            <table className="dashboardTable">
-                <tbody>
-                    <tr>
-                        {testData.map(fridge =>
-                        <td className="dashboardCells"> 
-                            <Card className ="card">
-                                <Card.Title>{fridge.name}</Card.Title>
-                                <Card.Body>
-                                    <GaugeChart
-                                        id="gauge-chart1"
-                                        nrOfLevels={10}
-                                        colors={["green", "orange", "red"]}
-                                        arcWidth={0.3}
-                                        percent={(fridge.temperature.value/100)}
-                                        formatTextValue={value=> fridge.temperature.value + " C\u00B0"}
-                                        textColor={'black'}
-                                        animate={false}
-                                        />
-                                </Card.Body>
-                                <Card.Text className="cardText">
-                                    Temperature 1: {fridge.temperature.value + fridge.temperature.unit} <br/>
-                                    Temperature 2: {fridge.temperature2.value + fridge.temperature.unit}<br/>
-                                    Temperature 3: {fridge.temperature3.value + fridge.temperature.unit} <br/>
-                                    Temperature 4: {fridge.temperature4.value + fridge.temperature.unit}<br/>
-                                    Pressure 1: {fridge.pressure.value + fridge.pressure.unit}<br/>
-                                    Pressure 2: {fridge.pressure2.value + fridge.pressure.unit}<br/>
-                                    Pressure 3: {fridge.pressure3.value + fridge.pressure.unit}<br/>
-                                    Pressure 4: {fridge.pressure4.value + fridge.pressure.unit}<br/>
-                                    Pressure 5: {fridge.pressure5.value + fridge.pressure.unit}<br/>
-                                    Pressure 6: {fridge.pressure6.value + fridge.pressure.unit}<br/>
-                                    Power: {fridge.power.value + fridge.power.unit} <br/>
-                                    Runtime: {fridge.runtime.value + fridge.runtime.unit} <br/>
-                                    Status: {fridge.status.value ? "Online" : "Offline"} <br/>
-                                </Card.Text>
-                            </Card>
-                        </td>)}
-                    </tr>
-                </tbody>
-            </table> 
+                {testData.map(fridge =>
+                <div className="item" key={fridge.name}>
+                    <Card className ="card">
+                        <Card.Title>{fridge.name}</Card.Title>
+                        <Card.Body>
+                            <GaugeChart
+                                id="gauge-chart1"
+                                nrOfLevels={10}
+                                colors={["green", "orange", "red"]}
+                                arcWidth={0.3}
+                                percent={(fridge.temperature1.value/100)}
+                                formatTextValue={value=> fridge.temperature1.value + " C\u00B0"}
+                                textColor={'black'}
+                                animate={false}
+                                />
+                        </Card.Body>
+                        <Card.Text className="cardText">
+                            Temperature 1: {fridge.temperature1.value + fridge.temperature1.unit} <br/>
+                            Temperature 2: {fridge.temperature2.value + fridge.temperature2.unit}<br/>
+                            Temperature 3: {fridge.temperature3.value + fridge.temperature3.unit} <br/>
+                            Temperature 4: {fridge.temperature4.value + fridge.temperature4.unit}<br/>
+                            Pressure 1: {fridge.pressure.value + fridge.pressure.unit}<br/>
+                            Pressure 2: {fridge.pressure2.value + fridge.pressure.unit}<br/>
+                            Pressure 3: {fridge.pressure3.value + fridge.pressure.unit}<br/>
+                            Pressure 4: {fridge.pressure4.value + fridge.pressure.unit}<br/>
+                            Pressure 5: {fridge.pressure5.value + fridge.pressure.unit}<br/>
+                            Pressure 6: {fridge.pressure6.value + fridge.pressure.unit}<br/>
+                            Power: {fridge.power.value + fridge.power.unit} <br/>
+                            Runtime: {fridge.runtime.value + fridge.runtime.unit} <br/>
+                            Status: {fridge.status.value ? "Online" : "Offline"} <br/>
+                        </Card.Text>
+                    </Card>
+                </div>
+                )}
             </div>
         </div>
     )

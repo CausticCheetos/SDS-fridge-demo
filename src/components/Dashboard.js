@@ -13,7 +13,7 @@ function wait(ms){
 
 function getRandomInt(max) {
     Math.floor(Math.random(100) * max);
-    wait(1500);
+    /* wait(1500); */
     return Math.floor(Math.random(100) * max);
   }
 

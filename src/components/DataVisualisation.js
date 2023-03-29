@@ -155,20 +155,9 @@ export default class Example extends PureComponent {
     const { data, barIndex, left, right, refAreaLeft, refAreaRight, top, bottom, top2, bottom2 } = this.state;
 
     return (
-<<<<<<< HEAD
       <div className="highlight-bar-charts" style={{ userSelect: 'none', width: '100%' }}>
         <h2>Demo Graph of Pressure and Temperature with Respect to T in a zoomable format</h2>
         <button type="button" className="button" onClick={this.zoomOut.bind(this)}> Zoom Out </button>
-=======
-        <div>
-            <div className="header">
-                <h1>Data Visualisation</h1>
-            </div>
-            This is Data Visualisation
-        </div>
-    )
-}
->>>>>>> 2e8ee670edbaf18b14736ad50ef81f13dcd46e8a
 
         <ResponsiveContainer width="100%" height={400}>
           <LineChart

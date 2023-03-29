@@ -1,12 +1,12 @@
 const BlueFors = () => {
 
     return (
-        <>
-            <div>
+        <div>
+            <div className="header">
                 <h1>BlueFors Interface</h1>
-                This is BlueFors
             </div>
-        </>
+            This is BlueFors
+        </div>
     )
 }
 

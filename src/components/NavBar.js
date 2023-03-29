@@ -1,33 +1,39 @@
 import './NavBar.css'
-import DataVisualisation from  './DataVisualisation'
-import Dashboard from  './Dashboard'
-import BlueFors from './BlueFors'
 import Button from 'react-bootstrap/Button'
 import {IconHome, IconChartHistogram, IconAppWindow, IconSettings, IconLogout} from '@tabler/icons-react'
+import { useNavigate } from 'react-router-dom'
 
-const NavBar = ({user, handleNav}) => {
+const NavBar = ({user}) => {
 
     const navList = [{
             name: "Dashboard",
-            comp: <Dashboard/>,
+            path: '/',
             icon: <IconHome/>
         },
         {
             name: "Data Visualisation",
-            comp: <DataVisualisation/>,
+            path: '/data_visulisation',
             icon: <IconChartHistogram/>,
         },
-            {name: "BlueFors Interface",
-            comp: <BlueFors/>,
+        {
+            name: "BlueFors Interface",
+            path: '/bluefors_interface',
             icon: <IconAppWindow/>
         }]
+
+    const navigate = useNavigate()
 
     return (
         <div className='NavBar'>
             <div>
                 <h2>Welcome, {user}! </h2>
                 <h3>Menu</h3>
-                {navList.map(item => <p><Button variant="Light" onClick={() => handleNav(item.comp)}> {item.icon} {item.name} </Button></p>)}
+                {navList.map(item => 
+                    <p key={item.name}>
+                        <Button variant="Light" onClick={() => navigate(item.path)}>
+                             {item.icon} {item.name} 
+                        </Button>
+                    </p>)}
                 <div className=''/>
             </div>
             <div>

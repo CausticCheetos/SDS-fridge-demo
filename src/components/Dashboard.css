@@ -1,0 +1,61 @@
+.table {
+    margin: 0;
+}
+
+.dashboard {
+    text-align: left;
+    width: 30vh;
+    margin: 0;
+}
+
+.dashboardContents {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 10px;
+    max-height: 100%;
+}
+
+.clock {
+    background-color: #F6F6F6;
+    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.table {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-top: 35px;
+    overflow-y: auto;
+}
+
+.dashboardCells {
+    padding: 10px;
+}
+
+.card {
+    background-color: #F6F6F6 !important;
+}
+
+.item {
+    padding-bottom: 20px;
+}
+
+.cardText {
+    padding: 10px;
+}
+
+tr {
+    border: 0 !important;
+}
+
+/* Desktop */
+@media screen and (min-width: 768px) {
+    .clock {
+        margin-top: 25px;
+        margin-right: 25px;
+        padding: 10px;
+    }
+}

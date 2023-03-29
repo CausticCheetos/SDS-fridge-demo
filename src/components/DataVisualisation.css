@@ -1,0 +1,22 @@
+.button {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-left:90px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #000000;
+    border: whitesmoke;
+    border-radius: 5px;
+  }
+  
+  .button:hover {background-color: #354836}
+  
+  .button:active {
+    background-color: #324733;
+  
+    transform: translateY(4px);
+  }

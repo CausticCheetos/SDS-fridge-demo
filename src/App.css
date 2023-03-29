@@ -1,0 +1,42 @@
+.App {
+  background-color: #FFFEFE;
+  
+}
+
+h1 {
+  margin: 0;
+  padding: 10px;
+}
+
+h2 {
+  padding: 10px;
+  text-align: center;
+  font-size: x-large !important;
+}
+
+h3 {
+  padding-left: 20px;
+  font-size: large !important;
+}
+
+.appContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100vh;
+}
+
+.contents {
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+body {
+  margin: 0;
+}

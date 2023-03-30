@@ -1,8 +1,4 @@
-.table {
-    margin: 0;
-}
-
-.dashboard {
+.dashboardTitle {
     text-align: left;
     width: 30vh;
     margin: 0;
@@ -23,16 +19,32 @@
     font-size: 20px;
 }
 
-.table {
+.contents {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: flex-start;
     padding-top: 35px;
+    padding-right: 10px;
     overflow-y: auto;
 }
 
-.dashboardCells {
-    padding: 10px;
+.dropdownBox {
+   padding-bottom: 10px;
+}
+
+.dropdown-toggle.btn.btn-primary {
+    color: #272727b2 !important;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-color: #CCCDCD;
+}
+.dropdown-toggle.btn.btn-primary:active {
+    color: #000000 !important;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-color: #ffffff !important;
+}
+.dropdown-toggle.btn.btn-primary:hover {
+    color: #000000 !important;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .parentCard {
@@ -43,20 +55,17 @@
     background-color: #F6F6F6 !important;
 }
 
+.cardTitle.card-title.h5 {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
 .cardTitle {
     flex-basis: 100%;
 }
 
-.item {
-    padding-bottom: 20px;
-}
-
 .cardText {
     padding: 10px;
-}
-
-tr {
-    border: 0 !important;
 }
 
 /* Desktop */

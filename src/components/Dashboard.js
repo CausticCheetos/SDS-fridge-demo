@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import './Dashboard.css'
 import Card from 'react-bootstrap/Card'
+import DropDown from 'react-bootstrap/Dropdown'
+import DropDownButton from 'react-bootstrap/DropdownButton'
 import GaugeChart from 'react-gauge-chart'
 
 function wait(ms){
@@ -20,6 +22,7 @@ function getRandomInt(max) {
 
 const Dashboard = () => {
     const [date, setDate] = useState(new Date())
+    const [selected, setSelected] = useState(0)
     
     const testData = [
         {
@@ -104,105 +107,108 @@ const Dashboard = () => {
             status: {
                 value: false}
         }
-        
     ]
     
-
     useEffect(() => {
         setInterval(() => {
             setDate(new Date());
         }, 1000)
     }, [])
 
+    const handleSelect = (e) => setSelected(e)
+
     return (
         <div className="dashboardContents">
             <div className="header">
-                <h1 className="dashboard">Dashboard</h1>
+                <h1 className="dashboardTitle">Dashboard</h1>
                 <div className="clock">{date.toLocaleString("en-AU")}</div>
             </div> 
-            <div className="table">
-                {testData.map(fridge =>
-                <div className="item" key={fridge.name}>
-                    <h3>{fridge.name}</h3>
-                    <Card className ="parentCard">
-                        <Card.Title className="cardTitle">Pressure</Card.Title>
-                        <Card className="childCard">
-                            <Card.Body>
-                                <GaugeChart
-                                    id="gauge-chart1"
-                                    nrOfLevels={10}
-                                    colors={["green", "orange", "red"]}
-                                    arcWidth={0.3}
-                                    percent={(fridge.temperature1.value/100)}
-                                    formatTextValue={value=> fridge.temperature1.value + " C\u00B0"}
-                                    textColor={'black'}
-                                    animate={false}
-                                    />
-                            </Card.Body>
-                        </Card>
-                        <Card.Title className="cardTitle">Temperature</Card.Title>
-                        <Card className="childCard">
-                            <Card.Body>
-                                <GaugeChart
-                                    id="gauge-chart1"
-                                    nrOfLevels={10}
-                                    colors={["green", "orange", "red"]}
-                                    arcWidth={0.3}
-                                    percent={(fridge.temperature2.value/100)}
-                                    formatTextValue={value=> fridge.temperature2.value + " C\u00B0"}
-                                    textColor={'black'}
-                                    animate={false}
-                                    />
-                            </Card.Body>
-                        </Card>
-                        <Card className="childCard">
-                            <Card.Body>
-                                <GaugeChart
-                                    id="gauge-chart1"
-                                    nrOfLevels={10}
-                                    colors={["green", "orange", "red"]}
-                                    arcWidth={0.3}
-                                    percent={(fridge.temperature2.value/100)}
-                                    formatTextValue={value=> fridge.temperature2.value + " C\u00B0"}
-                                    textColor={'black'}
-                                    animate={false}
-                                    />
-                            </Card.Body>
-                        </Card>
-                        <Card className="childCard">
-                            <Card.Body>
-                                <GaugeChart
-                                    id="gauge-chart1"
-                                    nrOfLevels={10}
-                                    colors={["green", "orange", "red"]}
-                                    arcWidth={0.3}
-                                    percent={(fridge.temperature2.value/100)}
-                                    formatTextValue={value=> fridge.temperature2.value + " C\u00B0"}
-                                    textColor={'black'}
-                                    animate={false}
-                                    />
-                            </Card.Body>
-                        </Card>
-                        <Card.Title className="cardTitle">Channel</Card.Title>
-                        {/*
-                        <Card.Text className="cardText">
-                            Temperature 1: {fridge.temperature1.value + fridge.temperature1.unit} <br/>
-                            Temperature 2: {fridge.temperature2.value + fridge.temperature2.unit}<br/>
-                            Temperature 3: {fridge.temperature3.value + fridge.temperature3.unit} <br/>
-                            Temperature 4: {fridge.temperature4.value + fridge.temperature4.unit}<br/>
-                            Pressure 1: {fridge.pressure.value + fridge.pressure.unit}<br/>
-                            Pressure 2: {fridge.pressure2.value + fridge.pressure.unit}<br/>
-                            Pressure 3: {fridge.pressure3.value + fridge.pressure.unit}<br/>
-                            Pressure 4: {fridge.pressure4.value + fridge.pressure.unit}<br/>
-                            Pressure 5: {fridge.pressure5.value + fridge.pressure.unit}<br/>
-                            Pressure 6: {fridge.pressure6.value + fridge.pressure.unit}<br/>
-                            Power: {fridge.power.value + fridge.power.unit} <br/>
-                            Runtime: {fridge.runtime.value + fridge.runtime.unit} <br/>
-                            Status: {fridge.status.value ? "Online" : "Offline"} <br/>
-                        </Card.Text> */}
+            <div className="contents">
+                    <DropDownButton className="dropdownBox"
+                        title={testData[selected].name}
+                        id="dropdown-basic-button"
+                        onSelect={handleSelect}>
+                            {testData.map((fridge, index) =>
+                                <DropDown.Item 
+                                    className="w-100" 
+                                    key={index} 
+                                    eventKey={index}>
+                                        {fridge.name}
+                                </DropDown.Item>)}
+                    </DropDownButton>
+                <Card className ="parentCard">
+                    <Card.Title className="cardTitle">Pressure</Card.Title>
+                    <Card className="childCard">
+                        <Card.Body>
+                            <GaugeChart
+                                id="gauge-chart1"
+                                nrOfLevels={10}
+                                colors={["green", "orange", "red"]}
+                                arcWidth={0.3}
+                                percent={(testData[selected].temperature1.value/100)}
+                                formatTextValue={value=> testData[selected].temperature1.value + " C\u00B0"}
+                                textColor={'black'}
+                                animate={false}/>
+                        </Card.Body>
                     </Card>
-                </div>
-                )}
+                    <Card.Title className="cardTitle">Temperature</Card.Title>
+                    <Card className="childCard">
+                        <Card.Body>
+                            <GaugeChart
+                                id="gauge-chart1"
+                                nrOfLevels={10}
+                                colors={["green", "orange", "red"]}
+                                arcWidth={0.3}
+                                percent={(testData[selected].temperature1.value/100)}
+                                formatTextValue={value=> testData[selected].temperature1.value + " C\u00B0"}
+                                textColor={'black'}
+                                animate={false}/>
+                        </Card.Body>
+                    </Card>
+                    <Card className="childCard">
+                        <Card.Body>
+                            <GaugeChart
+                                id="gauge-chart1"
+                                nrOfLevels={10}
+                                colors={["green", "orange", "red"]}
+                                arcWidth={0.3}
+                                percent={(testData[selected].temperature1.value/100)}
+                                formatTextValue={value=> testData[selected].temperature1.value + " C\u00B0"}
+                                textColor={'black'}
+                                animate={false}/>
+                        </Card.Body>
+                    </Card>
+                    <Card className="childCard">
+                        <Card.Body>
+                            <GaugeChart
+                                id="gauge-chart1"
+                                nrOfLevels={10}
+                                colors={["green", "orange", "red"]}
+                                arcWidth={0.3}
+                                percent={(testData[selected].temperature1.value/100)}
+                                formatTextValue={value=> testData[selected].temperature1.value + " C\u00B0"}
+                                textColor={'black'}
+                                animate={false}/>
+                        </Card.Body>
+                    </Card>
+                    <Card.Title className="cardTitle">Channel</Card.Title>
+                    {/*
+                    <Card.Text className="cardText">
+                        Temperature 1: {fridge.temperature1.value + fridge.temperature1.unit} <br/>
+                        Temperature 2: {fridge.temperature2.value + fridge.temperature2.unit}<br/>
+                        Temperature 3: {fridge.temperature3.value + fridge.temperature3.unit} <br/>
+                        Temperature 4: {fridge.temperature4.value + fridge.temperature4.unit}<br/>
+                        Pressure 1: {fridge.pressure.value + fridge.pressure.unit}<br/>
+                        Pressure 2: {fridge.pressure2.value + fridge.pressure.unit}<br/>
+                        Pressure 3: {fridge.pressure3.value + fridge.pressure.unit}<br/>
+                        Pressure 4: {fridge.pressure4.value + fridge.pressure.unit}<br/>
+                        Pressure 5: {fridge.pressure5.value + fridge.pressure.unit}<br/>
+                        Pressure 6: {fridge.pressure6.value + fridge.pressure.unit}<br/>
+                        Power: {fridge.power.value + fridge.power.unit} <br/>
+                        Runtime: {fridge.runtime.value + fridge.runtime.unit} <br/>
+                        Status: {fridge.status.value ? "Online" : "Offline"} <br/>
+                    </Card.Text> */}
+                </Card>
             </div>
         </div>
     )

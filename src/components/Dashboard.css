@@ -35,8 +35,16 @@
     padding: 10px;
 }
 
-.card {
+.parentCard {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row !important;
+    justify-content: space-evenly;
     background-color: #F6F6F6 !important;
+}
+
+.cardTitle {
+    flex-basis: 100%;
 }
 
 .item {

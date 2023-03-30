@@ -123,20 +123,68 @@ const Dashboard = () => {
             <div className="table">
                 {testData.map(fridge =>
                 <div className="item" key={fridge.name}>
-                    <Card className ="card">
-                        <Card.Title>{fridge.name}</Card.Title>
-                        <Card.Body>
-                            <GaugeChart
-                                id="gauge-chart1"
-                                nrOfLevels={10}
-                                colors={["green", "orange", "red"]}
-                                arcWidth={0.3}
-                                percent={(fridge.temperature1.value/100)}
-                                formatTextValue={value=> fridge.temperature1.value + " C\u00B0"}
-                                textColor={'black'}
-                                animate={false}
-                                />
-                        </Card.Body>
+                    <h3>{fridge.name}</h3>
+                    <Card className ="parentCard">
+                        <Card.Title className="cardTitle">Pressure</Card.Title>
+                        <Card className="childCard">
+                            <Card.Body>
+                                <GaugeChart
+                                    id="gauge-chart1"
+                                    nrOfLevels={10}
+                                    colors={["green", "orange", "red"]}
+                                    arcWidth={0.3}
+                                    percent={(fridge.temperature1.value/100)}
+                                    formatTextValue={value=> fridge.temperature1.value + " C\u00B0"}
+                                    textColor={'black'}
+                                    animate={false}
+                                    />
+                            </Card.Body>
+                        </Card>
+                        <Card.Title className="cardTitle">Temperature</Card.Title>
+                        <Card className="childCard">
+                            <Card.Body>
+                                <GaugeChart
+                                    id="gauge-chart1"
+                                    nrOfLevels={10}
+                                    colors={["green", "orange", "red"]}
+                                    arcWidth={0.3}
+                                    percent={(fridge.temperature2.value/100)}
+                                    formatTextValue={value=> fridge.temperature2.value + " C\u00B0"}
+                                    textColor={'black'}
+                                    animate={false}
+                                    />
+                            </Card.Body>
+                        </Card>
+                        <Card className="childCard">
+                            <Card.Body>
+                                <GaugeChart
+                                    id="gauge-chart1"
+                                    nrOfLevels={10}
+                                    colors={["green", "orange", "red"]}
+                                    arcWidth={0.3}
+                                    percent={(fridge.temperature2.value/100)}
+                                    formatTextValue={value=> fridge.temperature2.value + " C\u00B0"}
+                                    textColor={'black'}
+                                    animate={false}
+                                    />
+                            </Card.Body>
+                        </Card>
+                        <Card className="childCard">
+                            <Card.Body>
+                                <GaugeChart
+                                    id="gauge-chart1"
+                                    nrOfLevels={10}
+                                    colors={["green", "orange", "red"]}
+                                    arcWidth={0.3}
+                                    percent={(fridge.temperature2.value/100)}
+                                    formatTextValue={value=> fridge.temperature2.value + " C\u00B0"}
+                                    textColor={'black'}
+                                    animate={false}
+                                    />
+                            </Card.Body>
+                        </Card>
+                        <Card.Title className="cardTitle">Channel</Card.Title>
+                        {/*
                         <Card.Text className="cardText">
                             Temperature 1: {fridge.temperature1.value + fridge.temperature1.unit} <br/>
                             Temperature 2: {fridge.temperature2.value + fridge.temperature2.unit}<br/>
@@ -151,7 +199,7 @@ const Dashboard = () => {
                             Power: {fridge.power.value + fridge.power.unit} <br/>
                             Runtime: {fridge.runtime.value + fridge.runtime.unit} <br/>
                             Status: {fridge.status.value ? "Online" : "Offline"} <br/>
-                        </Card.Text>
+                        </Card.Text> */}
                     </Card>
                 </div>
                 )}

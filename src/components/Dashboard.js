@@ -4,6 +4,8 @@ import Card from 'react-bootstrap/Card'
 import DropDown from 'react-bootstrap/Dropdown'
 import DropDownButton from 'react-bootstrap/DropdownButton'
 import GaugeChart from 'react-gauge-chart'
+import React, { PureComponent } from 'react';
+import { RadialBarChart, RadialBar,Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 function wait(ms){
     var start = new Date().getTime();
@@ -106,8 +108,47 @@ const Dashboard = () => {
                 unit: ""},
             status: {
                 value: false}
-        }
+        },
     ]
+    const data = [
+        {
+          "name": "Pressure Channel 1",
+          "uv": 31.47,
+          "pv": 2400,
+          "fill": "#8884d8"
+        },
+        {
+          "name": "Pressure Channel 2",
+          "uv": 26.69,
+          "pv": 4567,
+          "fill": "#83a6ed"
+        },
+        {
+          "name": "Pressure Channel 3",
+          "uv": 15.69,
+          "pv": 1398,
+          "fill": "#8dd1e1"
+        },
+        {
+          "name": "Pressure Channel 4",
+          "uv": 8.22,
+          "pv": 9800,
+          "fill": "#82ca9d"
+        },
+        {
+            "name": "Pressure Channel 5",
+            "uv": 31.22,
+            "pv": 9800,
+            "fill": "#82ca3d"
+          },
+          {
+            "name": "Pressure Channel 6",
+            "uv": 8.22,
+            "pv": 9800,
+            "fill": "#81ca2d"
+          },
+       
+      ]
     
     useEffect(() => {
         setInterval(() => {
@@ -140,16 +181,30 @@ const Dashboard = () => {
                     <Card.Title className="cardTitle">Pressure</Card.Title>
                     <Card className="childCard">
                         <Card.Body>
-                            <GaugeChart
-                                id="gauge-chart1"
-                                nrOfLevels={10}
-                                colors={["green", "orange", "red"]}
-                                arcWidth={0.3}
-                                percent={(testData[selected].temperature1.value/100)}
-                                formatTextValue={value=> testData[selected].temperature1.value + " C\u00B0"}
+                            <RadialBarChart 
+                                verticalAlign='center'
+                                width={800} 
+                                height={400} 
+                                innerRadius="10%" 
+                                outerRadius="80%" 
+                                data={data} 
+                                startAngle={180} 
+                                endAngle={0}
                                 textColor={'black'}
-                                animate={false}/>
+                            >
+                            <RadialBar 
+                                minAngle={15}  
+                                fill="#0BEFF2" 
+                                label={{ position: 'insideStart', fill: '#fff' }}
+                                background
+                                clockWise={true} 
+                                dataKey='uv' 
+                            />
+                            <Tooltip />
+                            <Legend iconSize={10} width={120} height={140} layout='vertical' verticalAlign='center' align="right" />
+                            </RadialBarChart>
                         </Card.Body>
+                        
                     </Card>
                     <Card.Title className="cardTitle">Temperature</Card.Title>
                     <Card className="childCard">
@@ -209,6 +264,7 @@ const Dashboard = () => {
                         Status: {fridge.status.value ? "Online" : "Offline"} <br/>
                     </Card.Text> */}
                 </Card>
+                
             </div>
         </div>
     )

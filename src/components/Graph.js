@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { useState } from 'react';
 import {
   Label,
   LineChart,
@@ -11,6 +11,9 @@ import {
   ReferenceArea,
   ResponsiveContainer,
 } from 'recharts';
+
+// React Class Components not recommended to be used! Changing to use functional components instead
+// https://react.dev/reference/react/PureComponent
 
 const initialData = [
   { name: 1, Temperature: 4.11, Pressure: 100 },
@@ -45,8 +48,9 @@ const initialData = [
   { name: 30, Temperature: 3, Pressure: 100 },
   { name: 31, Temperature: 7, Pressure: 100 },
 ];
+// Unused?
 // Creates customizable lettered indicators over dots in the line graph. 
-class CustomizedLabel extends PureComponent {
+/* class CustomizedLabel extends PureComponent {
     render() {
 
         
@@ -72,8 +76,12 @@ class CustomizedLabel extends PureComponent {
         </g>
       );
     }
-  }
-const getAxisYDomain = (from, to, ref, offset) => {
+  } */ 
+
+
+//??????????????????
+
+/* const getAxisYDomain = (from, to, ref, offset) => {
   const refData = initialData.slice(from - 1, to);
   let [bottom, top] = [refData[0][ref], refData[0][ref]];
   refData.forEach((d) => {
@@ -82,83 +90,66 @@ const getAxisYDomain = (from, to, ref, offset) => {
   });
 
   return [(bottom | 0) - offset, (top | 0) + offset];
-};
+}; */
 
-const initialState = {
-  data: initialData,
-  left: 'dataMin',
-  right: 'dataMax',
-  refAreaLeft: '',
-  refAreaRight: '',
-  top: 'dataMax+1',
-  bottom: 'dataMin-1',
-  top2: 'dataMax+20',
-  bottom2: 'dataMin-20',
-  animation: true,
-};
+const Graph = () => {
 
-export default class Example extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/highlight-zomm-line-chart-v77bt';
+  const [data, setData] = useState(initialData)
+  const [left, setLeft] = useState('dataMin')
+  const [right, setRight] = useState('dataMax')
+  const [refAreaLeft, setRefAreaLeft] = useState('')
+  const [refAreaRight, setRefAreaRight] = useState('refAreaRight')
+  const [top, setTop] = useState('dataMax+1')
+  const [bottom, setBottom] = useState('dataMin-1')
+  const [top2, setTop2] = useState('dataMax+20')
+  const [bottom2, setBottom2] = useState('dataMin-20')
+ /*  const [animation, setAnimation] = useState(true) */
 
-  constructor(props) {
-    super(props);
-    this.state = initialState;
-  }
+  const zoom = () => {
+    let _refAreaLeft = refAreaLeft;
+    let _refAreaRight = refAreaRight;
+    let _data = data;
 
-  zoom() {
-    let { refAreaLeft, refAreaRight } = this.state;
-    const { data } = this.state;
-
-    if (refAreaLeft === refAreaRight || refAreaRight === '') {
-      this.setState(() => ({
-        refAreaLeft: '',
-        refAreaRight: '',
-      }));
+    if (_refAreaLeft === _refAreaRight || _refAreaRight === '') {
+      setRefAreaLeft("");
+      setRefAreaRight("");
       return;
     }
 
     // xAxis domain
-    if (refAreaLeft > refAreaRight) [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
+    if (_refAreaLeft > _refAreaRight) {
+      setRefAreaLeft(_refAreaRight);
+      setRefAreaRight(_refAreaLeft);
+    }
 
-    // yAxis domain
-    const [bottom, top] = getAxisYDomain(refAreaLeft, refAreaRight, 'Temperature', 1);
-    const [bottom2, top2] = getAxisYDomain(refAreaLeft, refAreaRight, 'Pressure', 50);
+    //???????????????????
+    /* // yAxis domain
+    setBottom(getAxisYDomain(_refAreaLeft, _refAreaRight, "Temperature", 1));
+    setBottom2(getAxisYDomain(_refAreaLeft, _refAreaRight, "Pressure", 50 )); */
 
-    this.setState(() => ({
-      refAreaLeft: '',
-      refAreaRight: '',
-      data: data.slice(),
-      left: refAreaLeft,
-      right: refAreaRight,
-      bottom,
-      top,
-      bottom2,
-      top2,
-    }));
+    setRefAreaLeft("");
+    setRefAreaRight("");
+    setData(_data.slice());
+    setLeft(_refAreaLeft);
+    setRight(_refAreaRight);
   }
 
-  zoomOut() {
-    const { data } = this.state;
-    this.setState(() => ({
-      data: data.slice(),
-      refAreaLeft: '',
-      refAreaRight: '',
-      left: 'dataMin',
-      right: 'dataMax',
-      top: 'dataMax+1',
-      bottom: 'dataMin',
-      top2: 'dataMax+50',
-      bottom2: 'dataMin+50',
-    }));
-  }
-
-  render() {
-    const { data, barIndex, left, right, refAreaLeft, refAreaRight, top, bottom, top2, bottom2 } = this.state;
+  const zoomOut = () => {
+    var _data = data;
+    setData(_data.slice());
+    setRefAreaLeft("");
+    setRefAreaRight("");
+    setLeft("dataMin");
+    setRight("dataMax");
+    setTop("dataMax+1");
+    setBottom("dataMin-1");
+    setTop2("dataMax+20");
+    setBottom2("dataMin-20");
+  };
 
     return (
       <div className="highlight-bar-charts" style={{ userSelect: 'none', width: '100%' }}>
-        {/* <h2>Demo Graph of Pressure and Temperature with Respect to T in a zoomable format</h2> */}
-        <button type="button" className="button" onClick={this.zoomOut.bind(this)}> Zoom Out </button>
+        <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
 
         <ResponsiveContainer width="100%" height={400}>
           <LineChart
@@ -171,10 +162,9 @@ export default class Example extends PureComponent {
                 left: 30,
                 bottom: 5,
               }}
-            onMouseDown={(e) => this.setState({ refAreaLeft: e.activeLabel })}
-            onMouseMove={(e) => this.state.refAreaLeft && this.setState({ refAreaRight: e.activeLabel })}
-            // eslint-disable-next-line react/jsx-no-bind
-            onMouseUp={this.zoom.bind(this)}
+            onMouseDown={(e) => { setRefAreaLeft(e.activeLabel) }}
+            onMouseMove={(e) => { setRefAreaRight( e.activeLabel) }}
+            onMouseUp={zoom}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis allowDataOverflow dataKey="name" domain={[left, right]}  type="number" />
@@ -184,6 +174,7 @@ export default class Example extends PureComponent {
             <Legend />
             <Line yAxisId="1" type="natural" dataKey="Temperature" stroke="#8884d8" animationDuration={300} />
             <Line yAxisId="2" type="natural" dataKey="Pressure" stroke="#82ca9d" animationDuration={300} />
+            <Line yAxisId="2" type="natural" dataKey="Pressure1" stroke="#82ca9d" animationDuration={300} />
 
             {refAreaLeft && refAreaRight ? (
               <ReferenceArea yAxisId="1" x1={refAreaLeft} x2={refAreaRight} strokeOpacity={0.3} />
@@ -192,6 +183,7 @@ export default class Example extends PureComponent {
         </ResponsiveContainer>
       </div>
     );
-  }
 }
+
+export default Graph
 

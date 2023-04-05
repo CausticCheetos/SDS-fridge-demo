@@ -7,13 +7,39 @@ import './DataVisualisation.css'
 
 const DataVisualisation = () => {
     const [graphCount, setGraphCount] = useState(0)
-    const [filter, setFilter] = useState([false, false, false, false, false, false])
+    const [filter, setFilter] = useState([
+        {
+            dataName: "Resistance",
+            dataState: false
+        },
+        {
+            dataName: "Temperature",
+            dataState: false
+        },
+        {
+            dataName: "Flow",
+            dataState: false
+        },
+        {
+            dataName: "Pressure 1",
+            dataState: false
+        },
+        {
+            dataName: "Pressure 2",
+            dataState: false
+        },
+        {
+            dataName: "Turbo",
+            dataState: false
+        },
+    
+    ])
 
     const handleAdd = () => {setGraphCount(count => count + 1)}
     const handleRemove = () => {setGraphCount(count => count - 1)}
     const onChecked = (e) => {
         const newFilter = filter.concat();
-        newFilter[e] = !newFilter[e]
+        newFilter[e].dataState = !newFilter[e].dataState
         setFilter(newFilter)
         console.log(newFilter)
     }
@@ -37,30 +63,13 @@ const DataVisualisation = () => {
                     <div className="filter">
                         <h3>Data Type</h3>
                         <div className="filterItem">
+                            {filter.map((data, index) => 
                             <Form.Check 
-                                label="Resistance"
-                                checked={filter[0]}
-                                onChange={() => onChecked(0)}/>
-                            <Form.Check 
-                                label="Temperature"
-                                checked={filter[1]}
-                                onChange={() => onChecked(1)}/>
-                            <Form.Check 
-                                label="Flow"
-                                checked={filter[2]}
-                                onChange={() => onChecked(2)}/>
-                            <Form.Check 
-                                label="Pressure 1"
-                                checked={filter[3]}
-                                onChange={() => onChecked(3)}/>
-                            <Form.Check 
-                                label="Pressure 2"
-                                checked={filter[4]}
-                                onChange={() => onChecked(4)}/>
-                            <Form.Check 
-                                label="Turbo"
-                                checked={filter[5]}
-                                onChange={() => onChecked(5)}/>
+                            label={data.dataName}
+                            key={index}
+                            checked={data.dataState}
+                            onChange={() => onChecked(index)}/>
+                            )}
                         </div>
                     </div>
                 </div>

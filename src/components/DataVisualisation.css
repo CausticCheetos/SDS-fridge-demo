@@ -36,6 +36,7 @@
   }
 
   .filter {
+    display: grid;
     flex-basis: 100%;
     background-color: #F6F7F7;
     border-radius: 15px;
@@ -47,6 +48,19 @@
     grid-auto-flow: column;
     justify-content: left;
     padding-left: 20px;
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .range {
+    display: flex;
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .form-control {
+    margin-left: 20px;
+    margin-bottom: 8px;
   }
 
   .form-check {

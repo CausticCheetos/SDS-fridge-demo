@@ -1,3 +1,11 @@
+.dataVisualisationContents {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
+  max-height: 100%;
+  overflow-y: auto;
+}
+
 .button {
     display: inline-block;
     padding: 5px 10px;
@@ -12,6 +20,68 @@
     border: whitesmoke;
     border-radius: 5px;
   }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+   /*  overflow-y: auto; */
+  }
+
+  .graphHeader {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    justify-content: flex-end;
+  }
+
+  .filter {
+    display: grid;
+    flex-basis: 100%;
+    background-color: #F6F7F7;
+    border-radius: 15px;
+  }
+
+  .filterItem {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    justify-content: left;
+    padding-left: 20px;
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .range {
+    display: flex;
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .form-control {
+    margin-left: 20px;
+    margin-bottom: 8px;
+  }
+
+  .form-check {
+    padding-right: 10px;
+  }
+
+  .addGraph {
+    color: #373737 !important;
+    background-color: #FFFEFE !important;
+    border-color: #CCCDCD;
+    border-width: 2px;
+    border-radius: 5px;
+  }
+  .addGraph:hover {
+    color: #000000 !important;
+  }
+
+  .graph {
+    display: flex;
+    flex-direction: row;
+  }
   
   .button:hover {background-color: #354836}
   
@@ -20,3 +90,15 @@
   
     transform: translateY(4px);
   }
+
+  /* Desktop */
+@media screen and (min-width: 768px) {
+  .addGraph {
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+  }
+
+  p {
+      padding-left: 50px;
+  }
+}

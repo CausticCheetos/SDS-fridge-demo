@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react"
 import './Dashboard.css'
 import Card from 'react-bootstrap/Card'
+import DropDown from 'react-bootstrap/Dropdown'
+import DropDownButton from 'react-bootstrap/DropdownButton'
 import GaugeChart from 'react-gauge-chart'
+import React, { PureComponent } from 'react';
+import { RadialBarChart, RadialBar,Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 function wait(ms){
     var start = new Date().getTime();
@@ -20,6 +24,7 @@ function getRandomInt(max) {
 
 const Dashboard = () => {
     const [date, setDate] = useState(new Date())
+    const [selected, setSelected] = useState(0)
     
     const testData = [
         {
@@ -103,58 +108,163 @@ const Dashboard = () => {
                 unit: ""},
             status: {
                 value: false}
-        }
-        
+        },
     ]
+    const data = [
+        {
+          "name": "Pressure Channel 1",
+          "uv": 31.47,
+          "pv": 2400,
+          "fill": "#8884d8"
+        },
+        {
+          "name": "Pressure Channel 2",
+          "uv": 26.69,
+          "pv": 4567,
+          "fill": "#83a6ed"
+        },
+        {
+          "name": "Pressure Channel 3",
+          "uv": 15.69,
+          "pv": 1398,
+          "fill": "#8dd1e1"
+        },
+        {
+          "name": "Pressure Channel 4",
+          "uv": 8.22,
+          "pv": 9800,
+          "fill": "#82ca9d"
+        },
+        {
+            "name": "Pressure Channel 5",
+            "uv": 31.22,
+            "pv": 9800,
+            "fill": "#82ca3d"
+          },
+          {
+            "name": "Pressure Channel 6",
+            "uv": 8.22,
+            "pv": 9800,
+            "fill": "#81ca2d"
+          },
+       
+      ]
     
-
     useEffect(() => {
         setInterval(() => {
             setDate(new Date());
         }, 1000)
     }, [])
 
+    const handleSelect = (e) => setSelected(e)
+
     return (
         <div className="dashboardContents">
             <div className="header">
-                <h1 className="dashboard">Dashboard</h1>
+                <h1 className="dashboardTitle">Dashboard</h1>
                 <div className="clock">{date.toLocaleString("en-AU")}</div>
             </div> 
-            <div className="table">
-                {testData.map(fridge =>
-                <div className="item" key={fridge.name}>
-                    <Card className ="card">
-                        <Card.Title>{fridge.name}</Card.Title>
+            <div className="contents">
+                    <DropDownButton className="dropdownBox"
+                        title={testData[selected].name}
+                        id="dropdown-basic-button"
+                        onSelect={handleSelect}>
+                            {testData.map((fridge, index) =>
+                                <DropDown.Item 
+                                    className="w-100" 
+                                    key={index} 
+                                    eventKey={index}>
+                                        {fridge.name}
+                                </DropDown.Item>)}
+                    </DropDownButton>
+                <Card className ="parentCard">
+                    <Card.Title className="cardTitle">Pressure</Card.Title>
+                    <Card className="childCard">
+                        <Card.Body>
+                            <RadialBarChart 
+                                verticalAlign='center'
+                                width={800} 
+                                height={400} 
+                                innerRadius="10%" 
+                                outerRadius="80%" 
+                                data={data} 
+                                startAngle={180} 
+                                endAngle={0}
+                                textColor={'black'}
+                            >
+                            <RadialBar 
+                                minAngle={15}  
+                                fill="#0BEFF2" 
+                                label={{ position: 'insideStart', fill: '#fff' }}
+                                background
+                                clockWise={true} 
+                                dataKey='uv' 
+                            />
+                            <Tooltip />
+                            <Legend iconSize={10} width={120} height={140} layout='vertical' verticalAlign='center' align="right" />
+                            </RadialBarChart>
+                        </Card.Body>
+                        
+                    </Card>
+                    <Card.Title className="cardTitle">Temperature</Card.Title>
+                    <Card className="childCard">
                         <Card.Body>
                             <GaugeChart
                                 id="gauge-chart1"
                                 nrOfLevels={10}
                                 colors={["green", "orange", "red"]}
                                 arcWidth={0.3}
-                                percent={(fridge.temperature1.value/100)}
-                                formatTextValue={value=> fridge.temperature1.value + " C\u00B0"}
+                                percent={(testData[selected].temperature1.value/100)}
+                                formatTextValue={value=> testData[selected].temperature1.value + " C\u00B0"}
                                 textColor={'black'}
-                                animate={false}
-                                />
+                                animate={false}/>
                         </Card.Body>
-                        <Card.Text className="cardText">
-                            Temperature 1: {fridge.temperature1.value + fridge.temperature1.unit} <br/>
-                            Temperature 2: {fridge.temperature2.value + fridge.temperature2.unit}<br/>
-                            Temperature 3: {fridge.temperature3.value + fridge.temperature3.unit} <br/>
-                            Temperature 4: {fridge.temperature4.value + fridge.temperature4.unit}<br/>
-                            Pressure 1: {fridge.pressure.value + fridge.pressure.unit}<br/>
-                            Pressure 2: {fridge.pressure2.value + fridge.pressure.unit}<br/>
-                            Pressure 3: {fridge.pressure3.value + fridge.pressure.unit}<br/>
-                            Pressure 4: {fridge.pressure4.value + fridge.pressure.unit}<br/>
-                            Pressure 5: {fridge.pressure5.value + fridge.pressure.unit}<br/>
-                            Pressure 6: {fridge.pressure6.value + fridge.pressure.unit}<br/>
-                            Power: {fridge.power.value + fridge.power.unit} <br/>
-                            Runtime: {fridge.runtime.value + fridge.runtime.unit} <br/>
-                            Status: {fridge.status.value ? "Online" : "Offline"} <br/>
-                        </Card.Text>
                     </Card>
-                </div>
-                )}
+                    <Card className="childCard">
+                        <Card.Body>
+                            <GaugeChart
+                                id="gauge-chart1"
+                                nrOfLevels={10}
+                                colors={["green", "orange", "red"]}
+                                arcWidth={0.3}
+                                percent={(testData[selected].temperature1.value/100)}
+                                formatTextValue={value=> testData[selected].temperature1.value + " C\u00B0"}
+                                textColor={'black'}
+                                animate={false}/>
+                        </Card.Body>
+                    </Card>
+                    <Card className="childCard">
+                        <Card.Body>
+                            <GaugeChart
+                                id="gauge-chart1"
+                                nrOfLevels={10}
+                                colors={["green", "orange", "red"]}
+                                arcWidth={0.3}
+                                percent={(testData[selected].temperature1.value/100)}
+                                formatTextValue={value=> testData[selected].temperature1.value + " C\u00B0"}
+                                textColor={'black'}
+                                animate={false}/>
+                        </Card.Body>
+                    </Card>
+                    <Card.Title className="cardTitle">Channel</Card.Title>
+                    {/*
+                    <Card.Text className="cardText">
+                        Temperature 1: {fridge.temperature1.value + fridge.temperature1.unit} <br/>
+                        Temperature 2: {fridge.temperature2.value + fridge.temperature2.unit}<br/>
+                        Temperature 3: {fridge.temperature3.value + fridge.temperature3.unit} <br/>
+                        Temperature 4: {fridge.temperature4.value + fridge.temperature4.unit}<br/>
+                        Pressure 1: {fridge.pressure.value + fridge.pressure.unit}<br/>
+                        Pressure 2: {fridge.pressure2.value + fridge.pressure.unit}<br/>
+                        Pressure 3: {fridge.pressure3.value + fridge.pressure.unit}<br/>
+                        Pressure 4: {fridge.pressure4.value + fridge.pressure.unit}<br/>
+                        Pressure 5: {fridge.pressure5.value + fridge.pressure.unit}<br/>
+                        Pressure 6: {fridge.pressure6.value + fridge.pressure.unit}<br/>
+                        Power: {fridge.power.value + fridge.power.unit} <br/>
+                        Runtime: {fridge.runtime.value + fridge.runtime.unit} <br/>
+                        Status: {fridge.status.value ? "Online" : "Offline"} <br/>
+                    </Card.Text> */}
+                </Card>
+                
             </div>
         </div>
     )

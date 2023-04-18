@@ -1,0 +1,44 @@
+.warningParamsContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 10px;
+    max-height: 100%;
+}
+
+.paramContainer {
+    display: flex;
+    justify-content: space-around;
+
+    background-color: #F6F7F7;
+    padding: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #010001;
+    border-radius: 12px;
+    margin: 0 !important;
+}
+
+.createContainer {
+    width: 50%;
+}
+
+.manageContainer {
+    width: 50%;
+}
+
+.createParam {
+    margin-left: 0px !important;
+    margin-bottom: 10px !important;
+}
+
+.createParamRange {
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+}
+
+.createButton {
+    color: #1B1B1A !important;
+    border-color: #ACCEF1;
+    border-radius: 7px;
+}

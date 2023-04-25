@@ -1,10 +1,16 @@
-# Getting Started with Create React App
+# Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). React + React Router + ReCharts + React Bootstrap
 
-## Available Scripts
+In directory where you want to begin development run:
 
-In the project directory, you can run:
+### `git clone https://github.com/CausticCheetos/sds-fridge-demo.git`
+
+Within project directory install packages by running:
+
+### `npm install`
+
+To begin development server run:
 
 ### `npm start`
 
@@ -14,57 +20,52 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+# Pushing changes
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Switch to develop branch before creating new branch:
 
-### `npm run build`
+### `git checkout develop`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Ensure that you are on the lastest commit of current branch:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `git fetch -a`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+If your current branch is behind, you can update branch:
 
-### `npm run eject`
+### `git pull`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Create new branch either via GitHub repository or with:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `git checkout -b newbranch`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+If branch does not currently exist on repository run:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### `git push --set-upstream origin newbranch`
 
-## Learn More
+When new changes are made add all changes with:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `git add .A`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Or add them individually with:
 
-### Code Splitting
+### `git add filename`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Commit changes with:
 
-### Analyzing the Bundle Size
+### `git commit -m "message here"`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Push changes with:
 
-### Making a Progressive Web App
+### `git push`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Once development is finished on the new branch, create a pull request to merge with develop.
 
-### Advanced Configuration
+# To Do:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- [ ] Update Dashboard
+- [ ] Bluefors interface
+- [ ] Styling improvements
+- [ ] Implement testing
+- [ ] Refactor code
+- [ ] Install axios for communication with backend
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

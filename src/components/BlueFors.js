@@ -1,3 +1,5 @@
+import blueflors from "../images/BFFrontPanel.png";
+
 const BlueFors = () => {
 
     return (
@@ -6,6 +8,7 @@ const BlueFors = () => {
                 <h1>BlueFors Interface</h1>
             </div>
             This is BlueFors
+            <img src={blueflors} alt="blueflors"/>
         </div>
     )
 }

@@ -36,6 +36,16 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         setRangeEnd('');
     }
 
+    const handleInfo = (item) => {
+        console.log(item[0]);
+    }
+
+    const handleDelete = (index) => {
+        const newData = fridgeData.concat()
+        newData[selected]['params'].splice(index, 1)
+        setFridgeData(newData)
+    }
+
     return (
         <div className="warningParamsContent">
             <div className="header">
@@ -80,8 +90,8 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         </div>
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>
-                            {fridgeData[selected]['params'].map(item =>
-                                <ParameterItem {...{item}}/>
+                            {fridgeData[selected]['params'].map((item, index) =>
+                                <ParameterItem {...{item, index, handleInfo, handleDelete}}/>
                             )}       
                         </div>
                         

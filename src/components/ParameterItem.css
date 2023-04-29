@@ -1,0 +1,35 @@
+.parentItem {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.childItem {
+    margin-right: 15px;
+    
+    border-width: 1px;
+    border-radius: 7px;
+    border-style: solid;
+    border-color: #CCCDCD;
+
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #FFFFFF;
+}
+
+.itemButtons {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.paramButton {
+    padding: 0 !important;
+    border-style: none !important;
+    color: #374060 !important;
+    background-color: transparent;
+}
+.paramButton:hover {
+    color: #37406038 !important;
+}

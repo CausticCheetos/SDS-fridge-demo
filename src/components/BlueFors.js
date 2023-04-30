@@ -12,6 +12,24 @@ const BlueFors = () => {
             This is BlueFors
             <div className="diagram-container">
                 <img src={bluefors} alt="bluefors" className="diagram"/>
+                <div className="p1">
+                    <body className="text">hi</body>
+                </div>
+                <div className="p2">
+                    <body className="text">hi</body>
+                </div>
+                <div className="p3">
+                    <body className="text">hi</body>
+                </div>
+                <div className="p4">
+                    <body className="text">hi</body>
+                </div>
+                <div className="p5">
+                    <body className="text">hi</body>
+                </div>
+                <div className="p6">
+                    <body className="text">hi</body>
+                </div>
                 <img src={black} alt="black-indicator" className="v1"/>
                 <img src={black} alt="black-indicator" className="v2"/>
                 <img src={black} alt="black-indicator" className="v3"/>

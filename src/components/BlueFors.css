@@ -1,3 +1,8 @@
+.text{
+    font-size: 1.5vh;
+    background-color: transparent;
+}
+
 .diagram-container {
     position: relative;
   }
@@ -7,6 +12,60 @@
     top: 0;
     left: 0;
     z-index: 0;
+  }
+
+  .p1{
+    display: flex;
+    position: absolute;
+    margin-top: 16.3vh;
+    margin-left: 16.7vh;
+    flex-direction: column;
+    background-color: transparent;
+  }
+
+  .p2{
+    display: flex;
+    position: absolute;
+    margin-top: 16.3vh;
+    margin-left: 35.4vh;
+    flex-direction: column;
+    background-color: transparent;
+  }
+
+  .p3{
+    display: flex;
+    position: absolute;
+    margin-top: 16.3vh;
+    margin-left: 68vh;
+    flex-direction: column;
+    background-color: transparent;
+  }
+
+  .p4{
+    display: flex;
+    position: absolute;
+    margin-top: 47.3vh;
+    margin-left: 68vh;
+    flex-direction: column;
+    background-color: transparent;
+  }
+
+  .p5{
+    display: flex;
+    position: absolute;
+    margin-top: 65vh;
+    margin-left: 83vh;
+    flex-direction: column;
+    background-color: transparent;
+  }
+
+  .p6{
+    display: flex;
+    position: absolute;
+    margin-top: 51.6vh;
+    margin-left: 4.5vh;
+    flex-direction: column;
+    background-color: transparent;
   }
 
   .v1 {
@@ -172,14 +231,14 @@
   .scroll-1{
     position: absolute;
     width: 4.2vh;
-    top: 55.8vh;
-    left: 61.1vh;
+    top: 55.3vh;
+    left: 60.4vh;
   }
 
   .scroll-2{
     position: absolute;
     width: 4.2vh;
-    top: 64.6vh;
+    top: 64vh;
     left: 9.3vh;
   }
 
@@ -187,21 +246,21 @@
     position: absolute;
     width: 4.2vh;
     top: 28.8vh;
-    left: 46.8vh;
+    left: 46.3vh;
   }
 
   .turbo-2{
     position: absolute;
     width: 4.2vh;
-    top: 64.6vh;
+    top: 64vh;
     left: 21.8vh;
   }
 
   .coml{
     position: absolute;
     width: 4.2vh;
-    top: 20.2vh;
-    left: 86.1vh;
+    top: 20vh;
+    left: 85.1vh;
   }
 
   .pulse-tube{

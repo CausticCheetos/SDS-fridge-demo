@@ -52,7 +52,11 @@ function App() {
             unit: ""},
         status: {
             value: true},
-        params: [["name", "description", "paramType", 1, 2]]
+        params: [{name: "name1",
+        description: "description", 
+        paramType: "type",
+        start: 1,
+        end: 2}]
     },
     {
         name: "Fridge 2",
@@ -94,7 +98,11 @@ function App() {
             unit: ""},
         status: {
             value: false},
-        params: [["name", "description", "paramType", 1, 2]]
+        params: [{name: "name2",
+            description: "description", 
+            paramType: "type",
+            start: 1,
+            end: 2}]
     },
 ])
 

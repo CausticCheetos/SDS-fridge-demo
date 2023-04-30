@@ -1,0 +1,240 @@
+.diagram-container {
+    position: relative;
+  }
+  
+  .diagram {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+
+  .v1 {
+    position: absolute;
+    width: 4.2vh;
+    top: 20.2vh;
+    left: 46.8vh;
+  }
+
+  .v2 {
+    position: absolute;
+    width: 4.2vh;
+    top: 24.2vh;
+    left: 52vh;
+  }
+
+  .v3 {
+    position: absolute;
+    width: 4.2vh;
+    top: 28.2vh;
+    left: 58.5vh;
+  }
+
+  .v4 {
+    position: absolute;
+    width: 4.2vh;
+    top: 47.2vh;
+    left: 34vh;
+  }
+
+  .v5 {
+    position: absolute;
+    width: 4.2vh;
+    top: 15.2vh;
+    left: 79vh;
+  }
+
+  .v6 {
+    position: absolute;
+    width: 4.2vh;
+    top: 24.2vh;
+    left: 79vh;
+  }
+
+  .v7 {
+    position: absolute;
+    width: 4.2vh;
+    top: 37.2vh;
+    left: 79vh;
+  }
+
+  .v8 {
+    position: absolute;
+    width: 4.2vh;
+    top: 47.2vh;
+    left: 34vh;
+  }
+
+  .v9 {
+    position: absolute;
+    width: 4.2vh;
+    top: 47.2vh;
+    left: 79vh;
+  }
+
+  .v10 {
+    position: absolute;
+    width: 4.2vh;
+    top: 47.2vh;
+    left: 34vh;
+  }
+
+  .v11 {
+    position: absolute;
+    width: 4.2vh;
+    top: 69.2vh;
+    left: 61.4vh;
+  }
+
+  .v12 {
+    position: absolute;
+    width: 4.2vh;
+    top: 64.2vh;
+    left: 67.4vh;
+  }
+
+  .v13 {
+    position: absolute;
+    width: 4.2vh;
+    top: 60.2vh;
+    left: 73.4vh;
+  }
+
+  .v14 {
+    position: absolute;
+    width: 4.2vh;
+    top: 20.2vh;
+    left: 21.4vh;
+  }
+
+  .v15 {
+    position: absolute;
+    width: 4.2vh;
+    top: 24.2vh;
+    left: 34vh;
+  }
+
+  .v16 {
+    position: absolute;
+    width: 4.2vh;
+    top: 46.2vh;
+    left: 21.4vh;
+  }
+
+  .v17 {
+    position: absolute;
+    width: 4.2vh;
+    top: 47.2vh;
+    left: 34vh;
+  }
+
+  .v18 {
+    position: absolute;
+    width: 4.2vh;
+    top: 50.2vh;
+    left: 39.5vh;
+  }
+
+  .v19 {
+    position: absolute;
+    width: 4.2vh;
+    top: 55.2vh;
+    left: 34vh;
+  }
+
+  .v20 {
+    position: absolute;
+    width: 4.2vh;
+    top: 55.2vh;
+    left: 27.5vh;
+  }
+  
+  .v21 {
+    position: absolute;
+    width: 4.2vh;
+    top: 55.2vh;
+    left: 9.5vh;
+  }
+
+  .v22 {
+    position: absolute;
+    width: 4.2vh;
+    top: 55.2vh;
+    left: 21.6vh;
+  }
+
+  .v23 {
+    position: absolute;
+    width: 4.2vh;
+    top: 64.2vh;
+    left: 15.6vh;  }
+
+  .scroll-1{
+    position: absolute;
+    width: 4.2vh;
+    top: 55.8vh;
+    left: 61.1vh;
+  }
+
+  .scroll-2{
+    position: absolute;
+    width: 4.2vh;
+    top: 64.6vh;
+    left: 9.3vh;
+  }
+
+  .turbo-1{
+    position: absolute;
+    width: 4.2vh;
+    top: 28.8vh;
+    left: 46.8vh;
+  }
+
+  .turbo-2{
+    position: absolute;
+    width: 4.2vh;
+    top: 64.6vh;
+    left: 21.8vh;
+  }
+
+  .coml{
+    position: absolute;
+    width: 4.2vh;
+    top: 20.2vh;
+    left: 86.1vh;
+  }
+
+  .pulse-tube{
+    position: absolute;
+    width: 4.2vh;
+    top: 9.2vh;
+    left: 5.5vh;
+  }
+
+  .hs-still{
+    position: absolute;
+    width: 4.2vh;
+    top: 17.2vh;
+    left: 5.5vh;
+  }
+
+  .hs-mc{
+    position: absolute;
+    width: 4.2vh;
+    top: 25.2vh;
+    left: 5.5vh;
+  }
+
+  .ext{
+    position: absolute;
+    width: 4.2vh;
+    top: 33.2vh;
+    left: 5.5vh;
+  }
+
+  .four-k-heater{
+    position: absolute;
+    width: 4.2vh;
+    top: 41.2vh;
+    left: 5.5vh;
+  }

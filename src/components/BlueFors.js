@@ -1,4 +1,6 @@
-import blueflors from "../images/BFFrontPanel.png";
+import bluefors from "../images/BFFrontPanel.png";
+import black from "../images/black.png";
+import "./BlueFors.css";
 
 const BlueFors = () => {
 
@@ -8,7 +10,42 @@ const BlueFors = () => {
                 <h1>BlueFors Interface</h1>
             </div>
             This is BlueFors
-            <img src={blueflors} alt="blueflors"/>
+            <div className="diagram-container">
+                <img src={bluefors} alt="bluefors" className="diagram"/>
+                <img src={black} alt="black-indicator" className="v1"/>
+                <img src={black} alt="black-indicator" className="v2"/>
+                <img src={black} alt="black-indicator" className="v3"/>
+                <img src={black} alt="black-indicator" className="v4"/>
+                <img src={black} alt="black-indicator" className="v5"/>
+                <img src={black} alt="black-indicator" className="v6"/>
+                <img src={black} alt="black-indicator" className="v7"/>
+                <img src={black} alt="black-indicator" className="v8"/>
+                <img src={black} alt="black-indicator" className="v9"/>
+                <img src={black} alt="black-indicator" className="v10"/>
+                <img src={black} alt="black-indicator" className="v11"/>
+                <img src={black} alt="black-indicator" className="v12"/>
+                <img src={black} alt="black-indicator" className="v13"/>
+                <img src={black} alt="black-indicator" className="v14"/>
+                <img src={black} alt="black-indicator" className="v15"/>
+                <img src={black} alt="black-indicator" className="v16"/>
+                <img src={black} alt="black-indicator" className="v17"/>
+                <img src={black} alt="black-indicator" className="v18"/>
+                <img src={black} alt="black-indicator" className="v19"/>
+                <img src={black} alt="black-indicator" className="v20"/>
+                <img src={black} alt="black-indicator" className="v21"/>
+                <img src={black} alt="black-indicator" className="v22"/>
+                <img src={black} alt="black-indicator" className="v23"/>
+                <img src={black} alt="black-indicator" className="scroll-1"/>
+                <img src={black} alt="black-indicator" className="scroll-2"/>
+                <img src={black} alt="black-indicator" className="turbo-1"/>
+                <img src={black} alt="black-indicator" className="turbo-2"/>
+                <img src={black} alt="black-indicator" className="coml"/>
+                <img src={black} alt="black-indicator" className="pulse-tube"/>
+                <img src={black} alt="black-indicator" className="hs-still"/>
+                <img src={black} alt="black-indicator" className="hs-mc"/>
+                <img src={black} alt="black-indicator" className="ext"/>
+                <img src={black} alt="black-indicator" className="four-k-heater"/>
+            </div>
         </div>
     )
 }

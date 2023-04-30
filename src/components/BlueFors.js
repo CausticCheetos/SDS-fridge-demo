@@ -1,5 +1,7 @@
 import bluefors from "../images/BFFrontPanel.png";
 import black from "../images/black.png";
+import blue from "../images/blue.png";
+import red from "../images/red.png";
 import "./BlueFors.css";
 
 const BlueFors = () => {
@@ -37,7 +39,7 @@ const BlueFors = () => {
                 <img src={black} alt="black-indicator" className="v5"/>
                 <img src={black} alt="black-indicator" className="v6"/>
                 <img src={black} alt="black-indicator" className="v7"/>
-                <img src={black} alt="black-indicator" className="v8"/>
+                <img src={red} alt="black-indicator" className="v8"/>
                 <img src={black} alt="black-indicator" className="v9"/>
                 <img src={black} alt="black-indicator" className="v10"/>
                 <img src={black} alt="black-indicator" className="v11"/>
@@ -46,7 +48,7 @@ const BlueFors = () => {
                 <img src={black} alt="black-indicator" className="v14"/>
                 <img src={black} alt="black-indicator" className="v15"/>
                 <img src={black} alt="black-indicator" className="v16"/>
-                <img src={black} alt="black-indicator" className="v17"/>
+                <img src={blue} alt="black-indicator" className="v17"/>
                 <img src={black} alt="black-indicator" className="v18"/>
                 <img src={black} alt="black-indicator" className="v19"/>
                 <img src={black} alt="black-indicator" className="v20"/>

@@ -32,9 +32,13 @@
     margin-bottom: 10px !important;
 }
 
-.createParamRange {
-    margin-left: 3px !important;
-    margin-right: 3px !important;
+.createParamRangeL {
+    margin-left: 0 !important;
+    margin-right: 5px !important;
+}
+
+.createParamRangeR {
+    margin-left: 5px !important;
 }
 
 .createButton {

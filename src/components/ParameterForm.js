@@ -55,9 +55,8 @@ const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarge
             </Form.Select>
             <h6>Acceptable Range</h6>
             <div style={{display: "flex"}}>
-            <Form.Control className="createParamRange" onChange={handleRangeStart} value={rangeStart} placeholder="Start"/>
-                - 
-            <Form.Control className="createParamRange" onChange={handleRangeEnd} value={rangeEnd} placeholder="End"/>
+            <Form.Control className="createParamRangeL" onChange={handleRangeStart} value={rangeStart} placeholder="Start"/>
+            <Form.Control className="createParamRangeR" onChange={handleRangeEnd} value={rangeEnd} placeholder="End"/>
             </div>
             <button className='createButton' onClick={handleClear}>Clear</button>
             <button className='createButton' type='submit' onClick={handleSubmit}>Confirm</button>

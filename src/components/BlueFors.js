@@ -15,22 +15,22 @@ const BlueFors = () => {
             <div className="diagram-container">
                 <img src={bluefors} alt="bluefors" className="diagram"/>
                 <div className="p1">
-                    <body className="text">hi</body>
+                    <body className="text">3.25</body>
                 </div>
                 <div className="p2">
-                    <body className="text">hi</body>
+                    <body className="text">5.52</body>
                 </div>
                 <div className="p3">
-                    <body className="text">hi</body>
+                    <body className="text">4.24</body>
                 </div>
                 <div className="p4">
-                    <body className="text">hi</body>
+                    <body className="text">6.342</body>
                 </div>
                 <div className="p5">
-                    <body className="text">hi</body>
+                    <body className="text">1.2345</body>
                 </div>
                 <div className="p6">
-                    <body className="text">hi</body>
+                    <body className="text">6.420</body>
                 </div>
                 <img src={black} alt="black-indicator" className="v1"/>
                 <img src={black} alt="black-indicator" className="v2"/>

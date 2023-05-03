@@ -1,6 +1,6 @@
 import './NavBar.css'
 import Button from 'react-bootstrap/Button'
-import {IconHome, IconChartHistogram, IconAppWindow, IconSettings, IconLogout} from '@tabler/icons-react'
+import {IconHome, IconChartHistogram, IconAppWindow, IconSettings, IconLogout, IconCpu} from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 
 const NavBar = ({user}) => {
@@ -19,6 +19,11 @@ const NavBar = ({user}) => {
             name: "BlueFors Interface",
             path: '/bluefors_interface',
             icon: <IconAppWindow/>
+        },
+        {
+            name: "Warning Parameters",
+            path: '/parameters',
+            icon: <IconCpu/>
         }]
 
     const navigate = useNavigate()

@@ -11,7 +11,6 @@ const BlueFors = () => {
             <div className="header">
                 <h1>BlueFors Interface</h1>
             </div>
-            This is BlueFors
             <div className="diagram-container">
                 <img src={bluefors} alt="bluefors" className="diagram"/>
                 <div className="p1">

@@ -13,20 +13,19 @@ import {
 } from 'recharts';
 
 const Graph = ({filtered, rangeValues}) => {
+// { name: 1, Resistance: 4.11, Temperature: -100, Flow: 200, 'Pressure 1': 80, 'Pressure 2': 80, Turbo: 1},
 
-  const [data, setData] = useState([
-    { name: 1, Resistance: 4.11, Temperature: -100, Flow: 200, 'Pressure 1': 80, 'Pressure 2': 80, Turbo: 1},
-    { name: 2, Resistance: 2.39, Temperature: -120, Flow: 210, 'Pressure 1': 100, 'Pressure 2': 90, Turbo: 5},
-    { name: 3, Resistance: 1.37, Temperature: -140, Flow: 220, 'Pressure 1': 50, 'Pressure 2': 100, Turbo: 7},
-    { name: 4, Resistance: 1.16, Temperature: -150, Flow: 230, 'Pressure 1': 200, 'Pressure 2': 110, Turbo: 10},
-    { name: 5, Resistance: 2.29, Temperature: -160, Flow: 240, 'Pressure 1': 20, 'Pressure 2': 120, Turbo: 50},
-    { name: 6, Resistance: 4.2, Temperature: -160, Flow: 240, 'Pressure 1': 20, 'Pressure 2': 130, Turbo: 50},
-    { name: 7, Resistance: 3.56, Temperature: -160, Flow: 240, 'Pressure 1': 300, 'Pressure 2': 140, Turbo: 50},
-    { name: 8, Resistance: 3.28, Temperature: -160, Flow: 240, 'Pressure 1': 150, 'Pressure 2': 150, Turbo: 50},
-    { name: 9, Resistance: 5.3, Temperature: -160, Flow: 240, 'Pressure 1': 500, 'Pressure 2': 160, Turbo: 50},
-    { name: 10, Resistance: 1.34, Temperature: -160, Flow: 240, 'Pressure 1': 700, 'Pressure 2': 170, Turbo: 50},
-    { name: 11, Resistance: 2.79, Temperature: -160, Flow: 240, 'Pressure 1': 600, 'Pressure 2': 180, Turbo: 50},
-  ])
+ const [data, setData] = useState([])
+ const getData = () =>{
+    fetch("http://127.0.0.1:8000/rtp/")
+      .then((response) => response.json())
+      .then((data) => setData(data)) 
+  } 
+  useEffect(()=>{
+    getData();
+    }
+  )
+  
 
   const newData = filtered.filter(filter => filter.dataState)
   const [left, setLeft] = useState('dataMin')
@@ -92,7 +91,7 @@ const Graph = ({filtered, rangeValues}) => {
       setLeft('dataMin-'.concat(scrollIn + 0.1))
       setRight('dataMax+'.concat(scrollIn + 0.1))
       } else {
-        setLeft(data[0].name - (scrollIn + 0.1))
+        setLeft(data[0].id - (scrollIn + 0.1))
         setRight(range + (scrollIn + 0.1))
       }
     } else {
@@ -101,7 +100,7 @@ const Graph = ({filtered, rangeValues}) => {
         setLeft('dataMin-'.concat(scrollIn - 0.1))
         setRight('dataMax+'.concat(scrollIn - 0.1))
       } else {
-        setLeft(data[0].name + (scrollIn - 0.1)*-1)
+        setLeft(data[0].id + (scrollIn - 0.1)*-1)
         setRight(range - (scrollIn - 0.1)*-1)
       }
     }

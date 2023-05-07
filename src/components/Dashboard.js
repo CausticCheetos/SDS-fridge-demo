@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import './Dashboard.css'
 import Card from 'react-bootstrap/Card'
 import DropDown from 'react-bootstrap/Dropdown'
@@ -25,46 +25,15 @@ function getRandomInt(max) {
 
 const Dashboard = ({fridgeData}) => {
     const [selected, setSelected] = useState(0)
-    
-    const data = [
-        {
-          "name": "Pressure Channel 1",
-          "uv": 31.47,
-          "pv": 2400,
-          "fill": "#8884d8"
-        },
-        {
-          "name": "Pressure Channel 2",
-          "uv": 26.69,
-          "pv": 4567,
-          "fill": "#83a6ed"
-        },
-        {
-          "name": "Pressure Channel 3",
-          "uv": 15.69,
-          "pv": 1398,
-          "fill": "#8dd1e1"
-        },
-        {
-          "name": "Pressure Channel 4",
-          "uv": 8.22,
-          "pv": 9800,
-          "fill": "#82ca9d"
-        },
-        {
-            "name": "Pressure Channel 5",
-            "uv": 31.22,
-            "pv": 9800,
-            "fill": "#82ca3d"
-          },
-          {
-            "name": "Pressure Channel 6",
-            "uv": 8.22,
-            "pv": 9800,
-            "fill": "#81ca2d"
-          },
-      ]
-
+    const [data, setData] = useState([])
+    const getData = () => {
+        fetch("http://127.0.0.1:8000/maxigauge/latest/")
+          .then((response) => response.json())
+          .then((data) => setData(data));
+      };
+    useEffect(() => {
+        getData();
+    },[]);
     const handleSelect = (e) => setSelected(e)
 
     return (
@@ -75,7 +44,7 @@ const Dashboard = ({fridgeData}) => {
             </div> 
             <div className="contents">
                     <DropDownButton className="dropdownBox"
-                        title={fridgeData[selected].name}
+                        title={fridgeData[selected].id}
                         id="dropdown-basic-button"
                         onSelect={handleSelect}>
                             {fridgeData.map((fridge, index) =>
@@ -107,7 +76,7 @@ const Dashboard = ({fridgeData}) => {
                                 label={{ position: 'insideStart', fill: '#fff' }}
                                 background
                                 clockWise={true} 
-                                dataKey='uv' 
+                                dataKey='value'
                             />
                             <Tooltip />
                             <Legend iconSize={10} width={120} height={140} layout='vertical' verticalAlign='center' align="right" />

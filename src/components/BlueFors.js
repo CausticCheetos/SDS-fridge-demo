@@ -3,9 +3,19 @@ import black from "../images/black.png";
 import blue from "../images/blue.png";
 import red from "../images/red.png";
 import "./BlueFors.css";
+import {useEffect, useState} from "react"
 
 const BlueFors = () => {
-
+    const [data,setData] = useState([])
+    const getData = () => {
+        fetch("http://127.0.0.1:8000/valves/latest")
+            .then((response) => response.json())
+            .then((data) => setData(data)) 
+  } 
+  useEffect(() => {
+    getData();
+  })
+    
     return (
         <div>
             <div className="header">

@@ -10,15 +10,15 @@ const DataVisualisation = () => {
     const [rangeValues, setRangeValues] = useState([['','']])
     const [filter, setFilter] = useState([[
         {
-            dataName: "Resistance",
+            dataName: "power",
             dataState: false
         },
         {
-            dataName: "Temperature",
+            dataName: "resistance",
             dataState: false
         },
         {
-            dataName: "Flow",
+            dataName: "temperature",
             dataState: false
         },
         {
@@ -105,7 +105,7 @@ const DataVisualisation = () => {
     return (
         <div className="dataVisualisationContents">
             <div className="header">
-                <h1>DataVisualisation</h1>
+                <h1>Data Visualisation</h1>
             </div>
             <div className='content'>
                 <div className='graphHeader'>

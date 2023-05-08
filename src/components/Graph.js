@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import {
   /* Label, */
   LineChart,
@@ -11,20 +11,22 @@ import {
   ReferenceArea,
   ResponsiveContainer,
 } from 'recharts';
+import api from '../services/api'
 
 const Graph = ({filtered, rangeValues}) => {
 // { name: 1, Resistance: 4.11, Temperature: -100, Flow: 200, 'Pressure 1': 80, 'Pressure 2': 80, Turbo: 1},
 
  const [data, setData] = useState([])
+
  const getData = () =>{
-    fetch("http://127.0.0.1:8000/rtp/")
-      .then((response) => response.json())
-      .then((data) => setData(data)) 
+    api.getRTP().then((data) => setData(data)) 
   } 
+ 
+  //TODO Add delay by minute intervals
   useEffect(()=>{
     getData();
-    }
-  )
+    console.log(data[0]);
+  })
   
 
   const newData = filtered.filter(filter => filter.dataState)
@@ -139,7 +141,7 @@ const Graph = ({filtered, rangeValues}) => {
             
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis allowDataOverflow dataKey="name" domain={[left, right]}  type="number" />
+            <XAxis allowDataOverflow dataKey="date" domain={[left, right]}  type="number" />
             <YAxis allowDataOverflow domain={[bottom, top]} type="number" yAxisId="1" />
             <YAxis orientation="right" allowDataOverflow domain={[bottom2, top2]} type="number" yAxisId="2" />
             <Tooltip />

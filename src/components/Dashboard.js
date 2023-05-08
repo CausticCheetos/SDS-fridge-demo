@@ -5,31 +5,15 @@ import DropDown from 'react-bootstrap/Dropdown'
 import DropDownButton from 'react-bootstrap/DropdownButton'
 import GaugeChart from 'react-gauge-chart'
 import Clock from './Clock'
-import React, { PureComponent } from 'react';
-import { RadialBarChart, RadialBar,Tooltip, Legend, ResponsiveContainer } from 'recharts'
-
-function wait(ms){
-    var start = new Date().getTime();
-    var end = start;
-    while(end < start + ms) {
-      end = new Date().getTime();
-   }
- }
-
-function getRandomInt(max) {
-    Math.floor(Math.random(100) * max);
-    /* wait(1500); */
-    return Math.floor(Math.random(100) * max);
-  }
-
+import React from 'react';
+import { RadialBarChart, RadialBar,Tooltip, Legend } from 'recharts'
+import api from '../services/api'
 
 const Dashboard = ({fridgeData}) => {
     const [selected, setSelected] = useState(0)
     const [data, setData] = useState([])
     const getData = () => {
-        fetch("http://127.0.0.1:8000/maxigauge/latest/")
-          .then((response) => response.json())
-          .then((data) => setData(data));
+          api.getMaxi().then((data) => setData(data));
       };
     useEffect(() => {
         getData();

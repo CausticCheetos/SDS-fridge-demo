@@ -6,6 +6,8 @@ import DropDownButton from 'react-bootstrap/DropdownButton'
 import GaugeChart from 'react-gauge-chart'
 import React, { PureComponent } from 'react';
 import { RadialBarChart, RadialBar,Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import InteractiveTable from 'react-interactive-table';
+
 
 function wait(ms){
     var start = new Date().getTime();
@@ -149,6 +151,18 @@ const Dashboard = () => {
           },
        
       ]
+    const data2 = [
+        {id: 'Temperature Gauge 1', firstname: '0.1 K'},
+        {id: 'Temperature Gauge 2', firstname: '2.2 K'},
+        {id: 'Temperature Gauge 3', firstname: '-23 K'},
+        {id: 'Temperature Gauge 4', firstname: '0.3 K'},
+        {id: 'Pressure Gauge 1', firstname: '35 PA'},
+        {id: 'Pressure Gauge 2', firstname: '1 PA'},
+        {id: 'Pressure Gauge 3', firstname: '23 PA'},
+        {id: 'Pressure Gauge 4', firstname: '22 PA'},
+        {id: 'Pressure Gauge 5', firstname: '3 PA'},
+        {id: 'Pressure Gauge 6', firstname: '1 PA'},
+    ]
     
     useEffect(() => {
         setInterval(() => {
@@ -165,6 +179,7 @@ const Dashboard = () => {
                 <div className="clock">{date.toLocaleString("en-AU")}</div>
             </div> 
             <div className="contents">
+            
                     <DropDownButton className="dropdownBox"
                         title={testData[selected].name}
                         id="dropdown-basic-button"
@@ -179,6 +194,39 @@ const Dashboard = () => {
                     </DropDownButton>
                 <Card className ="parentCard">
                     <Card.Title className="cardTitle">Pressure</Card.Title>
+                    <InteractiveTable
+                tableStyles={'responsive'}
+                dataList={data2} 
+                columns={
+                    {
+                        id: {
+                            alias: 'Gauge',
+                            sortable: true,
+                            active: false,
+                            sortingKey: 'id'
+                        },
+                        firstname: {
+                            alias: 'Measurement',
+                            sortable: true,
+                            active: false,
+                            sortingKey: 'firstname'
+                        }
+                    }
+                }
+                searching={{
+                    active: true,
+                    searchPlaceholder: 'Search...',
+                    searchKeys: ['id', 'firstName', 'mail']
+                }}
+                paging={{
+                    maxRows: 5,
+                    prevBtn: 'Prev',
+                    nextBtn: 'Next',
+                    showAll: true,
+                    showAllText: 'show all',
+                    joinPages: false
+                }}
+            />
                     <Card className="childCard">
                         <Card.Body>
                             <RadialBarChart 

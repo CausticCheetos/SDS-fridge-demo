@@ -38,6 +38,7 @@ const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarge
     const handleClear = () => {
         setName('');
         setDescription('');
+        setParamType('Pressure 1')
         setRangeStart('');
         setRangeEnd('');
     }
@@ -48,7 +49,7 @@ const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarge
             <Form.Control className="createParam" onChange={handleName} value={name} placeholder="Name"/>
             <h6>Param. Description</h6>
             <Form.Control className="createParam" onChange={handleDescription} value={description} placeholder="Description"/>
-            <h6>Param. Name</h6>
+            <h6>Param. Type</h6>
             <Form.Select className="createParam" onChange={handleParamType} value={paramType}>
                 <option>Pressure 1</option>
                 <option>Pressure 2</option>

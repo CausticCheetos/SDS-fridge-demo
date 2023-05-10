@@ -16,17 +16,18 @@ import api from '../services/api'
 const Graph = ({filtered, rangeValues}) => {
 // { name: 1, Resistance: 4.11, Temperature: -100, Flow: 200, 'Pressure 1': 80, 'Pressure 2': 80, Turbo: 1},
 
- const [data, setData] = useState([])
+const [data, setData] = useState([])
 
  const getData = () =>{
-    api.getRTP().then((data) => setData(data)) 
+    api.getRTP().then((data) => setData(data))
   } 
- 
   //TODO Add delay by minute intervals
   useEffect(()=>{
-    getData();
-    console.log(data[0]);
-  })
+    const interval = setInterval(() => {
+        getData();
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
   
 
   const newData = filtered.filter(filter => filter.dataState)
@@ -34,12 +35,16 @@ const Graph = ({filtered, rangeValues}) => {
   const [right, setRight] = useState('dataMax')
   const [refAreaLeft, setRefAreaLeft] = useState('')
   const [refAreaRight, setRefAreaRight] = useState('')
-  const [top, setTop] = useState('dataMax+20')
-  const [bottom, setBottom] = useState('dataMin-20')
+  const [top, setTop] = useState('dataMax+50')
+  const [bottom, setBottom] = useState('dataMin-50')
 
 
   const [scrollIn, setScrollIn] = useState(0)
-
+ 
+  const UNIXConvert = (unix) => {
+    const time = new Date(unix).toLocaleString('en-AU')
+    return time
+  }
 
   //Second Y-Axis
   const [top2, setTop2] = useState('dataMax+20')
@@ -78,16 +83,17 @@ const Graph = ({filtered, rangeValues}) => {
     setRefAreaRight("");
     setLeft("dataMin");
     setRight("dataMax");
-    setTop("dataMax+20");
-    setBottom("dataMin-20");
-    setTop2("dataMax+20");
-    setBottom2("dataMin-20");
+    setTop("dataMax+50");
+    setBottom("dataMin-50");
+    setTop2("dataMax+50");
+    setBottom2("dataMin-50");
     setScrollIn(0);
   };
 
   const scrollDetect = (e) => {
-    const range = data.length
-    if (e.deltaY < 0) {
+    const range = data
+
+    /* if (e.deltaY < 0) {
       setScrollIn(scrollIn + 0.1)
       if (scrollIn > 0) {
       setLeft('dataMin-'.concat(scrollIn + 0.1))
@@ -105,13 +111,14 @@ const Graph = ({filtered, rangeValues}) => {
         setLeft(data[0].id + (scrollIn - 0.1)*-1)
         setRight(range - (scrollIn - 0.1)*-1)
       }
-    }
+    } */
   }
 
   useEffect(() => {
-    const newLeft = parseFloat(rangeValues[0])
-    const newRight = parseFloat(rangeValues[1])
+    const newLeft = Date.parse(rangeValues[0])
+    const newRight = Date.parse(rangeValues[1])
 
+    console.log(newLeft);
     setLeft(newLeft)
     setRight(newRight)
     console.log(left, right);
@@ -135,19 +142,18 @@ const Graph = ({filtered, rangeValues}) => {
                 left: 30,
                 bottom: 5,
               }}
-            onMouseDown={(e) => { setRefAreaLeft(e.activeLabel) }} //TODO prevent refArea being set to null when user selects labels
-            onMouseMove={(e) => { setRefAreaRight( e.activeLabel) }}
+            onMouseDown={(e) => { if(e) setRefAreaLeft(e.activeLabel) }}
+            onMouseMove={(e) => { if(e) setRefAreaRight( e.activeLabel) }}
             onMouseUp={zoom}
-            
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis allowDataOverflow dataKey="date" domain={[left, right]}  type="number" />
+            <XAxis allowDataOverflow dataKey="date" domain={[left, right]} type="number" scale="time" tickFormatter={UNIXConvert}/>
             <YAxis allowDataOverflow domain={[bottom, top]} type="number" yAxisId="1" />
             <YAxis orientation="right" allowDataOverflow domain={[bottom2, top2]} type="number" yAxisId="2" />
-            <Tooltip />
+            <Tooltip labelFormatter={(value) => new Date(value).toLocaleString('en-AU', {timeZone: "Australia/Sydney", timeZoneName: "short"})}/>
             <Legend />
             {newData.map(filter => 
-              <Line yAxisId="1" type="natural" dataKey={filter.dataName} stroke="#8884d8" animationDuration={300} />
+              <Line yAxisId="1" type="natural" dataKey={filter.dataName} stroke={filter.colour} animationDuration={300} />
               )}
           
             {refAreaLeft && refAreaRight ? (

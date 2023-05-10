@@ -91,6 +91,14 @@
     transform: translateY(4px);
   }
 
+  .recharts-tooltip-label {
+    padding: 0 !important;
+  }
+
+  .recharts-default-tooltip {
+    opacity: 90%;
+  }
+
   /* Desktop */
 @media screen and (min-width: 768px) {
   .addGraph {

@@ -10,9 +10,15 @@ const getRTP = () => {
         .then((response) => response.json())
 }
 
+const getValves = () => {
+    return fetch(`${baseUrl}/valves/latest`)
+    .then((response) => response.json())
+} 
+
 const exported = {
     getMaxi,
-    getRTP
+    getRTP,
+    getValves
 }
 
 export default exported

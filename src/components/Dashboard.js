@@ -4,9 +4,11 @@ import Card from 'react-bootstrap/Card'
 import DropDown from 'react-bootstrap/Dropdown'
 import DropDownButton from 'react-bootstrap/DropdownButton'
 import GaugeChart from 'react-gauge-chart'
-import React, { PureComponent } from 'react';
 import { RadialBarChart, RadialBar,Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import InteractiveTable from 'react-interactive-table';
+import Clock from './Clock'
+import React from 'react';
+import api from '../services/api'
 
 
 function wait(ms){
@@ -112,7 +114,7 @@ const Dashboard = () => {
                 value: false}
         },
     ]
-    const data = [
+    const data3 = [
         {
           "name": "Pressure Channel 1",
           "uv": 31.47,
@@ -163,6 +165,11 @@ const Dashboard = () => {
         {id: 'Pressure Gauge 5', firstname: '3 PA'},
         {id: 'Pressure Gauge 6', firstname: '1 PA'},
     ]
+
+    const [data, setData] = useState([])
+    const getData = () => {
+          api.getMaxi().then((data) => setData(data));
+      };
     
     useEffect(() => {
         setInterval(() => {

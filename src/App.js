@@ -113,8 +113,8 @@ function App() {
         <NavBar {...{user}}/>
         <div className='contents'>
           <Routes>
-            <Route path='/' element={<Dashboard {...{fridgeData}} />}/>
-            <Route path='/data_visulisation' element={<DataVisualisation/>}/>
+            <Route path='/' element={<Dashboard />}/>
+            <Route path='/data_visualisation' element={<DataVisualisation/>}/>
             <Route path='/bluefors_interface' element={<BlueFors/>}/>
             <Route path='/parameters' element={<Parameters {...{fridgeData, setFridgeData}}/>}/>
           </Routes>

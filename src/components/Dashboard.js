@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react"
 import './Dashboard.css'
 import Card from 'react-bootstrap/Card'
-import React from 'react';
+import Clock from './Clock'
+import api from '../services/api'
 
 const Dashboard = () => {
-    const [date, setDate] = useState(new Date())
- 
+    //TODO display data to table
+    const [data, setData] = useState([])
+    const getData = () => {
+          api.getMaxi().then((data) => setData(data));
+      };
     useEffect(() => {
-        setInterval(() => {
-            setDate(new Date());
-        }, 1000)
-    }, [])
-
+        getData();
+    },[]);
+    
     const tableFormat1 = [
         { Temperature: "Temperature Channel 1: " + 0.1 +"K", Pressure: "Pressure Channel 1: " + 19+"mBar", Flow: "Flow Channel 1: "+ 2+" mmol/S"},
         { Temperature: "Temperature Channel 2: " + 0.4+"K", Pressure: "Pressure Channel 2: " + 19+"mBar" },
@@ -34,6 +36,7 @@ const Dashboard = () => {
         <div className="dashboardContents">
             <div className="header">
                 <h1 className="dashboardTitle">Dashboard</h1>
+                <Clock/>
             </div> 
             <div className="contents">
                 <Card className ="parentCard">

@@ -153,7 +153,7 @@ const [data, setData] = useState([])
             <Tooltip labelFormatter={(value) => new Date(value).toLocaleString('en-AU', {timeZone: "Australia/Sydney", timeZoneName: "short"})}/>
             <Legend />
             {newData.map(filter => 
-              <Line yAxisId="1" type="natural" dataKey={filter.dataName} stroke={filter.colour} animationDuration={300} />
+              <Line yAxisId="1" type="linear" dataKey={filter.dataName} stroke={filter.colour} animationDuration={300} />
               )}
           
             {refAreaLeft && refAreaRight ? (

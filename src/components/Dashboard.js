@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import './Dashboard.css'
 import Card from 'react-bootstrap/Card'
-import InteractiveTable from 'react-interactive-table';
 import React from 'react';
 
 const Dashboard = () => {
@@ -35,7 +34,7 @@ const Dashboard = () => {
         <div className="dashboardContents">
             <div className="header">
                 <h1 className="dashboardTitle">Dashboard</h1>
-                <div className="clock">{date.toLocaleString("en-AU")}</div>
+                <Clock/>
             </div> 
             <div className="contents">
                 <Card className ="parentCard">

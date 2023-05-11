@@ -34,7 +34,6 @@ const Dashboard = () => {
         <div className="dashboardContents">
             <div className="header">
                 <h1 className="dashboardTitle">Dashboard</h1>
-                <Clock/>
             </div> 
             <div className="contents">
                 <Card className ="parentCard">

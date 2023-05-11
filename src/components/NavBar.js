@@ -2,17 +2,19 @@ import './NavBar.css'
 import Button from 'react-bootstrap/Button'
 import {IconHome, IconChartHistogram, IconAppWindow, IconSettings, IconLogout, IconCpu} from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
+import {DashboardIcon} from './Icons'
+
 
 const NavBar = ({user}) => {
 
     const navList = [{
             name: "Dashboard",
             path: '/',
-            icon: <IconHome/>
+            icon: <DashboardIcon/>
         },
         {
             name: "Data Visualisation",
-            path: '/data_visulisation',
+            path: '/data_visualisation',
             icon: <IconChartHistogram/>,
         },
         {

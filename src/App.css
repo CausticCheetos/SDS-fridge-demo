@@ -1,22 +1,32 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+@font-face {
+  font-family: 'Clancy';
+  src: local('Clancy'), url(./assets/Clancy.OTF) format('opentype');
+}
+
 .App {
   background-color: #FFFEFE;
-  
+  font-family: 'Roboto' !important;
 }
 
 h1 {
   margin: 0;
   padding: 10px;
+  font-family: 'Clancy';
 }
 
 h2 {
   padding: 10px;
   text-align: center;
   font-size: x-large !important;
+  font-family: 'Clancy';
 }
 
 h3 {
   padding-left: 20px;
   font-size: large !important;
+  font-family: 'Clancy';
 }
 
 .appContainer {
@@ -40,3 +50,8 @@ h3 {
 body {
   margin: 0;
 }
+
+table {
+  font-family: 'Roboto' !important;
+}
+

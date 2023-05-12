@@ -6,7 +6,7 @@ import './Parameters.css'
 import DropDown from 'react-bootstrap/Dropdown'
 import DropDownButton from 'react-bootstrap/DropdownButton'
 import Modal from 'react-bootstrap/Modal'
-
+import api from '../services/api'
 
 const Parameters = ({fridgeData, setFridgeData}) => {
     const [selected, setSelected] = useState(0)
@@ -20,8 +20,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         const newData = fridgeData.concat()
         newData[selected]['params'].splice(index, 1)
         setFridgeData(newData)
-        let id = data._id
-        fetch(`http://127.0.0.1:8000/deleteParameters/${id}`,{method:"DELETE"})
+        api.deleteParameters(data._id)
     }   
 
     const handleOpenEdit = (index) => {
@@ -29,9 +28,8 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         setEditTarget(index)
     }
 
-    const getData = async() =>{
-        await fetch("http://127.0.0.1:8000/getParameters/")
-            .then((response) => response.json())
+    const getData = () =>{
+        api.getParameters()
             .then((data) => setData(data))
     }
 

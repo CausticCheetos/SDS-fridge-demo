@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Form from 'react-bootstrap/Form'
+import api from '../services/api'
 
 const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarget}) => {
     const [name, setName] = useState((i) => editShow ? fridgeData[selected]['params'][editTarget]['name'] : '');
@@ -15,7 +16,7 @@ const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarge
     const handleRangeEnd = (e) => setRangeEnd(e.target.value)
     
     //TODO prevent unexpected values
-    const handleSubmit = async () => {
+    const handleSubmit = async() => {
         const newData = fridgeData.concat()
         const newParam = {
             name: name,
@@ -26,14 +27,7 @@ const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarge
         if (!editShow) {
             newData[selected].params.push(newParam)
             setFridgeData(newData)
-            await fetch("http://127.0.0.1:8000/parameters/", {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newParam),
-                })
+            await api.postParameters(newParam)
         }
         else
         {

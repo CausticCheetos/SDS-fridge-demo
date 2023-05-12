@@ -10,56 +10,68 @@ const DataVisualisation = () => {
     const [rangeValues, setRangeValues] = useState([['','']])
     const [filter, setFilter] = useState([[
         {
-            dataName: "Resistance",
-            dataState: false
+            dataName: "power",
+            dataState: false,
+            colour: '#8884d8'
         },
         {
-            dataName: "Temperature",
-            dataState: false
+            dataName: "resistance",
+            dataState: false,
+            colour: '#387780'
         },
         {
-            dataName: "Flow",
-            dataState: false
+            dataName: "temperature",
+            dataState: false,
+            colour: '#E83151'
         },
         {
             dataName: "Pressure 1",
-            dataState: false
+            dataState: false,
+            colour: '#8884d8'
         },
         {
             dataName: "Pressure 2",
-            dataState: false
+            dataState: false,
+            colour: '#8884d8'
         },
         {
             dataName: "Turbo",
-            dataState: false
+            dataState: false,
+            colour: '#8884d8'
         }
     ]])
 
     const handleAdd = () => {
         setFilter(current => [...current, [
             {
-                dataName: "Resistance",
-                dataState: false
+                dataName: "power",
+                dataState: false,
+                colour: '#8884d8'
             },
             {
-                dataName: "Temperature",
-                dataState: false
+                dataName: "resistance",
+                dataState: false,
+                colour: '#387780'
             },
             {
-                dataName: "Flow",
-                dataState: false
+                dataName: "temperature",
+                dataState: false,
+                colour: '#E83151'
             },
             {
                 dataName: "Pressure 1",
-                dataState: false
+                dataState: false,
+                colour: '#8884d8'
             },
             {
                 dataName: "Pressure 2",
-                dataState: false
+                dataState: false,
+                colour: '#8884d8'
             },
             {
                 dataName: "Turbo",
-                dataState: false
+                dataState: false,
+                colour: '#8884d8'
             }
         ]])
         setRangeValues(current => [...current, ['','']])
@@ -105,7 +117,7 @@ const DataVisualisation = () => {
     return (
         <div className="dataVisualisationContents">
             <div className="header">
-                <h1>DataVisualisation</h1>
+                <h1>Data Visualisation</h1>
             </div>
             <div className='content'>
                 <div className='graphHeader'>

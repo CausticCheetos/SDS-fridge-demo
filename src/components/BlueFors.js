@@ -4,13 +4,13 @@ import blue from "../images/blue.png";
 import red from "../images/red.png";
 import "./BlueFors.css";
 import {useEffect, useState} from "react"
+import api from '../services/api'
 
 const BlueFors = () => {
     const [data,setData] = useState([])
     const getData = () => {
-        fetch("http://127.0.0.1:8000/valves/latest")
-            .then((response) => response.json())
-            .then((data) => setData(data)) 
+        api.getValves().then((data) => setData(data)) 
+        console.log(data);
   } 
   useEffect(() => {
     getData();

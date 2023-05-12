@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Clock from "./Clock"
 import ParameterForm from './ParameterForm';
 import ParameterItem from "./ParameterItem"
@@ -12,20 +12,32 @@ const Parameters = ({fridgeData, setFridgeData}) => {
     const [selected, setSelected] = useState(0)
     const [editShow, setEditShow] = useState(false);
     const [editTarget, setEditTarget] = useState(0);
-
+    const [data,setData] = useState([]);
     const handleSelect = (e) => setSelected(e)
     const handleClose = () => setEditShow(false)
 
-    const handleDelete = (index) => {
+    const handleDelete = (index,data) => {
         const newData = fridgeData.concat()
         newData[selected]['params'].splice(index, 1)
         setFridgeData(newData)
-    }
+        let id = data._id
+        fetch(`http://127.0.0.1:8000/deleteParameters/${id}`,{method:"DELETE"})
+    }   
 
     const handleOpenEdit = (index) => {
         setEditShow(true)
         setEditTarget(index)
     }
+
+    const getData = async() =>{
+        await fetch("http://127.0.0.1:8000/getParameters/")
+            .then((response) => response.json())
+            .then((data) => setData(data))
+    }
+
+    useEffect(() =>{
+        getData();
+    })
 
     return (
         <>
@@ -54,7 +66,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                                     eventKey={index}>
                                         {fridge.name}
                                 </DropDown.Item>)}
-                    </DropDownButton>
+                    </DropDownButton>   
                     <div className='paramContainer'>
                         <div className='createContainer'>
                             <h3>Create/Edit Parameter</h3>
@@ -62,8 +74,8 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         </div>
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>
-                            {fridgeData[selected]['params'].map((item, index) =>
-                                <ParameterItem key={index} {...{item, index, handleDelete, handleOpenEdit}}/>
+                            {data.map((data, index) =>
+                                <ParameterItem key={index} {...{data, index, handleDelete, handleOpenEdit}}/>
                             )}       
                         </div>
                         

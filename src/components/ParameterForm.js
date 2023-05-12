@@ -15,7 +15,7 @@ const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarge
     const handleRangeEnd = (e) => setRangeEnd(e.target.value)
     
     //TODO prevent unexpected values
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const newData = fridgeData.concat()
         const newParam = {
             name: name,
@@ -26,6 +26,14 @@ const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarge
         if (!editShow) {
             newData[selected].params.push(newParam)
             setFridgeData(newData)
+            await fetch("http://127.0.0.1:8000/parameters/", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newParam),
+                })
         }
         else
         {

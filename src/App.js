@@ -7,6 +7,8 @@ import BlueFors from './components/BlueFors'
 import Parameters from './components/Parameters';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Route, Routes } from "react-router-dom"
+import Login from './components/Login';
+import Register from './components/Register';
 
 
 function App() {
@@ -117,6 +119,8 @@ function App() {
             <Route path='/data_visualisation' element={<DataVisualisation/>}/>
             <Route path='/bluefors_interface' element={<BlueFors/>}/>
             <Route path='/parameters' element={<Parameters {...{fridgeData, setFridgeData}}/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/register' element={<Register/>}/>
           </Routes>
         </div>
       </div>

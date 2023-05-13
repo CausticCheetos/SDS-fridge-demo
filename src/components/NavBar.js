@@ -1,8 +1,9 @@
 import './NavBar.css'
 import Button from 'react-bootstrap/Button'
-import {IconHome, IconChartHistogram, IconAppWindow, IconSettings, IconLogout, IconCpu} from '@tabler/icons-react'
+import {IconHome, IconChartHistogram, IconAppWindow, IconSettings, IconLogout, IconCpu, IconLogin} from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 import {DashboardIcon} from './Icons'
+import { useEffect } from 'react'
 
 
 const NavBar = ({user}) => {
@@ -45,7 +46,11 @@ const NavBar = ({user}) => {
             </div>
             <div>
                 <p><Button variant="Light"> <IconSettings/> Settings </Button></p>
-                <p><Button variant="Light"> <IconLogout/> Logout </Button></p>
+                {
+                user? <p><Button variant="Light" onClick={()=>{}}> <IconLogout/> Logout </Button></p>
+               : <p><Button variant="Light" onClick={() => window.location.href =""}> <IconLogin/> Login </Button></p>
+               
+            }
             </div>
             
         </div>

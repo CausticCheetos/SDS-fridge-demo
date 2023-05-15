@@ -7,7 +7,7 @@ import './DataVisualisation.css'
 
 const DataVisualisation = () => {
     const [graphCount, setGraphCount] = useState(0)
-    const [rangeValues, setRangeValues] = useState([['','']])
+    const [rangeValues, setRangeValues] = useState([['','','','']])
     const [filter, setFilter] = useState([[
         {
             dataName: "power",
@@ -84,17 +84,29 @@ const DataVisualisation = () => {
 
     const handleStart = (event, index) => {
         const newRange = rangeValues.concat()
-        const end = rangeValues[index][1]
         const start = event.target.value
-        newRange[index] = [start, end]
+        newRange[index] = [start, rangeValues[index][1], rangeValues[index][2], rangeValues[index][3]]
         setRangeValues(newRange)
     }
 
     const handleEnd = (event, index) => {
         const newRange = rangeValues.concat()
-        const start = rangeValues[index][0]
         const end = event.target.value
-        newRange[index] = [start, end]
+        newRange[index] = [rangeValues[index][0], end, rangeValues[index][2], rangeValues[index][3]]
+        setRangeValues(newRange)
+    }
+
+    const handleTop = (event, index) => {
+        const newRange = rangeValues.concat()
+        const yEnd = event.target.value
+        newRange[index] = [rangeValues[index][0], rangeValues[index][1], rangeValues[index][2], yEnd]
+        setRangeValues(newRange)
+    }
+
+    const handleBottom = (event, index) => {
+        const newRange = rangeValues.concat()
+        const yStart = event.target.value
+        newRange[index] = [rangeValues[index][0], rangeValues[index][1], yStart, rangeValues[index][2]]
         setRangeValues(newRange)
     }
 
@@ -111,7 +123,6 @@ const DataVisualisation = () => {
         newFilter[x][e].dataState = !newFilter[x][e].dataState
         setFilter(newFilter)
         console.log(newFilter);
-       /*  console.log(newFilter) */
     }
 
     return (
@@ -143,13 +154,19 @@ const DataVisualisation = () => {
                         </div>
                         <h3>Range</h3>
                         <div className="range">
-                            <Form 
+                            <Form className="rangeForm"
                             onKeyDown={handleSubmit}>
-                                <Form.Group>
-                                    <Form.Control name="start" onChange={(e) => handleStart(e, 0)} placeholder="Start"/>
+                                <Form.Group className="rangeItem">
+                                    <Form.Control name="start" onChange={(e) => handleStart(e, 0)} placeholder="X Start"/>
                                 </Form.Group>
-                                <Form.Group>
-                                    <Form.Control name="end" onChange={(e) => handleEnd(e, 0)} placeholder="End"/>
+                                <Form.Group className="rangeItem">
+                                    <Form.Control name="end" onChange={(e) => handleEnd(e, 0)} placeholder="X End"/>
+                                </Form.Group>
+                                <Form.Group className="rangeItem">
+                                    <Form.Control name="end" onChange={(e) => handleTop(e, 0)} placeholder="Y Start"/>
+                                </Form.Group>
+                                <Form.Group className="rangeItem">
+                                    <Form.Control name="end" onChange={(e) => handleBottom(e, 0)} placeholder="Y End"/>
                                 </Form.Group>
                             </Form>
                         </div>

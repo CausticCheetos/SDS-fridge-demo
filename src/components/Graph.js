@@ -1,6 +1,5 @@
 import { useState, useEffect} from 'react';
 import {
-  /* Label, */
   LineChart,
   Line,
   CartesianGrid,
@@ -14,7 +13,6 @@ import {
 import api from '../services/api'
 
 const Graph = ({filtered, rangeValues}) => {
-// { name: 1, Resistance: 4.11, Temperature: -100, Flow: 200, 'Pressure 1': 80, 'Pressure 2': 80, Turbo: 1},
 
 const [data, setData] = useState([])
 
@@ -117,28 +115,29 @@ const [data, setData] = useState([])
   useEffect(() => {
     const newLeft = Date.parse(rangeValues[0])
     const newRight = Date.parse(rangeValues[1])
+    const newTop = rangeValues[3]
+    const newBot = rangeValues[2]
 
-    console.log(newLeft);
     setLeft(newLeft)
     setRight(newRight)
-    console.log(left, right);
+    setTop(parseFloat(newTop))
+    setBottom(parseFloat(newBot))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rangeValues])
 
     return (
-      <div className="highlight-bar-charts" 
+      <div
         style={{ userSelect: 'none', width: '100%' }} 
         onWheel={scrollDetect}>
         <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
 
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={600}>
           <LineChart
             width={800}
             height={400}
-            data={data}
+            data={data.map(i => ({...i, "resistance" : parseFloat(i.resistance)}))}
             margin={{
                 top: 20,
-                right: 30,
                 left: 30,
                 bottom: 5,
               }}
@@ -147,7 +146,18 @@ const [data, setData] = useState([])
             onMouseUp={zoom}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis allowDataOverflow dataKey="date" domain={[left, right]} type="number" scale="time" tickFormatter={UNIXConvert}/>
+            <XAxis 
+              allowDataOverflow 
+              dataKey="date" 
+              domain={[left, right]} 
+              type="number" scale="time" 
+              tickFormatter={UNIXConvert}
+              tick={{ angle: -25 }}
+              textAnchor="end" 
+              height={100}
+              // change tick intervals
+              /* interval={0} */
+              />
             <YAxis allowDataOverflow domain={[bottom, top]} type="number" yAxisId="1" />
             <YAxis orientation="right" allowDataOverflow domain={[bottom2, top2]} type="number" yAxisId="2" />
             <Tooltip labelFormatter={(value) => new Date(value).toLocaleString('en-AU', {timeZone: "Australia/Sydney", timeZoneName: "short"})}/>

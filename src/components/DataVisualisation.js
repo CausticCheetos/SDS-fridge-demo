@@ -157,10 +157,10 @@ const DataVisualisation = () => {
                             <Form className="rangeForm"
                             onKeyDown={handleSubmit}>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="start" onChange={(e) => handleStart(e, 0)} placeholder="X Start"/>
+                                    <Form.Control name="start" type="datetime-local" step={1} onChange={(e) => handleStart(e, 0)} placeholder="X Start"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" onChange={(e) => handleEnd(e, 0)} placeholder="X End"/>
+                                    <Form.Control name="end" type="datetime-local" step={1} onChange={(e) => handleEnd(e, 0)} placeholder="X End"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
                                     <Form.Control name="end" onChange={(e) => handleTop(e, 0)} placeholder="Y Start"/>
@@ -191,13 +191,19 @@ const DataVisualisation = () => {
                             )}
                         </div>
                         <div className="range">
-                            <Form 
-                            onKeyDown={handleSubmit}>
-                                <Form.Group>
-                                    <Form.Control name="start" onChange={(e) => handleStart(e, newIndex)} placeholder="Start"/>
+                            <Form className="rangeForm"
+                                onKeyDown={handleSubmit}>
+                                <Form.Group className="rangeItem">
+                                    <Form.Control name="start" type="datetime-local" step={1} onChange={(e) => handleStart(e, newIndex)} placeholder="X Start"/>
                                 </Form.Group>
-                                <Form.Group>
-                                    <Form.Control name="end" onChange={(e) => handleEnd(e, newIndex)} placeholder="End"/>
+                                <Form.Group className="rangeItem">
+                                    <Form.Control name="end" type="datetime-local" step={1} onChange={(e) => handleEnd(e, newIndex)} placeholder="X End"/>
+                                </Form.Group>
+                                <Form.Group className="rangeItem">
+                                    <Form.Control name="end" onChange={(e) => handleTop(e, newIndex)} placeholder="Y Start"/>
+                                </Form.Group>
+                                <Form.Group className="rangeItem">
+                                    <Form.Control name="end" onChange={(e) => handleBottom(e, newIndex)} placeholder="Y End"/>
                                 </Form.Group>
                             </Form>
                         </div>

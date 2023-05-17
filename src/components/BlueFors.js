@@ -5,6 +5,7 @@ import red from "../images/red.png";
 import "./BlueFors.css";
 import { useEffect, useState } from "react";
 import api from '../services/api'
+import React from 'react';
 
 const BlueFors = () => {
   const [data, setData] = useState([]);

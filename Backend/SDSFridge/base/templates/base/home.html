@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div>
+    <h1>Home</h1>
+
+    <div>
+        {% for fridge in fridges %}
+        <div>
+            <p>{{fridge.id}} -- <a href="{% url 'fridge' fridge.id%}">{{fridge.des}}</a></p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

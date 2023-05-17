@@ -58,6 +58,18 @@
     grid-row: 2;
   }
 
+  .rangeForm {
+    display: grid !important;
+    
+  }
+
+  .rangeItem {
+    margin-right: 20px ;
+  }
+  .rangeItem > .form-control {
+    margin-left: 0px !important;
+  }
+
   .form-control {
     margin-left: 20px;
     margin-bottom: 8px;
@@ -104,6 +116,11 @@
   .addGraph {
       padding-left: 5px !important;
       padding-right: 5px !important;
+  }
+
+  .rangeForm {
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
   }
 
   p {

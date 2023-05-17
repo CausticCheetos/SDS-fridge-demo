@@ -55,6 +55,48 @@ const BlueFors = () => {
             <body className="text">{Number(pressure[5].value).toExponential(2)}</body>
         </div>}
 
+        <img 
+            src={black}
+            alt={`pulse-tube-indicator`} 
+            className={`pulse-tube`}
+        />
+
+        <img 
+            src={black}
+            alt={`4k-heater-indicator`} 
+            className={`four-k-heater`}
+        />
+        
+        <img 
+            src={black}
+            alt={`scroll-1-indicator`} 
+            className={`scroll-1`}
+        />
+
+        <img 
+            src={black}
+            alt={`scroll-2-indicator`} 
+            className={`scroll-2`}
+        />
+
+        <img 
+            src={black}
+            alt={`turbo-1-indicator`} 
+            className={`turbo-1`}
+        />
+
+        <img 
+            src={black}
+            alt={`turbo-2-indicator`} 
+            className={`turbo-2`}
+        />
+
+        <img 
+            src={black}
+            alt={`coml-indicator`} 
+            className={`coml`}
+        />
+
         {data.map((item) => {
             const matchingChildItem = item.find((childItem) => childItem.id === item[0].id);
             console.log(matchingChildItem);

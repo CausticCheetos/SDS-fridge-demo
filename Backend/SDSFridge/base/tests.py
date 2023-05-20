@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 # Create your tests here.
+from django.urls import reverse
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import Notification
@@ -28,3 +29,23 @@ class NotificationTestCase(TestCase):
         delete_notification(notification=self.notification)
         notifications = get_notifications(user=self.user)
         self.assertNotIn(self.notification, notifications)
+
+class NotificationTests(TestCase):
+    def setUp(self):
+        self.Notification = Notification()
+
+    def test_post_list_view(self):
+        # Create a post
+        Notification.objects.create(title='Test noti', content='Test content')
+
+        # Access the notification_list view
+        response = self.client.get(reverse('noti_list'))
+
+        # Check that the response has a status code of 200
+        self.assertEqual(response.status_code, 200)
+
+        # Check that the notification title appears in the rendered HTML
+        self.assertContains(response, 'Test post')
+
+        # Check that the notification content appears in the rendered HTML
+        self.assertContains(response, 'Test content')

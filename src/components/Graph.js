@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 import api from '../services/api'
 
-const Graph = ({filtered, rangeValues}) => {
+const Graph = ({filtered, filtered2, rangeValues}) => {
 
 const [data, setData] = useState([])
 
@@ -29,6 +29,7 @@ useEffect(()=>{
 
 
 const newData = filtered.filter(filter => filter.dataState)
+const newData2 = filtered2.filter(filter => filter.dataState)
 const [left, setLeft] = useState('dataMin')
 const [right, setRight] = useState('dataMax')
 const [refAreaLeft, setRefAreaLeft] = useState('')
@@ -168,8 +169,16 @@ useEffect(() => {
               dataKey={filter.dataName} 
               animationDuration={300}
               stroke={filter.colour}
-              //Line thickness
-              strokeWidth={1.5}/>
+              strokeWidth={2}/>
+            )}
+          {newData2.map(filter => 
+            <Line 
+              yAxisId="2" 
+              type="linear" 
+              dataKey={filter.dataName} 
+              animationDuration={300}
+              stroke={filter.colour}
+              strokeWidth={2}/>
             )}
         
           {refAreaLeft && refAreaRight ? (

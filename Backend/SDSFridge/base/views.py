@@ -64,6 +64,74 @@ def getActualFlow(request):
     data = list(collection.find())
     dates = [d['date'] for d in data]
     return JsonResponse(dates,encoder=CustomJSONEncoder, safe=False)
+
+def get_past_rtp(request, greater,lesser):
+    collection = db['rtp']
+    data = list(collection.find({"date":{"$gt":greater , "$lt": lesser}}))    
+    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+
+def get_rtp(request):
+    collection = db['rtp']
+    data = list(collection.find().limit(50).sort("date",-1))
+    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+
+def get_maxigauge_latest(request):
+    collection = db['maxigauge']
+    data1 = list(collection.find({"id":"p1"}).limit(1).sort("date",-1))
+    data2 = list(collection.find({"id":"p2"}).limit(1).sort("date",-1))
+    data3 = list(collection.find({"id":"p3"}).limit(1).sort("date",-1))
+    data4 = list(collection.find({"id":"p4"}).limit(1).sort("date",-1))
+    data5 = list(collection.find({"id":"p5"}).limit(1).sort("date",-1))
+    data6 = list(collection.find({"id":"p6"}).limit(1).sort("date",-1))
+    data = data1 + data2+ data3+ data4 + data5 +data6
+    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+
+
+def get_valves(request):
+    collection = db['valves']
+    data = []
+    for i in range(1,24):
+        name = "v" + str(i)
+        data.append(list(collection.find({"id":name}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"scroll1"}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"scroll2"}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"turbo1"}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"turbo2"}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"pulsetube"}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"hs-still"}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"hs-mc"}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"ext"}).limit(1).sort("date",-1)))
+    data.append(list(collection.find({"id":"compressor"}).limit(1).sort("date",-1)))
+    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+
+
+def post_parameters(request):
+    collection = db['parameters']
+    if request.method == "POST":
+        data = json.loads(request.body)
+        item = {
+            "name" : data["name"],
+            "description": data["description"],
+            "paramType" : data["paramType"],
+            "start": data["start"],
+            "end": data["end"]
+        }
+        collection.insert_one(item)
+        return HttpResponse(200)
+    return HttpResponse(404)
+
+def get_parameters(request):
+    collection = db['parameters']
+    data = list(collection.find())  
+    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+
+def delete_parameters(request,call):
+    if request.method == "DELETE":
+        collection = db['parameters']
+        query = str(call)
+        test = {"_id" : ObjectId(query)}
+        collection.delete_one(test)
+        return HttpResponse(200)
 # Create your views here.
 
 # @csrf_exempt

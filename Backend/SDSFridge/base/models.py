@@ -8,3 +8,25 @@ class Flow(models.Model):
 
     def _str_(self):
             return self.value
+    
+class Notification(models.Model):
+    NotificationId = models.AutoField(primary_key=True)
+    NotificationDescription = models.TextField()
+
+    def _str_(self):
+         return self.NotificationDescription
+class User(models.Model):
+
+    type = (
+        ('1','user'),
+        ('2','admin'),
+    )
+    userId = models.AutoField(primary_key=True)
+    firstname = models.CharField(max_length=128)
+    lastname = models.CharField(max_length=128)
+    password = models.CharField(max_length=256)
+    email = models.EmailField(unique=True)
+    usertype = models.CharField(max_length=32,choices=type,default='1')
+
+    def __str__(self):
+        return self.name

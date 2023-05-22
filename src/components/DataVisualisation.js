@@ -159,16 +159,16 @@ const DataVisualisation = () => {
                             <Form className="rangeForm"
                             onKeyDown={handleSubmit}>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="start" type="datetime-local" step={1} onChange={(e) => handleStart(e, 0)} placeholder="X Start"/>
+                                    <Form.Control name="start" type="datetime-local" step={1} onChange={(e) => handleStart(e, 0)} title="X Start"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" type="datetime-local" step={1} onChange={(e) => handleEnd(e, 0)} placeholder="X End"/>
+                                    <Form.Control name="end" type="datetime-local" step={1} onChange={(e) => handleEnd(e, 0)} title="X End"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" onChange={(e) => handleTop(e, 0)} placeholder="Y Start"/>
+                                    <Form.Control name="end" onChange={(e) => handleTop(e, 0)} placeholder="Y Start" title="Scientific notation supported!"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" onChange={(e) => handleBottom(e, 0)} placeholder="Y End"/>
+                                    <Form.Control name="end" onChange={(e) => handleBottom(e, 0)} placeholder="Y End" title="Scientific notation supported!"/>
                                 </Form.Group>
                             </Form>
                         </div>

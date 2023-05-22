@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import api from '../services/api'
+import Form from 'react-bootstrap/Form'
 
 const Graph = ({filtered, filtered2, rangeValues}) => {
 
@@ -30,12 +31,14 @@ useEffect(()=>{
 
 const newData = filtered.filter(filter => filter.dataState)
 const newData2 = filtered2.filter(filter => filter.dataState)
+const [zoomAmount, setZoomAmount] = useState('');
 const [left, setLeft] = useState('dataMin')
 const [right, setRight] = useState('dataMax')
 const [refAreaLeft, setRefAreaLeft] = useState('')
 const [refAreaRight, setRefAreaRight] = useState('')
-const [top, setTop] = useState('dataMax+50')
-const [bottom, setBottom] = useState('dataMin-50')
+const [top, setTop] = useState('dataMax')
+const [bottom, setBottom] = useState('dataMin')
+
 
 
 /* const [scrollIn, setScrollIn] = useState(0) */
@@ -46,8 +49,8 @@ const UNIXConvert = (unix) => {
 }
 
 //Second Y-Axis
-const [top2, setTop2] = useState('dataMax+20')
-const [bottom2, setBottom2] = useState('dataMin-20')
+const [top2, setTop2] = useState('dataMax')
+const [bottom2, setBottom2] = useState('dataMin')
 
 /*  const [animation, setAnimation] = useState(true) */
 
@@ -82,34 +85,14 @@ const zoomOut = () => {
   setRefAreaRight("");
   setLeft("dataMin");
   setRight("dataMax");
-  setTop("dataMax+50");
-  setBottom("dataMin-50");
-  setTop2("dataMax+50");
-  setBottom2("dataMin-50");
+  setTop("dataMax+" + zoomAmount);
+  setBottom("dataMin-" + zoomAmount);
+  setTop2("dataMax+" + zoomAmount);
+  setBottom2("dataMin-" + zoomAmount);
 };
 
-const scrollDetect = (e) => {
-  const range = data
-
-  /* if (e.deltaY < 0) {
-    setScrollIn(scrollIn + 0.1)
-    if (scrollIn > 0) {
-    setLeft('dataMin-'.concat(scrollIn + 0.1))
-    setRight('dataMax+'.concat(scrollIn + 0.1))
-    } else {
-      setLeft(data[0].id - (scrollIn + 0.1))
-      setRight(range + (scrollIn + 0.1))
-    }
-  } else {
-    setScrollIn(scrollIn - 0.1)
-    if (scrollIn > 0) {
-      setLeft('dataMin-'.concat(scrollIn - 0.1))
-      setRight('dataMax+'.concat(scrollIn - 0.1))
-    } else {
-      setLeft(data[0].id + (scrollIn - 0.1)*-1)
-      setRight(range - (scrollIn - 0.1)*-1)
-    }
-  } */
+const zoomHandle = (e) => {
+  setZoomAmount(e.target.value)
 }
 
 useEffect(() => {
@@ -127,9 +110,14 @@ useEffect(() => {
 
   return (
     <div
-      style={{ userSelect: 'none', width: '100%' }} 
-      onWheel={scrollDetect}>
-      <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
+      style={{ userSelect: 'none', width: '100%' }} >
+      
+      <div className='zoomContainer'>
+        <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
+        <Form.Group>
+          <Form.Control onChange={(e) => zoomHandle(e)}/>
+        </Form.Group>
+      </div>
 
       <ResponsiveContainer width="100%" height={600}>
         <LineChart

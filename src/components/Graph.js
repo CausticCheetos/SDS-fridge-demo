@@ -92,7 +92,7 @@ const zoomOut = () => {
 };
 
 const zoomHandle = (e) => {
-  setZoomAmount(e.target.value)
+  setZoomAmount(Number(e.target.value))
 }
 
 useEffect(() => {

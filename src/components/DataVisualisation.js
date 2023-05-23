@@ -62,12 +62,30 @@ const DataVisualisation = () => {
                 colour: '#E83151'
             }
         ]])
+        setFilter2(current => [...current, [
+            {
+                dataName: "power",
+                dataState: false,
+                colour: '#8884d8'
+            },
+            {
+                dataName: "resistance",
+                dataState: false,
+                colour: '#387780'
+            },
+            {
+                dataName: "temperature",
+                dataState: false,
+                colour: '#E83151'
+            }
+        ]])
         setRangeValues(current => [...current, ['','']])
         setGraphCount(count => count + 1)
     }
     const handleRemove = () => {
         setRangeValues(current => [current.slice(0, -1)])
         setFilter(current => (current.slice(0, -1)))
+        setFilter2(current => (current.slice(0, -1)))
         setGraphCount(count => count - 1)
     }
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, response
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
@@ -132,6 +132,40 @@ def delete_parameters(request,call):
         test = {"_id" : ObjectId(query)}
         collection.delete_one(test)
         return HttpResponse(200)
+    
+def login(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        if email and password:
+            collection = db['user']
+            data = list(collection.find())
+            user = data.find({}, {'email': email, 'password': password})
+            if user:
+                response.set_cookie('email', email, 3600)
+                return JsonResponse(user, encoder=CustomJSONEncoder, safe=False)
+    return JsonResponse('',encoder=CustomJSONEncoder, safe=False)
+
+def registe(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+
+        if email and password and firstname and lastname:
+            collection = db['user']
+            data = list(collection.find())
+            mydict = {"firstname": firstname, "lastname": lastname, "email": email,"password":password}
+            result=data.insert_one(mydict)
+            return JsonResponse(result, encoder=CustomJSONEncoder, safe=False)
+    return JsonResponse('',encoder=CustomJSONEncoder, safe=False)
+
+def logout(request):
+    if request.method == "GET":
+        response.delete_cookie('email')
+        return JsonResponse('ok', encoder=CustomJSONEncoder, safe=False)
+    return JsonResponse('',encoder=CustomJSONEncoder, safe=False)
 # Create your views here.
 
 # @csrf_exempt

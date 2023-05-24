@@ -11,22 +11,19 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import api from '../services/api'
-import Form from 'react-bootstrap/Form'
 
 const Graph = ({filtered, filtered2, rangeValues, setChannels, selectedChannel}) => {
 
 const [data, setData] = useState([])
 const [group, setGroup] = useState([])
-let ddd; 
 
 const getData = () =>{
   api.getRTP().then((a) => setData(a))
   let unique = [... new Set(data.map(a => a.id))]
   setChannels(unique)
   setGroup(groupBy(data, 'id'))
-  console.log(group[selectedChannel]);
 } 
-//TODO Add delay by minute intervals
+
 useEffect(()=>{
   const interval = setInterval(() => {
       getData();
@@ -93,8 +90,8 @@ const zoom = () => {
 }
 
 const zoomOut = () => {
-  var _data = data;
-  setData(_data.slice());
+  /* var _data = data;
+  setData(_data.slice()); */
   setRefAreaLeft("");
   setRefAreaRight("");
   setLeft("dataMin");
@@ -128,9 +125,9 @@ useEffect(() => {
       
       <div className='zoomContainer'>
         <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
-        <Form.Group>
+        {/* <Form.Group>
           <Form.Control onChange={(e) => zoomHandle(e)}/>
-        </Form.Group>
+        </Form.Group> */}
       </div>
 
       <ResponsiveContainer width="100%" height={600}>

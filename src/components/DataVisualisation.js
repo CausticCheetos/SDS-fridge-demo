@@ -140,15 +140,9 @@ const DataVisualisation = () => {
         setFilter2(newFilter)
     }
 
-    const handleSelect = (e) => {
-        console.log(selectedChannel);
-        console.log(e);
-        setSelectedChannel([e, selectedChannel[1]]);
-    }
+    const handleSelect = (e) => {setSelectedChannel([e, selectedChannel[1]])}
 
-    const handleSelect2 = (e) => {
-        setSelectedChannel([selectedChannel[0], e]);
-    }
+    const handleSelect2 = (e) => {setSelectedChannel([selectedChannel[0], e])}
 
     return (
         <div className="dataVisualisationContents">

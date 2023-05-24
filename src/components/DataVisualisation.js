@@ -3,11 +3,15 @@ import {IconSquareRoundedPlusFilled, IconSquareRoundedMinus} from  '@tabler/icon
 import Graph from './Graph'
 import Form from 'react-bootstrap/Form'
 import './DataVisualisation.css'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 const DataVisualisation = () => {
     const [graphCount, setGraphCount] = useState(0)
     const [rangeValues, setRangeValues] = useState([['','','','']])
+    const [channels, setChannels] = useState([])
+    const [selectedChannel, setSelectedChannel] = useState(['Channel', 'Channel'])
     const [filter, setFilter] = useState([[
         {
             dataName: "power",
@@ -136,6 +140,16 @@ const DataVisualisation = () => {
         setFilter2(newFilter)
     }
 
+    const handleSelect = (e) => {
+        console.log(selectedChannel);
+        console.log(e);
+        setSelectedChannel([e, selectedChannel[1]]);
+    }
+
+    const handleSelect2 = (e) => {
+        setSelectedChannel([selectedChannel[0], e]);
+    }
+
     return (
         <div className="dataVisualisationContents">
             <div className="header">
@@ -156,6 +170,15 @@ const DataVisualisation = () => {
                         <h3>Data Type</h3>
                         <div className="filterItem">
                             <h4>Left</h4>
+                            <DropdownButton
+                            title={selectedChannel[0].replace("channel", "Channel ")}
+                            onSelect={handleSelect}>
+                                {channels.map(channel => {
+                                    return(
+                                    <Dropdown.Item eventKey={channel}>{channel.replace("channel", "Channel ")}</Dropdown.Item>
+                                )})}
+                            </DropdownButton>
+
                             {filter[0].map((data, index) => 
                             <Form.Check 
                             label={data.dataName}
@@ -164,6 +187,15 @@ const DataVisualisation = () => {
                             onChange={() => onChecked(0, index)}/>
                             )}
                             <h4>Right</h4>
+                            <DropdownButton
+                            title={selectedChannel[1].replace("channel", "Channel ")}
+                            onSelect={handleSelect2}>
+                                {channels.map(channel => {
+                                    return(
+                                    <Dropdown.Item eventKey={channel}>{channel.replace("channel", "Channel ")}</Dropdown.Item>
+                                )})}
+                            </DropdownButton>
+
                             {filter2[0].map((data, index) => 
                             <Form.Check 
                             label={data.dataName}
@@ -193,7 +225,7 @@ const DataVisualisation = () => {
                     </div>
                 </div>
                 <div className='graph'>
-                    <Graph filtered={filter[0]} filtered2={filter2[0]} rangeValues={rangeValues[0]}/>
+                    <Graph filtered={filter[0]} filtered2={filter2[0]} rangeValues={rangeValues[0]} setChannels={setChannels} selectedChannel={selectedChannel}/>
                 </div>
                 {[...Array(graphCount)].map((x, index) => {
                     const newIndex = index + 1;

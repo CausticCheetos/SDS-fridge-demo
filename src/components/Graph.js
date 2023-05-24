@@ -13,12 +13,18 @@ import {
 import api from '../services/api'
 import Form from 'react-bootstrap/Form'
 
-const Graph = ({filtered, filtered2, rangeValues}) => {
+const Graph = ({filtered, filtered2, rangeValues, setChannels, selectedChannel}) => {
 
 const [data, setData] = useState([])
+const [group, setGroup] = useState([])
+let ddd; 
 
 const getData = () =>{
-  api.getRTP().then((data) => setData(data))
+  api.getRTP().then((a) => setData(a))
+  let unique = [... new Set(data.map(a => a.id))]
+  setChannels(unique)
+  setGroup(groupBy(data, 'id'))
+  console.log(group[selectedChannel]);
 } 
 //TODO Add delay by minute intervals
 useEffect(()=>{
@@ -26,12 +32,12 @@ useEffect(()=>{
       getData();
   }, 5000)
   return () => clearInterval(interval)
-}, [])
+}, [data])
 
 
 const newData = filtered.filter(filter => filter.dataState)
 const newData2 = filtered2.filter(filter => filter.dataState)
-const [zoomAmount, setZoomAmount] = useState('');
+const [zoomAmount, setZoomAmount] = useState('')
 const [left, setLeft] = useState('dataMin')
 const [right, setRight] = useState('dataMax')
 const [refAreaLeft, setRefAreaLeft] = useState('')
@@ -47,6 +53,14 @@ const UNIXConvert = (unix) => {
   const time = new Date(unix).toLocaleString('en-AU')
   return time
 }
+
+//Sorting function
+const groupBy = (arr, key) => {
+  return arr.reduce((rv, x) => {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};
 
 //Second Y-Axis
 const [top2, setTop2] = useState('dataMax')
@@ -123,7 +137,7 @@ useEffect(() => {
         <LineChart
           width={800}
           height={400}
-          data={data.map(i => ({...i, "resistance" : parseFloat(i.resistance)}))}
+          /* data={data.map(i => ({...i, "resistance" : parseFloat(i.resistance)}))} */
           margin={{
               top: 20,
               left: 30,
@@ -154,6 +168,7 @@ useEffect(() => {
             <Line 
               yAxisId="1" 
               type="linear" 
+              data={group[selectedChannel[0]]}
               dataKey={filter.dataName} 
               animationDuration={300}
               stroke={filter.colour}
@@ -162,7 +177,8 @@ useEffect(() => {
           {newData2.map(filter => 
             <Line 
               yAxisId="2" 
-              type="linear" 
+              type="linear"
+              data={group[selectedChannel[1]]}
               dataKey={filter.dataName} 
               animationDuration={300}
               stroke={filter.colour}

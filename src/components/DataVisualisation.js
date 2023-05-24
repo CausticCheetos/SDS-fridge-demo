@@ -3,11 +3,15 @@ import {IconSquareRoundedPlusFilled, IconSquareRoundedMinus} from  '@tabler/icon
 import Graph from './Graph'
 import Form from 'react-bootstrap/Form'
 import './DataVisualisation.css'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 const DataVisualisation = () => {
     const [graphCount, setGraphCount] = useState(0)
     const [rangeValues, setRangeValues] = useState([['','','','']])
+    const [channels, setChannels] = useState([])
+    const [selectedChannel, setSelectedChannel] = useState(['Channel', 'Channel'])
     const [filter, setFilter] = useState([[
         {
             dataName: "power",
@@ -23,21 +27,24 @@ const DataVisualisation = () => {
             dataName: "temperature",
             dataState: false,
             colour: '#E83151'
-        },
+        }
+    ]])
+
+    const [filter2, setFilter2] = useState([[
         {
-            dataName: "Pressure 1",
+            dataName: "power",
             dataState: false,
             colour: '#8884d8'
         },
         {
-            dataName: "Pressure 2",
+            dataName: "resistance",
             dataState: false,
-            colour: '#8884d8'
+            colour: '#387780'
         },
         {
-            dataName: "Turbo",
+            dataName: "temperature",
             dataState: false,
-            colour: '#8884d8'
+            colour: '#E83151'
         }
     ]])
 
@@ -57,28 +64,32 @@ const DataVisualisation = () => {
                 dataName: "temperature",
                 dataState: false,
                 colour: '#E83151'
-            },
+            }
+        ]])
+        setFilter2(current => [...current, [
             {
-                dataName: "Pressure 1",
+                dataName: "power",
                 dataState: false,
                 colour: '#8884d8'
             },
             {
-                dataName: "Pressure 2",
+                dataName: "resistance",
                 dataState: false,
-                colour: '#8884d8'
+                colour: '#387780'
             },
             {
-                dataName: "Turbo",
+                dataName: "temperature",
                 dataState: false,
-                colour: '#8884d8'
+                colour: '#E83151'
             }
         ]])
         setRangeValues(current => [...current, ['','']])
         setGraphCount(count => count + 1)
     }
     const handleRemove = () => {
+        setRangeValues(current => [current.slice(0, -1)])
         setFilter(current => (current.slice(0, -1)))
+        setFilter2(current => (current.slice(0, -1)))
         setGraphCount(count => count - 1)
     }
 
@@ -118,12 +129,20 @@ const DataVisualisation = () => {
     }
 
     const onChecked = (x, e) => {
-        console.log(filter);
         const newFilter = filter.concat();
         newFilter[x][e].dataState = !newFilter[x][e].dataState
         setFilter(newFilter)
-        console.log(newFilter);
     }
+
+    const onChecked2 = (x, e) => {
+        const newFilter = filter2.concat();
+        newFilter[x][e].dataState = !newFilter[x][e].dataState
+        setFilter2(newFilter)
+    }
+
+    const handleSelect = (e) => {setSelectedChannel([e, selectedChannel[1]])}
+
+    const handleSelect2 = (e) => {setSelectedChannel([selectedChannel[0], e])}
 
     return (
         <div className="dataVisualisationContents">
@@ -144,6 +163,16 @@ const DataVisualisation = () => {
                     <div className="filter">
                         <h3>Data Type</h3>
                         <div className="filterItem">
+                            <h4>Left</h4>
+                            <DropdownButton
+                            title={selectedChannel[0].replace("channel", "Channel ")}
+                            onSelect={handleSelect}>
+                                {channels.map(channel => {
+                                    return(
+                                    <Dropdown.Item eventKey={channel}>{channel.replace("channel", "Channel ")}</Dropdown.Item>
+                                )})}
+                            </DropdownButton>
+
                             {filter[0].map((data, index) => 
                             <Form.Check 
                             label={data.dataName}
@@ -151,29 +180,46 @@ const DataVisualisation = () => {
                             checked={data.dataState}
                             onChange={() => onChecked(0, index)}/>
                             )}
+                            <h4>Right</h4>
+                            <DropdownButton
+                            title={selectedChannel[1].replace("channel", "Channel ")}
+                            onSelect={handleSelect2}>
+                                {channels.map(channel => {
+                                    return(
+                                    <Dropdown.Item eventKey={channel}>{channel.replace("channel", "Channel ")}</Dropdown.Item>
+                                )})}
+                            </DropdownButton>
+
+                            {filter2[0].map((data, index) => 
+                            <Form.Check 
+                            label={data.dataName}
+                            key={index}
+                            checked={data.dataState}
+                            onChange={() => onChecked2(0, index)}/>
+                            )}
                         </div>
                         <h3>Range</h3>
                         <div className="range">
                             <Form className="rangeForm"
                             onKeyDown={handleSubmit}>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="start" type="datetime-local" step={1} onChange={(e) => handleStart(e, 0)} placeholder="X Start"/>
+                                    <Form.Control name="start" type="datetime-local" step={1} onChange={(e) => handleStart(e, 0)} title="X Start"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" type="datetime-local" step={1} onChange={(e) => handleEnd(e, 0)} placeholder="X End"/>
+                                    <Form.Control name="end" type="datetime-local" step={1} onChange={(e) => handleEnd(e, 0)} title="X End"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" onChange={(e) => handleTop(e, 0)} placeholder="Y Start"/>
+                                    <Form.Control name="end" onChange={(e) => handleTop(e, 0)} placeholder="Y Start" title="Scientific notation supported!"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" onChange={(e) => handleBottom(e, 0)} placeholder="Y End"/>
+                                    <Form.Control name="end" onChange={(e) => handleBottom(e, 0)} placeholder="Y End" title="Scientific notation supported!"/>
                                 </Form.Group>
                             </Form>
                         </div>
                     </div>
                 </div>
                 <div className='graph'>
-                    <Graph filtered={filter[0]} rangeValues={rangeValues[0]}/>
+                    <Graph filtered={filter[0]} filtered2={filter2[0]} rangeValues={rangeValues[0]} setChannels={setChannels} selectedChannel={selectedChannel}/>
                 </div>
                 {[...Array(graphCount)].map((x, index) => {
                     const newIndex = index + 1;
@@ -182,12 +228,21 @@ const DataVisualisation = () => {
                     <div className="filter">
                         <h3>Data Type</h3>
                         <div className="filterItem">
+                            <h4>Left</h4>
                             {filter[newIndex].map((data, index) => 
                             <Form.Check 
                             label={data.dataName}
                             key={index}
                             checked={data.dataState}
                             onChange={() => onChecked(newIndex, index)}/>
+                            )}
+                            <h4>Right</h4>
+                            {filter2[0].map((data, index) => 
+                            <Form.Check 
+                            label={data.dataName}
+                            key={index}
+                            checked={data.dataState}
+                            onChange={() => onChecked2(newIndex, index)}/>
                             )}
                         </div>
                         <div className="range">
@@ -200,17 +255,17 @@ const DataVisualisation = () => {
                                     <Form.Control name="end" type="datetime-local" step={1} onChange={(e) => handleEnd(e, newIndex)} placeholder="X End"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" onChange={(e) => handleTop(e, newIndex)} placeholder="Y Start"/>
+                                    <Form.Control name="end" onChange={(e) => handleTop(e, newIndex)} placeholder="Y Greater"/>
                                 </Form.Group>
                                 <Form.Group className="rangeItem">
-                                    <Form.Control name="end" onChange={(e) => handleBottom(e, newIndex)} placeholder="Y End"/>
+                                    <Form.Control name="end" onChange={(e) => handleBottom(e, newIndex)} placeholder="Y Lesser"/>
                                 </Form.Group>
                             </Form>
                         </div>
                     </div>
                     <div className='graph'
                         key={index}>
-                        <Graph filtered={filter[newIndex]} rangeValues={rangeValues[newIndex]}/>
+                        <Graph filtered={filter[newIndex]} filtered2={filter2[newIndex]} rangeValues={rangeValues[newIndex]}/>
                     </div>
                     </>
                     )}

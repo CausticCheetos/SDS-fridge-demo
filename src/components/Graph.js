@@ -12,29 +12,36 @@ import {
 } from 'recharts';
 import api from '../services/api'
 
-const Graph = ({filtered, rangeValues}) => {
+const Graph = ({filtered, filtered2, rangeValues, setChannels, selectedChannel}) => {
 
 const [data, setData] = useState([])
+const [group, setGroup] = useState([])
 
 const getData = () =>{
-  api.getRTP().then((data) => setData(data))
+  api.getRTP().then((a) => setData(a))
+  let unique = [... new Set(data.map(a => a.id))]
+  setChannels(unique)
+  setGroup(groupBy(data, 'id'))
 } 
-//TODO Add delay by minute intervals
+
 useEffect(()=>{
   const interval = setInterval(() => {
       getData();
   }, 5000)
   return () => clearInterval(interval)
-}, [])
+}, [data])
 
 
 const newData = filtered.filter(filter => filter.dataState)
+const newData2 = filtered2.filter(filter => filter.dataState)
+const [zoomAmount, setZoomAmount] = useState('')
 const [left, setLeft] = useState('dataMin')
 const [right, setRight] = useState('dataMax')
 const [refAreaLeft, setRefAreaLeft] = useState('')
 const [refAreaRight, setRefAreaRight] = useState('')
-const [top, setTop] = useState('dataMax+50')
-const [bottom, setBottom] = useState('dataMin-50')
+const [top, setTop] = useState('dataMax')
+const [bottom, setBottom] = useState('dataMin')
+
 
 
 /* const [scrollIn, setScrollIn] = useState(0) */
@@ -44,9 +51,17 @@ const UNIXConvert = (unix) => {
   return time
 }
 
+//Sorting function
+const groupBy = (arr, key) => {
+  return arr.reduce((rv, x) => {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};
+
 //Second Y-Axis
-const [top2, setTop2] = useState('dataMax+20')
-const [bottom2, setBottom2] = useState('dataMin-20')
+const [top2, setTop2] = useState('dataMax')
+const [bottom2, setBottom2] = useState('dataMin')
 
 /*  const [animation, setAnimation] = useState(true) */
 
@@ -75,40 +90,20 @@ const zoom = () => {
 }
 
 const zoomOut = () => {
-  var _data = data;
-  setData(_data.slice());
+  /* var _data = data;
+  setData(_data.slice()); */
   setRefAreaLeft("");
   setRefAreaRight("");
   setLeft("dataMin");
   setRight("dataMax");
-  setTop("dataMax+50");
-  setBottom("dataMin-50");
-  setTop2("dataMax+50");
-  setBottom2("dataMin-50");
+  setTop("dataMax+" + zoomAmount);
+  setBottom("dataMin-" + zoomAmount);
+  setTop2("dataMax+" + zoomAmount);
+  setBottom2("dataMin-" + zoomAmount);
 };
 
-const scrollDetect = (e) => {
-  const range = data
-
-  /* if (e.deltaY < 0) {
-    setScrollIn(scrollIn + 0.1)
-    if (scrollIn > 0) {
-    setLeft('dataMin-'.concat(scrollIn + 0.1))
-    setRight('dataMax+'.concat(scrollIn + 0.1))
-    } else {
-      setLeft(data[0].id - (scrollIn + 0.1))
-      setRight(range + (scrollIn + 0.1))
-    }
-  } else {
-    setScrollIn(scrollIn - 0.1)
-    if (scrollIn > 0) {
-      setLeft('dataMin-'.concat(scrollIn - 0.1))
-      setRight('dataMax+'.concat(scrollIn - 0.1))
-    } else {
-      setLeft(data[0].id + (scrollIn - 0.1)*-1)
-      setRight(range - (scrollIn - 0.1)*-1)
-    }
-  } */
+const zoomHandle = (e) => {
+  setZoomAmount(Number(e.target.value))
 }
 
 useEffect(() => {
@@ -126,15 +121,20 @@ useEffect(() => {
 
   return (
     <div
-      style={{ userSelect: 'none', width: '100%' }} 
-      onWheel={scrollDetect}>
-      <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
+      style={{ userSelect: 'none', width: '100%' }} >
+      
+      <div className='zoomContainer'>
+        <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
+        {/* <Form.Group>
+          <Form.Control onChange={(e) => zoomHandle(e)}/>
+        </Form.Group> */}
+      </div>
 
       <ResponsiveContainer width="100%" height={600}>
         <LineChart
           width={800}
           height={400}
-          data={data.map(i => ({...i, "resistance" : parseFloat(i.resistance)}))}
+          /* data={data.map(i => ({...i, "resistance" : parseFloat(i.resistance)}))} */
           margin={{
               top: 20,
               left: 30,
@@ -165,11 +165,21 @@ useEffect(() => {
             <Line 
               yAxisId="1" 
               type="linear" 
+              data={group[selectedChannel[0]]}
               dataKey={filter.dataName} 
               animationDuration={300}
               stroke={filter.colour}
-              //Line thickness
-              strokeWidth={1.5}/>
+              strokeWidth={2}/>
+            )}
+          {newData2.map(filter => 
+            <Line 
+              yAxisId="2" 
+              type="linear"
+              data={group[selectedChannel[1]]}
+              dataKey={filter.dataName} 
+              animationDuration={300}
+              stroke={filter.colour}
+              strokeWidth={2}/>
             )}
         
           {refAreaLeft && refAreaRight ? (

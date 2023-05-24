@@ -15,6 +15,7 @@ class Notification(models.Model):
 
     def _str_(self):
          return self.NotificationDescription
+    
 class User(models.Model):
 
     type = (

@@ -3,11 +3,12 @@ from django.http import HttpResponse, response
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from rest_framework import generics
 
 from django.utils import timezone
 
-from base.models import Flow
-from base.serializers import FlowSerializer
+from base.models import Flow, Notification
+from base.serializers import FlowSerializer, NotificationSerializer
 
 from pymongo import MongoClient
 from bson import ObjectId
@@ -166,6 +167,21 @@ def logout(request):
         response.delete_cookie('email')
         return JsonResponse('ok', encoder=CustomJSONEncoder, safe=False)
     return JsonResponse('',encoder=CustomJSONEncoder, safe=False)
+
+class NotificationDetailView(generics.RetrieveAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+class NotificationCreateView(generics.CreateAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+class NotificationUpdateView(generics.UpdateAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+class NotificationDeleteView(generics.DestroyAPIView):
+    queryset = Notification.objects.all()
 # Create your views here.
 
 # @csrf_exempt

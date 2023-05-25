@@ -87,6 +87,10 @@ def get_maxigauge_latest(request):
     data = data1 + data2+ data3+ data4 + data5 +data6
     return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
 
+def get_flow_latest(request):
+    collection = db['flow']
+    data = list(collection.find({"id":"flow"}).limit(1).sort("date",-1))
+    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
 
 def get_valves(request):
     collection = db['valves']

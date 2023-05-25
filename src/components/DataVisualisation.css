@@ -44,7 +44,7 @@
 
   .filterItem {
     display: grid;
-    grid-template-rows: repeat(3, auto);
+    grid-template-rows: repeat(5, auto);
     grid-auto-flow: column;
     justify-content: left;
     padding-left: 20px;
@@ -52,10 +52,26 @@
     grid-row: 2;
   }
 
+  .filterItem > h4 {
+    font-size: medium;
+  }
+
   .range {
     display: flex;
     grid-column: 2;
     grid-row: 2;
+  }
+
+  .rangeForm {
+    display: grid !important;
+    
+  }
+
+  .rangeItem {
+    margin-right: 20px ;
+  }
+  .rangeItem > .form-control {
+    margin-left: 0px !important;
   }
 
   .form-control {
@@ -99,11 +115,20 @@
     opacity: 90%;
   }
 
+  .zoomContainer {
+    display: flex;
+  }
+
   /* Desktop */
 @media screen and (min-width: 768px) {
   .addGraph {
       padding-left: 5px !important;
       padding-right: 5px !important;
+  }
+
+  .rangeForm {
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
   }
 
   p {

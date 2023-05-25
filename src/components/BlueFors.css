@@ -18,6 +18,15 @@
     z-index: 0;
   }
 
+  .flow{
+    display: flex;
+    position: absolute;
+    margin-top: 29.4vh;
+    margin-left: 72.4vh;
+    flex-direction: column;
+    background-color: transparent;
+  }
+
   .p1{
     display: flex;
     position: absolute;

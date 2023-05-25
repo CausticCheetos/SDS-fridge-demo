@@ -16,7 +16,7 @@ const getValves = () => {
 } 
 
 const getFlow = () => {
-    return fetch(`${baseUrl}/flow`)
+    return fetch(`${baseUrl}/flow/latest`)
     .then((response) => response.json())
 } 
 

@@ -35,7 +35,7 @@ const BlueFors = () => {
     getFlow();
   },[]);
 
-  console.log(pressure)
+  console.log("flow", flow)
 
   return (
     <div>
@@ -63,9 +63,9 @@ const BlueFors = () => {
             <body className="text">{Number(pressure[5].value).toExponential(2)}</body>
         </div>}
 
-        {flow[0] && <div>
-            console.log(flow[0])
-            <body className="text">Test {Number(flow[0].value).toExponential(2)}</body>
+        {flow && <div className="flow">
+            {console.log(flow)}
+            <body className="text">{flow.value}</body>
         </div>}
 
         <img 

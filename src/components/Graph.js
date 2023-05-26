@@ -12,22 +12,28 @@ import {
 } from 'recharts';
 import api from '../services/api'
 
-const Graph = ({filtered, filtered2, rangeValues, setChannels, selectedChannel}) => {
+const Graph = ({filtered, filtered2, rangeValues, setChannels, channels, selectedChannel}) => {
 
 const [data, setData] = useState([])
-const [group, setGroup] = useState([])
+/* const [group, setGroup] = useState([]) */
 
 const getData = () =>{
   api.getRTP().then((a) => setData(a))
-  let unique = [... new Set(data.map(a => a.id))]
-  setChannels(unique)
-  setGroup(groupBy(data, 'id'))
 } 
 
 useEffect(()=>{
   const interval = setInterval(() => {
       getData();
-  }, 5000)
+      let unique = [...new Set(data.map(a => a.id))]
+      
+      //Are channels always the same???
+      if (channels.toString() !== unique.sort().toString()) {
+        setChannels(unique.sort())
+      }
+
+      /* setGroup(groupBy(data, 'id')) */
+
+  }, 3000)
   return () => clearInterval(interval)
 }, [data])
 
@@ -51,13 +57,13 @@ const UNIXConvert = (unix) => {
   return time
 }
 
-//Sorting function
+/* //Sorting function
 const groupBy = (arr, key) => {
   return arr.reduce((rv, x) => {
     (rv[x[key]] = rv[x[key]] || []).push(x);
     return rv;
   }, {});
-};
+}; */
 
 //Second Y-Axis
 const [top2, setTop2] = useState('dataMax')
@@ -165,7 +171,9 @@ useEffect(() => {
             <Line 
               yAxisId="1" 
               type="linear" 
-              data={group[selectedChannel[0]]}
+              data={data.filter(obj => 
+                ((selectedChannel[0].filter(obj => obj.state)).map(obj => obj.name)).includes(obj.id)
+             )}
               dataKey={filter.dataName} 
               animationDuration={300}
               stroke={filter.colour}
@@ -175,7 +183,9 @@ useEffect(() => {
             <Line 
               yAxisId="2" 
               type="linear"
-              data={group[selectedChannel[1]]}
+              data={data.filter(obj => 
+                ((selectedChannel[1].filter(obj => obj.state)).map(obj => obj.name)).includes(obj.id)
+             )}
               dataKey={filter.dataName} 
               animationDuration={300}
               stroke={filter.colour}

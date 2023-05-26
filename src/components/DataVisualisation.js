@@ -1,4 +1,4 @@
-import {useState } from "react"
+import {useState, useEffect} from "react"
 import {IconSquareRoundedPlusFilled, IconSquareRoundedMinus} from  '@tabler/icons-react'
 import Graph from './Graph'
 import Form from 'react-bootstrap/Form'
@@ -11,7 +11,7 @@ const DataVisualisation = () => {
     const [graphCount, setGraphCount] = useState(0)
     const [rangeValues, setRangeValues] = useState([['','','','']])
     const [channels, setChannels] = useState([])
-    const [selectedChannel, setSelectedChannel] = useState(['Channel', 'Channel'])
+    const [selectedChannel, setSelectedChannel] = useState([[[], []]])
     const [filter, setFilter] = useState([[
         {
             dataName: "power",
@@ -47,6 +47,22 @@ const DataVisualisation = () => {
             colour: '#E83151'
         }
     ]])
+
+    useEffect(() => {
+        const initialise = () => {
+            let left = channels.map(obj => ({name: obj, state:false}));
+            let right = channels.map(obj => ({name: obj, state:false}));
+            let tem = [];
+            tem.push([left, right])
+            console.log(tem);
+            return tem;
+        }
+
+        setSelectedChannel(initialise);
+        console.log(channels)
+    },[channels])
+
+    
 
     const handleAdd = () => {
         setFilter(current => [...current, [
@@ -140,9 +156,11 @@ const DataVisualisation = () => {
         setFilter2(newFilter)
     }
 
-    const handleSelect = (e) => {setSelectedChannel([e, selectedChannel[1]])}
-
-    const handleSelect2 = (e) => {setSelectedChannel([selectedChannel[0], e])}
+    const handleSelect = (event, index, pos) => {
+        const temp = selectedChannel.concat();
+        temp[index][pos][event]['state'] = !temp[index][pos][event]['state']
+        setSelectedChannel(temp)
+    }
 
     return (
         <div className="dataVisualisationContents">
@@ -165,11 +183,11 @@ const DataVisualisation = () => {
                         <div className="filterItem">
                             <h4>Left</h4>
                             <DropdownButton
-                            title={selectedChannel[0].replace("channel", "Channel ")}
-                            onSelect={handleSelect}>
-                                {channels.map(channel => {
+                            title="Channel"
+                            onSelect={(e) => handleSelect(e, 0, 0)}>
+                                {selectedChannel[0][0].map((channel, index) => {
                                     return(
-                                    <Dropdown.Item eventKey={channel}>{channel.replace("channel", "Channel ")}</Dropdown.Item>
+                                    <Dropdown.Item eventKey={index} active={channel['state']}>{channel['name'].replace("channel", "Channel ")}</Dropdown.Item>
                                 )})}
                             </DropdownButton>
 
@@ -182,11 +200,11 @@ const DataVisualisation = () => {
                             )}
                             <h4>Right</h4>
                             <DropdownButton
-                            title={selectedChannel[1].replace("channel", "Channel ")}
-                            onSelect={handleSelect2}>
-                                {channels.map(channel => {
+                            title="Channel"
+                            onSelect={(e) => handleSelect(e, 0, 1)}>
+                                {selectedChannel[0][1].map((channel, index) => {
                                     return(
-                                    <Dropdown.Item eventKey={channel}>{channel.replace("channel", "Channel ")}</Dropdown.Item>
+                                        <Dropdown.Item eventKey={index} active={channel['state']}>{channel['name'].replace("channel", "Channel ")}</Dropdown.Item>
                                 )})}
                             </DropdownButton>
 
@@ -219,8 +237,15 @@ const DataVisualisation = () => {
                     </div>
                 </div>
                 <div className='graph'>
-                    <Graph filtered={filter[0]} filtered2={filter2[0]} rangeValues={rangeValues[0]} setChannels={setChannels} selectedChannel={selectedChannel}/>
+                    <Graph filtered={filter[0]} 
+                    filtered2={filter2[0]} 
+                    rangeValues={rangeValues[0]} 
+                    setChannels={setChannels} 
+                    channels={channels} 
+                    selectedChannel={selectedChannel[0]}/>
                 </div>
+
+                {/* Added graphs */}
                 {[...Array(graphCount)].map((x, index) => {
                     const newIndex = index + 1;
                     return (

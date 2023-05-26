@@ -27,7 +27,15 @@ const BlueFors = () => {
     getPressure();
   },[]);
 
-  console.log(pressure)
+  const [flow, setFlow] = useState([])
+  const getFlow = () => {
+        api.getFlow().then((flow) => setFlow(flow));
+    };
+  useEffect(() => {
+    getFlow();
+  },[]);
+
+  console.log("flow", flow)
 
   return (
     <div>
@@ -55,41 +63,10 @@ const BlueFors = () => {
             <body className="text">{Number(pressure[5].value).toExponential(2)}</body>
         </div>}
 
-        <img 
-            src={black}
-            alt={`pulse-tube-indicator`} 
-            className={`pulse-tube`}
-        />
-
-        <img 
-            src={black}
-            alt={`4k-heater-indicator`} 
-            className={`four-k-heater`}
-        />
-        
-        <img 
-            src={black}
-            alt={`scroll-1-indicator`} 
-            className={`scroll-1`}
-        />
-
-        <img 
-            src={black}
-            alt={`scroll-2-indicator`} 
-            className={`scroll-2`}
-        />
-
-        <img 
-            src={black}
-            alt={`turbo-1-indicator`} 
-            className={`turbo-1`}
-        />
-
-        <img 
-            src={black}
-            alt={`turbo-2-indicator`} 
-            className={`turbo-2`}
-        />
+        {flow && <div className="flow">
+            {console.log(flow)}
+            <body className="text">{flow.value}</body>
+        </div>}
 
         <img 
             src={black}
@@ -97,6 +74,12 @@ const BlueFors = () => {
             className={`coml`}
         />
 
+        <img 
+            src={black}
+            alt={`turbo-2-indicator`} 
+            className={`turbo2`}
+        />
+        
         {data.map((item) => {
             const matchingChildItem = item.find((childItem) => childItem.id === item[0].id);
             console.log(matchingChildItem);
@@ -113,7 +96,8 @@ const BlueFors = () => {
                     className={`${matchingChildItem.id}`}
                 />
                 );
-            } else {
+            } 
+            else {
                 return (
                 <img 
                     key={item[0]}

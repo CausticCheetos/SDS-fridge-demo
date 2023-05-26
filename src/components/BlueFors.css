@@ -5,13 +5,26 @@
 
 .diagram-container {
     position: relative;
+    height: 652px;
+    display: block;
   }
   
   .diagram {
     position: absolute;
+    display: block;
+    height: 652px;
     top: 0;
     left: 0;
     z-index: 0;
+  }
+
+  .flow{
+    display: flex;
+    position: absolute;
+    margin-top: 29.4vh;
+    margin-left: 72.4vh;
+    flex-direction: column;
+    background-color: transparent;
   }
 
   .p1{
@@ -90,10 +103,10 @@
   }
 
   .v4 {
-    position: absolute;
-    width: 4.2vh;
-    top: 20.2vh;
-    left: 72.7vh;
+      position: absolute;
+      width: 4.2vh;
+      top: 20.2vh;
+      left: 72.7vh;
   }
 
   .v5 {
@@ -141,7 +154,7 @@
   .v11 {
     position: absolute;
     width: 4.2vh;
-    top: 68.5vh;
+    top: 68.7vh;
     left: 61.4vh
   }
 
@@ -228,28 +241,28 @@
     top: 64.2vh;
     left: 15.2vh;  }
 
-  .scroll-1{
+  .scroll1{
     position: absolute;
     width: 4.2vh;
     top: 55.1vh;
     left: 60.4vh;
   }
 
-  .scroll-2{
+  .scroll2{
     position: absolute;
     width: 4.2vh;
     top: 64vh;
     left: 9.1vh;
   }
 
-  .turbo-1{
+  .turbo1{
     position: absolute;
     width: 4.2vh;
     top: 28.6vh;
     left: 46.3vh;
   }
 
-  .turbo-2{
+  .turbo2{
     position: absolute;
     width: 4.2vh;
     top: 64vh;
@@ -263,7 +276,7 @@
     left: 85.1vh;
   }
 
-  .pulse-tube{
+  .pulsetube{
     position: absolute;
     width: 4.2vh;
     top: 9.2vh;
@@ -291,7 +304,7 @@
     left: 5.5vh;
   }
 
-  .four-k-heater{
+  .compressor{
     position: absolute;
     width: 4.2vh;
     top: 41.2vh;

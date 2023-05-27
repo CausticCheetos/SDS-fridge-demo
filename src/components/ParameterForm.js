@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form'
 import api from '../services/api'
 
-const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarget}) => {
+const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarget,state,setState}) => {
     const [name, setName] = useState((i) => editShow ? fridgeData[selected]['params'][editTarget]['name'] : '');
     const [description, setDescription] = useState((i) => editShow ? fridgeData[selected]['params'][editTarget]['description'] : '');
     const [paramType, setParamType] = useState((i) => editShow ? fridgeData[selected]['params'][editTarget]['paramType'] : 'Pressure 1');
@@ -28,6 +28,7 @@ const ParameterForm = ({fridgeData, setFridgeData, selected, editShow, editTarge
             newData[selected].params.push(newParam)
             setFridgeData(newData)
             await api.postParameters(newParam)
+            setState(state+1)
         }
         else
         {

@@ -12,6 +12,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
     const [selected, setSelected] = useState(0)
     const [editShow, setEditShow] = useState(false);
     const [editTarget, setEditTarget] = useState(0);
+    const [state, setState] = useState(0)
     const [data,setData] = useState([]);
     const handleSelect = (e) => setSelected(e)
     const handleClose = () => setEditShow(false)
@@ -21,6 +22,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         newData[selected]['params'].splice(index, 1)
         setFridgeData(newData)
         api.deleteParameters(data._id)
+        setState(state-1)
     }   
 
     const handleOpenEdit = (index) => {
@@ -35,7 +37,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
 
     useEffect(() =>{
         getData();
-    })
+    },[state])
 
     return (
         <>
@@ -68,7 +70,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <div className='paramContainer'>
                         <div className='createContainer'>
                             <h3>Create/Edit Parameter</h3>
-                            <ParameterForm {...{fridgeData, setFridgeData, selected, editShow}}/>  
+                            <ParameterForm {...{fridgeData, setFridgeData, selected, editShow,state,setState}}/>  
                         </div>
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>

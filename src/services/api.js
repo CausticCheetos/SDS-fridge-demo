@@ -35,6 +35,10 @@ const postParameters = async(newParam) =>{
         })
 }
 
+const getFlow = () => {
+    return fetch(`${baseUrl}/flow/latest`)
+    .then((response) => response.json())
+} 
 
 const exported = {
     getMaxi,
@@ -42,7 +46,8 @@ const exported = {
     getValves,
     deleteParameters,
     getParameters,
-    postParameters
+    postParameters,
+    getFlow
 }
 
 export default exported

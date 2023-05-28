@@ -11,11 +11,15 @@ class Flow(models.Model):
     
 class Notification(models.Model):
     NotificationId = models.AutoField(primary_key=True)
-    NotificationDescription = models.TextField()
+    ParamName = models.TextField()
+    ParamDescription = models.TextField()
+    ParamType = models.TextField()
+    ParamStartRange = models.TextField()
+    ParamEndRange = models.TextField()
 
     def _str_(self):
-         return self.NotificationDescription
-    
+         return self.ParamName
+        
 class User(models.Model):
 
     type = (

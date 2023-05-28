@@ -23,4 +23,6 @@ urlpatterns = [
     path('notifications/', views.NotificationCreateView.as_view(), name='create_notification'),
     path('notifications/<int:pk>/', views.NotificationUpdateView.as_view(), name='update_notification'),
     path('notifications/<int:pk>/', views.NotificationDeleteView.as_view(), name='delete_notification'),
+    path('send_notification_email/', views.SendNotificationEmailView.as_view(), name='send_notification_email'),
+    path('send_notification_sms/', views.SendNotificationSMSView.as_view(), name = 'send_notification_sms')
 ]

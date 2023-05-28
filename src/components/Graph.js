@@ -33,7 +33,7 @@ useEffect(()=>{
 
       /* setGroup(groupBy(data, 'id')) */
 
-  }, 3000)
+  }, 1000)
   return () => clearInterval(interval)
 }, [data])
 
@@ -113,6 +113,7 @@ const zoomHandle = (e) => {
 }
 
 useEffect(() => {
+  if(rangeValues !== undefined) {
   const newLeft = Date.parse(rangeValues[0])
   const newRight = Date.parse(rangeValues[1])
   const newTop = rangeValues[3]
@@ -122,6 +123,7 @@ useEffect(() => {
   setRight(newRight)
   setTop(parseFloat(newTop))
   setBottom(parseFloat(newBot))
+  }
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [rangeValues])
 
@@ -172,7 +174,7 @@ useEffect(() => {
               yAxisId="1" 
               type="linear" 
               data={data.filter(obj => 
-                ((selectedChannel[0].filter(obj => obj.state)).map(obj => obj.name)).includes(obj.id)
+                ((selectedChannel?.[0]?.filter(obj => obj.state))?.map(obj => obj.name))?.includes(obj.id)
              )}
               dataKey={filter.dataName} 
               animationDuration={300}
@@ -184,7 +186,7 @@ useEffect(() => {
               yAxisId="2" 
               type="linear"
               data={data.filter(obj => 
-                ((selectedChannel[1].filter(obj => obj.state)).map(obj => obj.name)).includes(obj.id)
+                ((selectedChannel?.[1]?.filter(obj => obj.state))?.map(obj => obj.name))?.includes(obj.id)
              )}
               dataKey={filter.dataName} 
               animationDuration={300}

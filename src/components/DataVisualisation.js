@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, useRef} from "react"
 import {IconSquareRoundedPlusFilled, IconSquareRoundedMinus} from  '@tabler/icons-react'
 import Graph from './Graph'
 import Form from 'react-bootstrap/Form'
@@ -8,6 +8,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 const DataVisualisation = () => {
+    const mountedRef = useRef() 
     const [graphCount, setGraphCount] = useState(0)
     const [rangeValues, setRangeValues] = useState([['','','','']])
     const [channels, setChannels] = useState([])
@@ -54,15 +55,13 @@ const DataVisualisation = () => {
             let right = channels.map(obj => ({name: obj, state:false}));
             let tem = [];
             tem.push([left, right])
-            console.log(tem);
             return tem;
         }
 
+        if (selectedChannel[0][0].length === 0) {
         setSelectedChannel(initialise);
-        console.log(channels)
-    },[channels])
-
-    
+        }
+    }, [channels])
 
     const handleAdd = () => {
         setFilter(current => [...current, [
@@ -99,14 +98,23 @@ const DataVisualisation = () => {
                 colour: '#E83151'
             }
         ]])
-        setRangeValues(current => [...current, ['','']])
+        setRangeValues(current => [...current, ['','','','']])
         setGraphCount(count => count + 1)
+        setSelectedChannel(current => [...current, [channels.map(obj => ({name: obj, state:false})), channels.map(obj => ({name: obj, state:false}))]])
+        console.log(selectedChannel);
     }
     const handleRemove = () => {
-        setRangeValues(current => [current.slice(0, -1)])
+        setGraphCount(count => count - 1)
         setFilter(current => (current.slice(0, -1)))
         setFilter2(current => (current.slice(0, -1)))
-        setGraphCount(count => count - 1)
+        
+        const tempRange = [...rangeValues]
+        tempRange.pop()
+        setRangeValues(tempRange)
+
+        const tempChannel = [...selectedChannel]
+        tempChannel.pop()
+        setSelectedChannel(tempChannel)
     }
 
     const handleStart = (event, index) => {
@@ -185,9 +193,11 @@ const DataVisualisation = () => {
                             <DropdownButton
                             title="Channel"
                             onSelect={(e) => handleSelect(e, 0, 0)}>
-                                {selectedChannel[0][0].map((channel, index) => {
+                                {selectedChannel?.[0]?.[0]?.map((channel, index) => {
                                     return(
-                                    <Dropdown.Item eventKey={index} active={channel['state']}>{channel['name'].replace("channel", "Channel ")}</Dropdown.Item>
+                                    <Dropdown.Item eventKey={index} active={channel['state']}>
+                                        { typeof(channel['name']) != "undefined" ? channel['name'].replace("channel", "Channel ") : ""}
+                                    </Dropdown.Item>
                                 )})}
                             </DropdownButton>
 
@@ -202,9 +212,11 @@ const DataVisualisation = () => {
                             <DropdownButton
                             title="Channel"
                             onSelect={(e) => handleSelect(e, 0, 1)}>
-                                {selectedChannel[0][1].map((channel, index) => {
+                                {selectedChannel?.[0]?.[1]?.map((channel, index) => {
                                     return(
-                                        <Dropdown.Item eventKey={index} active={channel['state']}>{channel['name'].replace("channel", "Channel ")}</Dropdown.Item>
+                                        <Dropdown.Item eventKey={index} active={channel['state']}>
+                                            { typeof(channel['name']) != "undefined" ? channel['name'].replace("channel", "Channel ") : ""}
+                                        </Dropdown.Item>
                                 )})}
                             </DropdownButton>
 
@@ -254,6 +266,15 @@ const DataVisualisation = () => {
                         <h3>Data Type</h3>
                         <div className="filterItem">
                             <h4>Left</h4>
+                            <DropdownButton
+                            title="Channel"
+                            onSelect={(e) => handleSelect(e, newIndex, 0)}>
+                                {selectedChannel?.[newIndex]?.[0]?.map((channel, index) => {
+                                    return(
+                                    <Dropdown.Item eventKey={index} active={channel['state']}>{channel['name'].replace("channel", "Channel ")}</Dropdown.Item>
+                                )})}
+                            </DropdownButton>
+
                             {filter[newIndex].map((data, index) => 
                             <Form.Check 
                             label={data.dataName}
@@ -262,7 +283,16 @@ const DataVisualisation = () => {
                             onChange={() => onChecked(newIndex, index)}/>
                             )}
                             <h4>Right</h4>
-                            {filter2[0].map((data, index) => 
+                            <DropdownButton
+                            title="Channel"
+                            onSelect={(e) => handleSelect(e, newIndex, 1)}>
+                                {selectedChannel?.[newIndex]?.[1]?.map((channel, index) => {
+                                    return(
+                                        <Dropdown.Item eventKey={index} active={channel['state']}>{channel['name'].replace("channel", "Channel ")}</Dropdown.Item>
+                                )})}
+                            </DropdownButton>
+
+                            {filter2[newIndex].map((data, index) => 
                             <Form.Check 
                             label={data.dataName}
                             key={index}
@@ -290,7 +320,13 @@ const DataVisualisation = () => {
                     </div>
                     <div className='graph'
                         key={index}>
-                        <Graph filtered={filter[newIndex]} filtered2={filter2[newIndex]} rangeValues={rangeValues[newIndex]}/>
+                        <Graph 
+                        filtered={filter[newIndex]} 
+                        filtered2={filter2[newIndex]} 
+                        rangeValues={rangeValues[newIndex]} 
+                        setChannels={setChannels} 
+                        channels={channels} 
+                        selectedChannel={selectedChannel[newIndex]}/>
                     </div>
                     </>
                     )}

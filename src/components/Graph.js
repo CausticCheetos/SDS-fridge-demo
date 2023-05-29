@@ -9,6 +9,7 @@ import {
   Tooltip,
   ReferenceArea,
   ResponsiveContainer,
+  Label
 } from 'recharts';
 import api from '../services/api'
 
@@ -47,10 +48,6 @@ const [refAreaLeft, setRefAreaLeft] = useState('')
 const [refAreaRight, setRefAreaRight] = useState('')
 const [top, setTop] = useState('dataMax')
 const [bottom, setBottom] = useState('dataMin')
-
-
-
-/* const [scrollIn, setScrollIn] = useState(0) */
 
 const UNIXConvert = (unix) => {
   const time = new Date(unix).toLocaleString('en-AU')
@@ -96,8 +93,6 @@ const zoom = () => {
 }
 
 const zoomOut = () => {
-  /* var _data = data;
-  setData(_data.slice()); */
   setRefAreaLeft("");
   setRefAreaRight("");
   setLeft("dataMin");
@@ -133,16 +128,12 @@ useEffect(() => {
       
       <div className='zoomContainer'>
         <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
-        {/* <Form.Group>
-          <Form.Control onChange={(e) => zoomHandle(e)}/>
-        </Form.Group> */}
       </div>
 
       <ResponsiveContainer width="100%" height={600}>
         <LineChart
           width={800}
           height={400}
-          /* data={data.map(i => ({...i, "resistance" : parseFloat(i.resistance)}))} */
           margin={{
               top: 20,
               left: 30,
@@ -157,7 +148,8 @@ useEffect(() => {
             allowDataOverflow 
             dataKey="date" 
             domain={[left, right]} 
-            type="number" scale="time" 
+            type="number" 
+            scale="time" 
             tickFormatter={UNIXConvert}
             tick={{ angle: -25 }}
             textAnchor="end" 
@@ -165,8 +157,20 @@ useEffect(() => {
             // change tick intervals
             /* interval={0} */
             />
-          <YAxis allowDataOverflow domain={[bottom, top]} type="number" yAxisId="1" />
-          <YAxis orientation="right" allowDataOverflow domain={[bottom2, top2]} type="number" yAxisId="2" />
+          <YAxis 
+            allowDataOverflow domain={[bottom, top]} 
+            type="number" 
+            yAxisId="1"
+            width={100}
+            dataKey={"power"}
+          />
+          <YAxis 
+            orientation="right" 
+            allowDataOverflow domain={[bottom2, top2]} 
+            type="number" 
+            yAxisId="2"
+            width={100}
+          />
           <Tooltip labelFormatter={(value) => new Date(value).toLocaleString('en-AU', {timeZone: "Australia/Sydney", timeZoneName: "short"})}/>
           <Legend />
           {newData.map(filter => 

@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from "react"
+import {useState, useEffect} from "react"
 import {IconSquareRoundedPlusFilled, IconSquareRoundedMinus} from  '@tabler/icons-react'
 import Graph from './Graph'
 import Form from 'react-bootstrap/Form'
@@ -8,7 +8,6 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 const DataVisualisation = () => {
-    const mountedRef = useRef() 
     const [graphCount, setGraphCount] = useState(0)
     const [rangeValues, setRangeValues] = useState([['','','','']])
     const [channels, setChannels] = useState([])
@@ -177,6 +176,7 @@ const DataVisualisation = () => {
             </div>
             <div className='content'>
                 <div className='graphHeader'>
+                    <div className="addGraphContainer">
                 {graphCount > 0 && 
                     <button
                         onClick={() => handleRemove()}
@@ -186,6 +186,7 @@ const DataVisualisation = () => {
                     className='addGraph'>
                         <IconSquareRoundedPlusFilled/> Add graph
                     </button>
+                    </div>
                     <div className="filter">
                         <h3>Data Type</h3>
                         <div className="filterItem">
@@ -271,7 +272,9 @@ const DataVisualisation = () => {
                             onSelect={(e) => handleSelect(e, newIndex, 0)}>
                                 {selectedChannel?.[newIndex]?.[0]?.map((channel, index) => {
                                     return(
-                                    <Dropdown.Item eventKey={index} active={channel['state']}>{channel['name'].replace("channel", "Channel ")}</Dropdown.Item>
+                                    <Dropdown.Item eventKey={index} active={channel['state']}>
+                                        {channel['name'].replace("channel", "Channel ")}
+                                    </Dropdown.Item>
                                 )})}
                             </DropdownButton>
 
@@ -288,7 +291,9 @@ const DataVisualisation = () => {
                             onSelect={(e) => handleSelect(e, newIndex, 1)}>
                                 {selectedChannel?.[newIndex]?.[1]?.map((channel, index) => {
                                     return(
-                                        <Dropdown.Item eventKey={index} active={channel['state']}>{channel['name'].replace("channel", "Channel ")}</Dropdown.Item>
+                                        <Dropdown.Item eventKey={index} active={channel['state']}>
+                                            {channel['name'].replace("channel", "Channel ")}
+                                        </Dropdown.Item>
                                 )})}
                             </DropdownButton>
 

@@ -1,3 +1,4 @@
+import tracemalloc
 from django.shortcuts import render
 from django.http import HttpResponse, response
 from django.views.decorators.csrf import csrf_exempt
@@ -13,7 +14,9 @@ from base.serializers import FlowSerializer, NotificationSerializer
 from pymongo import MongoClient
 from bson import ObjectId
 import json
-
+import time
+import threading
+import operator
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, ObjectId):
@@ -23,7 +26,48 @@ class CustomJSONEncoder(json.JSONEncoder):
 client = MongoClient('mongodb+srv://andie:phT2kDLvOQz7I7dI@cluster0.cumzmxd.mongodb.net/test')
 db = client['fridge']
 
+paramsList = {
+    "p1" : "maxigauge",
+    "p2" : "maxigauge",
+    "p3" : "maxigauge",
+    "p4" : "maxigauge",
+    "p5" : "maxigauge",
+    "p6" : "maxigauge",
+    "scroll1" : "valves"
 
+
+}
+
+ops = {
+    "+": operator.add,
+    "-": operator.sub,
+    "*": operator.mul,
+    "<": operator.lt,
+    ">": operator.gt,
+    "=": operator.eq
+} 
+
+
+def alert():
+    while True:
+        collection = db['parameters']
+        data = list(collection.find())  
+        for x in data:
+            times = x["times"]
+            collectionName = paramsList[x["paramType"]]
+            threshold = x["threshold"]
+            operator = ops[x['operator']]
+            innerCollection = db[collectionName]
+            warning = list(innerCollection.find({"id":x["paramType"]}).limit(times).sort("date",-1))
+            sent = all( operator(y["value"],threshold) for y in warning)
+            if(sent):
+                #sent emails
+        time.sleep(60)
+
+
+t = threading.Thread(target=alert, kwargs={})
+t.setDaemon(True)
+t.start()
 
 def actualTimeToUnixTime(time):
     unixTimestamp = 1622095790 # replace with your Unix timestamp
@@ -213,3 +257,4 @@ def fridge(request, pk):
             fridge = n
     context = {'fridge': fridge}
     return render(request, 'base/fridge.html', context)
+

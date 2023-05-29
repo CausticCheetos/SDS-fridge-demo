@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 import {IconPencil, IconTrash, IconExclamationCircle} from  '@tabler/icons-react'
 import './ParameterItem.css'
 import Modal from 'react-bootstrap/Modal'
@@ -21,10 +21,23 @@ import Col from 'react-bootstrap/Col'
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
-                        {data.description}
+                        Name
                     </Row>
                     <Row>
+                        {data.description}
+                    </Row>
+                    <Row> Type</Row>
+                    <Row>
                         {data.paramType}
+                    </Row>
+                    <Row>Range</Row>
+                    <Row>
+                        <Col>
+                            Start
+                        </Col>
+                        <Col>
+                            End
+                        </Col>
                     </Row>
                     <Row>
                         <Col>

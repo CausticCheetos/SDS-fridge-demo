@@ -14,6 +14,10 @@ class NotificationSerializer(serializers.ModelSerializer):
 class ENotificationSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
+class EmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    notification_id = serializers.IntegerField()
 
 class SMSNotificationSerializer(serializers.Serializer): 
     phone_number = serializers.CharField(max_length=15)
+    notification_id = serializers.IntegerField()

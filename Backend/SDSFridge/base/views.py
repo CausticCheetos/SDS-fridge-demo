@@ -12,14 +12,18 @@ from django.utils import timezone
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from base.models import Flow, Notification
-from base.serializers import FlowSerializer, NotificationSerializer, SMSNotificationSerializer
+from base.serializers import FlowSerializer, NotificationSerializer, ENotificationSerializer,SMSNotificationSerializer, EmailSerializer
 from django.conf import settings
 from pymongo import MongoClient
 from bson import ObjectId
+
 import json
 import time
 import threading
 import operator
+import vonage
+
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, ObjectId):
@@ -318,7 +322,7 @@ class NotificationDeleteView(generics.DestroyAPIView):
     queryset = Notification.objects.all()
 
 class SendNotificationEmailView(APIView):
-    serializer_class = NotificationSerializer
+    serializer_class = ENotificationSerializer
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
@@ -341,6 +345,36 @@ class SendNotificationEmailView(APIView):
             return Response({"message": "Email sent successfully."}, status=200)
         return Response(serializer.errors, status=400)
 
+class SendSpecificNotificationEmailView(APIView):
+    serializer_class = EmailSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data.get('email')
+            notification_id = serializer.validated_data.get('notification_id')
+
+            try:
+                notification = Notification.objects.get(NotificationId=notification_id)
+            except Notification.DoesNotExist:
+                return Response({"error": "Notification with given id does not exist."}, status=400)
+
+            message = f"""
+                Notification Id: {notification.NotificationId}\n
+                Param Name: {notification.ParamName}\n
+                Param Description: {notification.ParamDescription}\n
+                Param Type: {notification.ParamType}\n
+                Param Start Range: {notification.ParamStartRange}\n
+                Param End Range: {notification.ParamEndRange}\n\n
+            """
+
+            mail_subject = 'User Warning Parameter Notification'
+            to_email = email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+            return Response({"message": "Email sent successfully."}, status=200)
+        return Response(serializer.errors, status=400)
+    
 class SendNotificationSMSView(APIView):
     serializer_class = SMSNotificationSerializer
 
@@ -348,24 +382,32 @@ class SendNotificationSMSView(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             phone_number = serializer.validated_data.get('phone_number')
-            notifications = Notification.objects.all()
-            message = ""
-            for notification in notifications:
-                message += f"Notification Id: {notification.NotificationId}\n"
-                message += f"Param Name: {notification.ParamName}\n"
-                message += f"Param Description: {notification.ParamDescription}\n"
-                message += f"Param Type: {notification.ParamType}\n"
-                message += f"Param Start Range: {notification.ParamStartRange}\n"
-                message += f"Param End Range: {notification.ParamEndRange}\n\n"
+            notification_id = serializer.validated_data.get('notification_id')
 
-            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-            client.messages.create(
-                body=message,
-                from_=settings.TWILIO_PHONE_NUMBER,
-                to=phone_number
-            )
+            try:
+                notification = Notification.objects.get(NotificationId=notification_id)
+            except Notification.DoesNotExist:
+                return Response({"error": "Notification with given id does not exist."}, status=400)
+
+            message = f"""
+                Notification Id: {notification.NotificationId}\n
+                Param Name: {notification.ParamName}\n
+                Param Description: {notification.ParamDescription}\n
+                Param Type: {notification.ParamType}\n
+                Param Start Range: {notification.ParamStartRange}\n
+                Param End Range: {notification.ParamEndRange}\n\n
+            """
+
+            client = vonage.Client(key=settings.VON_KEY, secret=settings.VON_SECRET)
+            sms = vonage.Sms(client)
+            sms.send_message({
+                'from': 'UTS Fridge Monitor',
+                'to': phone_number,
+                'text': message,
+            })
             return Response({"message": "SMS sent successfully."}, status=200)
         return Response(serializer.errors, status=400)
+    
 
 # Create your views here.
 

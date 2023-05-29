@@ -11,8 +11,18 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = '__all__'
 
+class UserEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserEmail
+        fields = ('UserEmailId', 'EmailAddress')
+
 class ENotificationSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
+class EmailSerializer(serializers.Serializer):
+    emails = serializers.ListField(child=serializers.EmailField())
+    notification_id = serializers.IntegerField()
+
 
 class EmailSerializer(serializers.Serializer):
     email = serializers.EmailField()

@@ -16,7 +16,6 @@ import api from '../services/api'
 const Graph = ({filtered, filtered2, rangeValues, setChannels, channels, selectedChannel}) => {
 
 const [data, setData] = useState([])
-/* const [group, setGroup] = useState([]) */
 
 const getData = () =>{
   api.getRTP().then((a) => setData(a))
@@ -31,8 +30,6 @@ useEffect(()=>{
       if (channels.toString() !== unique.sort().toString()) {
         setChannels(unique.sort())
       }
-
-      /* setGroup(groupBy(data, 'id')) */
 
   }, 1000)
   return () => clearInterval(interval)
@@ -54,19 +51,9 @@ const UNIXConvert = (unix) => {
   return time
 }
 
-/* //Sorting function
-const groupBy = (arr, key) => {
-  return arr.reduce((rv, x) => {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
-}; */
-
 //Second Y-Axis
 const [top2, setTop2] = useState('dataMax')
 const [bottom2, setBottom2] = useState('dataMin')
-
-/*  const [animation, setAnimation] = useState(true) */
 
 const zoom = () => {
   let _refAreaLeft = refAreaLeft;
@@ -97,15 +84,11 @@ const zoomOut = () => {
   setRefAreaRight("");
   setLeft("dataMin");
   setRight("dataMax");
-  setTop("dataMax+" + zoomAmount);
-  setBottom("dataMin-" + zoomAmount);
-  setTop2("dataMax+" + zoomAmount);
-  setBottom2("dataMin-" + zoomAmount);
+  setTop("dataMax");
+  setBottom("dataMin");
+  setTop2("dataMax");
+  setBottom2("dataMin");
 };
-
-const zoomHandle = (e) => {
-  setZoomAmount(Number(e.target.value))
-}
 
 useEffect(() => {
   if(rangeValues !== undefined) {
@@ -162,7 +145,6 @@ useEffect(() => {
             type="number" 
             yAxisId="1"
             width={100}
-            dataKey={"power"}
           />
           <YAxis 
             orientation="right" 

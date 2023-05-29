@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import './App.css';
-import NavBar from './components/NavBar';
+import NavBar from './components/NavBar'
 import Dashboard from  './components/Dashboard'
 import DataVisualisation from  './components/DataVisualisation'
 import BlueFors from './components/BlueFors'
-import Parameters from './components/Parameters';
+import Parameters from './components/Parameters'
+import Settings from './components/Settings'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Route, Routes } from "react-router-dom"
 
 
 function App() {
-  const [user, setUser] = useState('User Name')
+  const [user, setUser] = useState('User')
   const [fridgeData, setFridgeData] = useState([
     {
         name: "Fridge 1",
@@ -117,11 +118,10 @@ function App() {
             <Route path='/data_visualisation' element={<DataVisualisation/>}/>
             <Route path='/bluefors_interface' element={<BlueFors/>}/>
             <Route path='/parameters' element={<Parameters {...{fridgeData, setFridgeData}}/>}/>
+            <Route path='/settings' element={<Settings/>}/>
           </Routes>
         </div>
       </div>
-      
-      {/*<Settings/> */}
     </div>
   );
 }

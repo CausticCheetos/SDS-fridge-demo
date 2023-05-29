@@ -135,9 +135,9 @@
   }
 
   .graphHeader {
-    flex-direction: column;
+    flex-direction: row;
   }
-
+  
   .rangeForm {
     grid-template-rows: repeat(2, auto);
     grid-auto-flow: column;

@@ -139,7 +139,7 @@ const DataVisualisation = () => {
         newFilter[x][e].dataState = !newFilter[x][e].dataState
         setFilter2(newFilter)
     }
-
+    
     const handleSelect = (e) => {setSelectedChannel([e, selectedChannel[1]])}
 
     const handleSelect2 = (e) => {setSelectedChannel([selectedChannel[0], e])}

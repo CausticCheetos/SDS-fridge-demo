@@ -33,9 +33,79 @@ paramsList = {
     "p4" : "maxigauge",
     "p5" : "maxigauge",
     "p6" : "maxigauge",
-    "scroll1" : "valves"
-
-
+    "scroll1" : "valves",
+    "scroll2": "valves",
+    "turbo1": "valves",
+    "turbo2": "valves",
+    "pulsetube": "valves",
+    "hs-still": "valves",
+    "hs-mc": "valves",
+    "ext": "valves",
+    "compressor": "valves",
+    "v1": "valves",
+    "v2": "valves",
+    "v3": "valves",
+    "v4": "valves",
+    "v5": "valves",
+    "v6": "valves",
+    "v7": "valves",
+    "v8": "valves",
+    "v9": "valves",
+    "v10": "valves",
+    "v11": "valves",
+    "v12": "valves",
+    "v13": "valves",
+    "v14": "valves",
+    "v15": "valves",
+    "v16": "valves",
+    "v17": "valves",
+    "v18": "valves",
+    "v19": "valves",
+    "v20": "valves",
+    "v21": "valves",
+    "v22": "valves",
+    "v23": "valves",
+    "flow": "flow",
+    "channel1" :"rtp",
+    "channel2" :"rtp",
+    "channel3" :"rtp",
+    "channel4" :"rtp",
+    "channel5" :"rtp",
+    "channel6" :"rtp",
+    "channel7" :"rtp",
+    "channel8" :"rtp",
+    "warning_state" : "Pulsetube",
+    "warning_state_text" : "Pulsetube",
+    "alarm_state" : "Pulsetube",
+    "alarm_state_text" : "Pulsetube",
+    "coolant_in_temperature" : "Pulsetube",
+    "coolant_out_temperature" : "Pulsetube",
+    "oil_temperature" : "Pulsetube",
+    "helium_temperature" : "Pulsetube",
+    "low_pressure" : "Pulsetube",
+    "low_pressure_average" : "Pulsetube",
+    "high_pressure": "Pulsetube",
+    "high_pressure_average" : "Pulsetube",
+    "delta_pressure_average" : "Pulsetube",
+    "motor_current": "Pulsetube",
+    "active_rotational_speed": "turbo1",
+    "drive_power": "turbo1",
+    "driver_temperature_too_high": "turbo1",
+    "pump_temperature_too_high": "turbo1",
+    "pump_accelerates": "turbo1",
+    "rotation_speed_switch_point_attained": "turbo1",
+    "setting_speed_attained": "turbo1",
+    "active_rotational_speed": "turbo2",
+    "drive_power": "turbo2",
+    "driver_temperature_too_high": "turbo2",
+    "pump_temperature_too_high": "turbo2",
+    "pump_accelerates": "turbo2",
+    "rotation_speed_switch_point_attained": "turbo2",
+    "setting_speed_attained": "turbo2",
+    "stillenabled" : "heater",
+    "sampleenabled" : "heater",
+    "stilloutput_power" : "heater",
+    "sampleoutput_power" : "heater",
 }
 
 ops = {
@@ -47,27 +117,40 @@ ops = {
     "=": operator.eq
 } 
 
-
+"""""
 def alert():
     while True:
         collection = db['parameters']
         data = list(collection.find())  
         for x in data:
+            #times needs to be implemented on front end 
             times = x["times"]
             collectionName = paramsList[x["paramType"]]
+            #times needs to be implemented on front end 
             threshold = x["threshold"]
+            #times needs to be implemented on front end 
             operator = ops[x['operator']]
+            #rtp need another variable just for resistance, power, temperature
+            rtp = x['rtp']
             innerCollection = db[collectionName]
-            warning = list(innerCollection.find({"id":x["paramType"]}).limit(times).sort("date",-1))
-            sent = all( operator(y["value"],threshold) for y in warning)
-            if(sent):
+            #check the latest numbers of log 
+            warning = list(innerCollection.find({"id":x["paramType"]}).limit(times).sort("date",-1)) 
+            #return true if they are above/below threshold value
+            if rtp == "null":
+                search = "value"
+            else:
+                search = rtp;
+            sent = all( operator(y[search],threshold) for y in warning)
+            #if sent:
+                #implemet sending email
                 #sent emails
-        time.sleep(60)
+        #time.sleep(60) #check everyminute 
 
 
 t = threading.Thread(target=alert, kwargs={})
 t.setDaemon(True)
 t.start()
+"""
 
 def actualTimeToUnixTime(time):
     unixTimestamp = 1622095790 # replace with your Unix timestamp

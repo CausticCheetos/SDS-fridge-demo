@@ -229,6 +229,7 @@ const DataVisualisation = () => {
                             onChange={() => onChecked2(0, index)}/>
                             )}
                         </div>
+
                         <h3>Range</h3>
                         <div className="range">
                             <Form className="rangeForm"
@@ -305,6 +306,8 @@ const DataVisualisation = () => {
                             onChange={() => onChecked2(newIndex, index)}/>
                             )}
                         </div>
+
+                        <h3>Range</h3>
                         <div className="range">
                             <Form className="rangeForm"
                                 onKeyDown={handleSubmit}>

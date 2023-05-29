@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from base.models import Flow, Notification
-from base.serializers import FlowSerializer, NotificationSerializer, SMSNotificationSerializer
+from base.serializers import FlowSerializer, NotificationSerializer, ENotificationSerializer,SMSNotificationSerializer
 from django.conf import settings
 from pymongo import MongoClient
 from bson import ObjectId
@@ -191,7 +191,7 @@ class NotificationDeleteView(generics.DestroyAPIView):
     queryset = Notification.objects.all()
 
 class SendNotificationEmailView(APIView):
-    serializer_class = NotificationSerializer
+    serializer_class = ENotificationSerializer
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)

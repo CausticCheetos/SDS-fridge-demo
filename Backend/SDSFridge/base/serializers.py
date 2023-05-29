@@ -11,7 +11,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = '__all__'
 
-class NotificationSerializer(serializers.Serializer):
+class ENotificationSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
 

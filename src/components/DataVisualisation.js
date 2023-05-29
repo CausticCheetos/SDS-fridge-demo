@@ -162,10 +162,12 @@ const DataVisualisation = () => {
         newFilter[x][e].dataState = !newFilter[x][e].dataState
         setFilter2(newFilter)
     }
-    
-    const handleSelect = (e) => {setSelectedChannel([e, selectedChannel[1]])}
 
-    const handleSelect2 = (e) => {setSelectedChannel([selectedChannel[0], e])}
+    const handleSelect = (event, index, pos) => {
+        const temp = selectedChannel.concat();
+        temp[index][pos][event]['state'] = !temp[index][pos][event]['state']
+        setSelectedChannel(temp)
+    }
 
     return (
         <div className="dataVisualisationContents">

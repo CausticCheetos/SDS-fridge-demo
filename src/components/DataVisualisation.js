@@ -163,6 +163,7 @@ const DataVisualisation = () => {
         setFilter2(newFilter)
     }
 
+
     const handleSelect = (event, index, pos) => {
         const temp = selectedChannel.concat();
         temp[index][pos][event]['state'] = !temp[index][pos][event]['state']

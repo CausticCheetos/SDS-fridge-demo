@@ -40,6 +40,7 @@
     flex-basis: 100%;
     background-color: #F6F7F7;
     border-radius: 15px;
+    padding: 10px;
   }
 
   .filterItem {
@@ -117,6 +118,10 @@
 
   .zoomContainer {
     display: flex;
+  }
+
+  .addGraphContainer {
+    padding-bottom: 8px;
   }
 
   /* Desktop */

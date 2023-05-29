@@ -5,12 +5,15 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from rest_framework import generics
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from twilio.rest import Client
 from django.utils import timezone
-
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 from base.models import Flow, Notification
-from base.serializers import FlowSerializer, NotificationSerializer
-
+from base.serializers import FlowSerializer, NotificationSerializer, SMSNotificationSerializer
+from django.conf import settings
 from pymongo import MongoClient
 from bson import ObjectId
 import json
@@ -313,6 +316,57 @@ class NotificationUpdateView(generics.UpdateAPIView):
 
 class NotificationDeleteView(generics.DestroyAPIView):
     queryset = Notification.objects.all()
+
+class SendNotificationEmailView(APIView):
+    serializer_class = NotificationSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data.get('email')
+            notifications = Notification.objects.all()
+            message = ""
+            for notification in notifications:
+                message += f"Notification Id: {notification.NotificationId}\n"
+                message += f"Param Name: {notification.ParamName}\n"
+                message += f"Param Description: {notification.ParamDescription}\n"
+                message += f"Param Type: {notification.ParamType}\n"
+                message += f"Param Start Range: {notification.ParamStartRange}\n"
+                message += f"Param End Range: {notification.ParamEndRange}\n\n"
+
+            mail_subject = 'User Warning Parameter Notifications'
+            to_email = email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+            return Response({"message": "Email sent successfully."}, status=200)
+        return Response(serializer.errors, status=400)
+
+class SendNotificationSMSView(APIView):
+    serializer_class = SMSNotificationSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            phone_number = serializer.validated_data.get('phone_number')
+            notifications = Notification.objects.all()
+            message = ""
+            for notification in notifications:
+                message += f"Notification Id: {notification.NotificationId}\n"
+                message += f"Param Name: {notification.ParamName}\n"
+                message += f"Param Description: {notification.ParamDescription}\n"
+                message += f"Param Type: {notification.ParamType}\n"
+                message += f"Param Start Range: {notification.ParamStartRange}\n"
+                message += f"Param End Range: {notification.ParamEndRange}\n\n"
+
+            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+            client.messages.create(
+                body=message,
+                from_=settings.TWILIO_PHONE_NUMBER,
+                to=phone_number
+            )
+            return Response({"message": "SMS sent successfully."}, status=200)
+        return Response(serializer.errors, status=400)
+
 # Create your views here.
 
 # @csrf_exempt

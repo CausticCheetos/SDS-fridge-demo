@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from base.models import Flow, Notification
+from base.models import Flow, Notification, UserEmail
 
 class FlowSerializer(serializers.ModelSerializer):
     class Meta:

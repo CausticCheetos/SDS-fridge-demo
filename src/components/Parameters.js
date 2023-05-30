@@ -77,7 +77,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>
                             {data.map((data, index) =>
-                                <ParameterItem key={index} {...{data, index, handleDelete, handleOpenEdit}}/>
+                                <ParameterItem key={index} {...{data, index, handleDelete, handleOpenEdit,state,setState}}/>
                             )}       
                         </div>
                         

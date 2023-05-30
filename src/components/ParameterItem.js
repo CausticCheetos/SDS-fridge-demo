@@ -5,11 +5,20 @@ import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ToggleButton from 'react-bootstrap/ToggleButton'
+import api from '../services/api'
 
- const ParameterItem = ({data, index, handleDelete, handleOpenEdit}) => {
+ const ParameterItem = ({data, index, handleDelete, handleOpenEdit,state,setState}) => {
     const [infoShow, setInfoShow] = useState(false);
     const handleClose = () => {setInfoShow(false)}
     const handleInfo = () => setInfoShow(true)
+
+    const handleToggle = () => {
+        const newParam = {
+            toggle: data.toggle
+        }
+        api.toggle(newParam,data._id)
+        setState(state+1)
+    }
     console.log(data);
     return (
         <>
@@ -48,6 +57,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
                             {data.range}
                         </Col>
                     </Row>
+
                     <Row>
                     <h5 style={{padding: 0}}>Threshold</h5>
                         {data.threshold}
@@ -68,7 +78,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
                 <button className='paramButton' onClick={handleInfo}>
                     <IconExclamationCircle/>
                 </button>
-                <ToggleButton type='checkbox' variant='outline-primary' checked={data.toggle}>Toggle</ToggleButton>
+                <ToggleButton type='checkbox' variant='outline-primary' checked={data.toggle} onClick = {handleToggle}>Toggle</ToggleButton>
             </div>
         </div>
         </>

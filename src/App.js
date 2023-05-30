@@ -113,7 +113,7 @@ function App() {
   return (
     <div className='App'>
       <div className='appContainer'>
-        <NavBar {...{user}}/>
+        <NavBar {...{user}}/>   
         <div className='contents'>
           <Routes>
             <Route path='/' element={<Dashboard />}/>

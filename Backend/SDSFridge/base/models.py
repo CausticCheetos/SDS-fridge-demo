@@ -21,10 +21,9 @@ class Notification(models.Model):
          return self.ParamName
 
 class UserEmail(models.Model):
-    UserEmailId = models.AutoField(primary_key=True)
     EmailAddress = models.EmailField(unique=True)
     def _str_(self):
-         return self.EmailAddress
+        return self.EmailAddress
 
 class User(models.Model):
 

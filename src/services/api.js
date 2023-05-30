@@ -45,6 +45,18 @@ const putParameters = async(newParam, id) =>{
         })
 }
 
+const toggle = async(newParam, id) =>{
+    await fetch(`${baseUrl}/toggle/${id}`,{
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newParam)
+        })
+}
+
+
 
 const getFlow = () => {
     return fetch(`${baseUrl}/flow/latest`)
@@ -55,7 +67,7 @@ const createEmail = async(email) => {
     await fetch(`${baseUrl}/create_Email/`,{
         method: 'POST',
         headers: {
-            // 'Accept': 'application/json',
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(email)
@@ -84,7 +96,7 @@ const updateEmail = async(email) => {
     }
 
 const deleteEmail = (id) => {
-    fetch(`${baseUrl}/delete_Email/${id}`,{method: "DELETE"})
+    fetch(`${baseUrl}/delete_Email/${id}/`,{method: "DELETE"})
 }
 
 const exported = {
@@ -101,6 +113,7 @@ const exported = {
     getParameters,
     postParameters,
     putParameters,
+    toggle
 }
 
 export default exported

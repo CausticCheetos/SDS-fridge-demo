@@ -253,7 +253,9 @@ def post_parameters(request):
             "description": data["description"],
             "paramType" : data["paramType"],
             "start": data["start"],
-            "end": data["end"]
+            "end": data["end"],
+            "threshold": data["threshold"],
+            "toggle": True
         }
         collection.insert_one(item)
         return HttpResponse(200)

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { IconTrash} from  '@tabler/icons-react'
 import Clock from "./Clock"
 import ParameterForm from './ParameterForm';
 import ParameterItem from "./ParameterItem"
@@ -6,14 +7,19 @@ import './Parameters.css'
 import DropDown from 'react-bootstrap/Dropdown'
 import DropDownButton from 'react-bootstrap/DropdownButton'
 import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
 import api from '../services/api'
 
 const Parameters = ({fridgeData, setFridgeData}) => {
     const [selected, setSelected] = useState(0)
     const [editShow, setEditShow] = useState(false);
+    const [emailShow, setEmailShow] = useState(false);
+    const [smsShow, setSmsShow] = useState(false);
     const [editTarget, setEditTarget] = useState(0);
     const [state, setState] = useState(0)
     const [data,setData] = useState([]);
+    const [email, setEmail] = useState('');
+    const [sms, setSms] = useState('');
     const handleSelect = (e) => setSelected(e)
     const handleClose = () => setEditShow(false)
 
@@ -28,6 +34,22 @@ const Parameters = ({fridgeData, setFridgeData}) => {
     const handleOpenEdit = (index) => {
         setEditShow(true)
         setEditTarget(index)
+    }
+
+    const handleEmailSubmit = () => {
+        console.log(email);
+    }
+
+    const handleEmail = (e) => {
+        setEmail(e.target.value);
+    }
+
+    const handleSMSSubmit = () => {
+        console.log(sms);
+    }
+
+    const handleSMS = (e) => {
+        setSms(e.target.value);
     }
 
     const getData = () =>{
@@ -48,6 +70,52 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                 <div style={{padding: 10}}>
                     <h3>Edit</h3>
                     <ParameterForm {...{data, setFridgeData, selected, editShow, editTarget}}/> 
+                </div>
+        </Modal>
+
+        <Modal
+            show={emailShow}
+            onHide={() => setEmailShow(false)}>
+                <div>
+                    Email form
+                    <Form onSubmit={(e) => e.preventDefault()}>
+                    <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
+                    <button className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
+                    </Form>
+
+                    {/* Map Email here */}
+                    <div style={{display: 'flex'}}>
+                        <div className='childItem'>
+                        emails here 
+                        </div>
+
+                        <button className='paramButton' /* onClick={} */>
+                            <IconTrash/>
+                        </button>
+                    </div>
+                </div>
+        </Modal>
+
+        <Modal
+            show={smsShow}
+            onHide={() => setSmsShow(false)}>
+                <div>
+                    SMS form
+                    <Form onSubmit={(e) => e.preventDefault()}>
+                    <Form.Control className="createParam" onChange={handleSMS} placeholder="Email"/>
+                    <button className='createButton' type='submit' onClick={handleSMSSubmit}>Submit</button>
+                    </Form>
+
+                    {/* Map SMS here */}
+                    <div style={{display: 'flex'}}>
+                        <div className='childItem'>
+                        numbers here 
+                        </div>
+
+                        <button className='paramButton' /* onClick={} */>
+                            <IconTrash/>
+                        </button>
+                    </div>
                 </div>
         </Modal>
 
@@ -73,6 +141,8 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         <div className='createContainer'>
                             <h3>Create/Edit Parameter</h3>
                             <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState}}/>  
+                            <button onClick={() => setEmailShow(true)}>Email</button>
+                            <button onClick={() => setSmsShow(true)}>SMS</button>
                         </div>
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>

@@ -25,7 +25,7 @@ class EmailSerializer(serializers.Serializer):
 
 
 class EmailSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    # email = serializers.EmailField()
     notification_id = serializers.IntegerField()
 
 class SMSNotificationSerializer(serializers.Serializer): 

@@ -1,6 +1,6 @@
 import tracemalloc
 from django.shortcuts import render
-from django.http import HttpResponse, response
+from django.http import HttpResponse, response, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
@@ -102,13 +102,13 @@ paramsList = {
     "pump_accelerates": "turbo1",
     "rotation_speed_switch_point_attained": "turbo1",
     "setting_speed_attained": "turbo1",
-    "active_rotational_speed": "turbo2",
-    "drive_power": "turbo2",
-    "driver_temperature_too_high": "turbo2",
-    "pump_temperature_too_high": "turbo2",
-    "pump_accelerates": "turbo2",
-    "rotation_speed_switch_point_attained": "turbo2",
-    "setting_speed_attained": "turbo2",
+    #"active_rotational_speed": "turbo2",
+    #"drive_power": "turbo2",
+    #"driver_temperature_too_high": "turbo2",
+    #"pump_temperature_too_high": "turbo2",
+    #"pump_accelerates": "turbo2",
+    #"rotation_speed_switch_point_attained": "turbo2",
+    #"setting_speed_attained": "turbo2",
     "stillenabled" : "heater",
     "sampleenabled" : "heater",
     "stilloutput_power" : "heater",
@@ -124,40 +124,44 @@ ops = {
     "=": operator.eq
 } 
 
-"""""
+
 def alert():
     while True:
         collection = db['parameters']
         data = list(collection.find())  
         for x in data:
             #times needs to be implemented on front end 
-            times = x["times"]
+            if not x["toggle"]:
+                continue
+            threshold = x["threshold"]
+            threshold = int(threshold)
             collectionName = paramsList[x["paramType"]]
             #times needs to be implemented on front end 
-            threshold = x["threshold"]
+            range = x["range"]
             #times needs to be implemented on front end 
             operator = ops[x['operator']]
-            #rtp need another variable just for resistance, power, temperature
-            rtp = x['rtp']
+            #RTP need another variable just for resistance, power, temperature
+            RTP = x['RTP']
             innerCollection = db[collectionName]
             #check the latest numbers of log 
-            warning = list(innerCollection.find({"id":x["paramType"]}).limit(times).sort("date",-1)) 
-            #return true if they are above/below threshold value
-            if rtp == "null":
+            warning = list(innerCollection.find({"id":x["paramType"]}).limit(threshold).sort("date",-1)) 
+            #return true if they are above/below range value
+            if RTP == "null":
                 search = "value"
             else:
-                search = rtp;
-            sent = all( operator(y[search],threshold) for y in warning)
-            #if sent:
+                search = RTP
+            sent = all( operator(y[search],range) for y in warning)
+            if sent:
+                print("works")
                 #implemet sending email
                 #sent emails
-        #time.sleep(60) #check everyminute 
+        time.sleep(60) #check everyminute 
 
 
 t = threading.Thread(target=alert, kwargs={})
 t.setDaemon(True)
 t.start()
-"""
+
 
 def actualTimeToUnixTime(time):
     unixTimestamp = 1622095790 # replace with your Unix timestamp
@@ -267,6 +271,11 @@ def get_parameters(request):
     data = list(collection.find())  
     return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
 
+def get_parameters_BE(request):
+    collection = db['parameters']
+    data = list(collection.find())  
+    return data
+
 def delete_parameters(request,call):
     if request.method == "DELETE":
         collection = db['parameters']
@@ -275,6 +284,38 @@ def delete_parameters(request,call):
         collection.delete_one(test)
         return HttpResponse(200)
     
+def put_parameters(request, call):
+    if request.method == "PUT":
+        collection = db['parameters']
+        data = json.loads(request.body)
+        query = str(call)
+        item = {
+            "name" : data["name"],
+            "description": data["description"],
+            "paramType" : data["paramType"],
+            "range": data["range"],
+            "operator": data["operator"],
+            "threshold": data["threshold"],
+            "RTP" : data["RTP"],
+            "toggle": data["toggle"]
+        }
+        test = {"_id" : ObjectId(query)}
+        collection.replace_one(test,item)
+        return HttpResponse(200)
+
+    
+def toggle_parameters(request, call):
+    if request.method == "PUT":
+        collection = db['parameters']
+        data = json.loads(request.body)
+        query = str(call)
+        item = {
+            "toggle": not data
+        }
+        test = {"_id" : ObjectId(query)}    
+        collection.update_one(test,{"$set":item})
+        return HttpResponse(200)
+
 def login(request):
     if request.method == "POST":
         email = request.POST.get('email')
@@ -341,6 +382,15 @@ class UserEmailUpdateView(generics.UpdateAPIView):
 class UserEmailDeleteView(generics.DestroyAPIView):
     queryset = UserEmail.objects.all()
 
+def get_emails(request):
+    emails = UserEmail.objects.values_list('EmailAddress', flat=True)
+    email_list = list(emails)
+    return JsonResponse(email_list, encoder=CustomJSONEncoder, safe=False)
+
+def get_emails_BE(request):
+    emails = UserEmail.objects.values_list('EmailAddress', flat=True)
+    email_list = list(emails)
+    return email_list
 
 class SendNotificationEmailView(APIView):
     serializer_class = ENotificationSerializer
@@ -366,35 +416,23 @@ class SendNotificationEmailView(APIView):
             return Response({"message": "Email sent successfully."}, status=200)
         return Response(serializer.errors, status=400)
 
+
 class SendSpecificNotificationEmailView(APIView):
-    serializer_class = EmailSerializer
 
     def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            emails = serializer.validated_data.get('emails')
-            notification_id = serializer.validated_data.get('notification_id')
+            request = HttpRequest()
+            emails = get_emails_BE(request)
+            notifications = get_parameters_BE(request)
+            print(notifications)
+            message = "Detected Parameter Overflow."
+            for notification in notifications:
+                message += f"{notification}\n\n\n\n"
 
-            try:
-                notification = Notification.objects.get(NotificationId=notification_id)
-            except Notification.DoesNotExist:
-                return Response({"error": "Notification with given id does not exist."}, status=400)
-
-            message = f"""
-                Notification Id: {notification.NotificationId}\n
-                Param Name: {notification.ParamName}\n
-                Param Description: {notification.ParamDescription}\n
-                Param Type: {notification.ParamType}\n
-                Param Start Range: {notification.ParamStartRange}\n
-                Param End Range: {notification.ParamEndRange}\n\n
-            """
-
-            mail_subject = 'User Warning Parameter Notification'
+            mail_subject = 'User Warning Parameter Notifications'
             for email in emails:
                 email_message = EmailMessage(mail_subject, message, to=[email])
                 email_message.send()
             return Response({"message": "Email sent successfully."}, status=200)
-        return Response(serializer.errors, status=400)
 
     
 class SendNotificationSMSView(APIView):

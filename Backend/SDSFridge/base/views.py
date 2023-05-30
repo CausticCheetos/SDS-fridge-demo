@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, response
+from django.http import HttpResponse, response, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
@@ -133,6 +133,11 @@ def get_parameters(request):
     data = list(collection.find())  
     return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
 
+def get_parameters_BE(request):
+    collection = db['parameters']
+    data = list(collection.find())  
+    return data
+
 def delete_parameters(request,call):
     if request.method == "DELETE":
         collection = db['parameters']
@@ -208,10 +213,14 @@ class UserEmailDeleteView(generics.DestroyAPIView):
     queryset = UserEmail.objects.all()
 
 def get_emails(request):
-    collection = db['base_useremail']
-    data = list(collection.find())  
-    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+    emails = UserEmail.objects.values_list('EmailAddress', flat=True)
+    email_list = list(emails)
+    return JsonResponse(email_list, encoder=CustomJSONEncoder, safe=False)
 
+def get_emails_BE(request):
+    emails = UserEmail.objects.values_list('EmailAddress', flat=True)
+    email_list = list(emails)
+    return email_list
 
 class SendNotificationEmailView(APIView):
     serializer_class = ENotificationSerializer
@@ -237,35 +246,23 @@ class SendNotificationEmailView(APIView):
             return Response({"message": "Email sent successfully."}, status=200)
         return Response(serializer.errors, status=400)
 
+
 class SendSpecificNotificationEmailView(APIView):
-    serializer_class = EmailSerializer
 
     def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            emails = serializer.validated_data.get('emails')
-            notification_id = serializer.validated_data.get('notification_id')
+            request = HttpRequest()
+            emails = get_emails_BE(request)
+            notifications = get_parameters_BE(request)
+            print(notifications)
+            message = "Detected Parameter Overflow."
+            for notification in notifications:
+                message += f"{notification}\n\n\n\n"
 
-            try:
-                notification = Notification.objects.get(NotificationId=notification_id)
-            except Notification.DoesNotExist:
-                return Response({"error": "Notification with given id does not exist."}, status=400)
-
-            message = f"""
-                Notification Id: {notification.NotificationId}\n
-                Param Name: {notification.ParamName}\n
-                Param Description: {notification.ParamDescription}\n
-                Param Type: {notification.ParamType}\n
-                Param Start Range: {notification.ParamStartRange}\n
-                Param End Range: {notification.ParamEndRange}\n\n
-            """
-
-            mail_subject = 'User Warning Parameter Notification'
+            mail_subject = 'User Warning Parameter Notifications'
             for email in emails:
                 email_message = EmailMessage(mail_subject, message, to=[email])
                 email_message.send()
             return Response({"message": "Email sent successfully."}, status=200)
-        return Response(serializer.errors, status=400)
 
     
 class SendNotificationSMSView(APIView):

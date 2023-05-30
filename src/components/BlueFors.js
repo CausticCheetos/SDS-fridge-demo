@@ -62,8 +62,8 @@ const BlueFors = () => {
         {pressure[5] && <div className="p6">
             <body className="text">{Number(pressure[5].value).toExponential(2)}</body>
         </div>}
-
-        {flow && <div className="flow">
+        {console.log("flow", flow[0].value)}
+        {flow[0].value !== undefined && <div className="flow">
             <body className="text">{Number(flow[0].value).toExponential(2)}</body>
         </div>}
 

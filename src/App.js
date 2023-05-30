@@ -57,7 +57,8 @@ function App() {
         description: "description", 
         paramType: "type",
         start: 1,
-        end: 2}]
+        end: 2,
+        threshold: 1}]
     },
     {
         name: "Fridge 2",
@@ -103,7 +104,8 @@ function App() {
             description: "description", 
             paramType: "type",
             start: 1,
-            end: 2}]
+            end: 2,
+            threshold: 1}]
     },
 ])
 

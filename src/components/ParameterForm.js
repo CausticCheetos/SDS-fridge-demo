@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form'
 import api from '../services/api'
 
-const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,state,setState,emailList, smsList}) => {
+const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,state,setState,emailList, smsList,handleEmailClear,handleSmsClear}) => {
     const [id] = useState((i) => editShow ? data[editTarget]['_id'] : '');
     const [toggle] = useState((i) => editShow ? data[editTarget]['toggle'] : '');
     const [name, setName] = useState((i) => editShow ? data[editTarget]['name'] : '');
@@ -51,11 +51,13 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
     const handleClear = () => {
         setName('');
         setDescription('');
-        setParamType('Pressure 1')
+        setParamType('p1')
         setOperator('=');
-        setRTP('Resistance');
+        setRTP('resistance');
         setRange('');
-    }
+        setThreshold('');
+
+    }   
 
     return (
         <Form onSubmit={(e) => e.preventDefault()}>
@@ -157,7 +159,7 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
             <h6>Threshold</h6>
             <Form.Control className="createParam" onChange={handleThreshold} type="number" value={threshold} placeholder="Pass threshold in a row"/>
             <button style={{marginRight: 5}} className='createButton' onClick={handleClear}>Clear</button>
-            <button style={{marginLeft: 5}} className='createButton' type='submit' onClick={handleSubmit}>Confirm</button>
+            <button style={{marginLeft: 5}} className='createButton' type='submit' onClick={() => {handleSubmit(); handleClear(); handleSmsClear(); handleEmailClear()}}>Confirm</button>
         </Form>
     )
 }

@@ -377,6 +377,11 @@ class UserEmailUpdateView(generics.UpdateAPIView):
 class UserEmailDeleteView(generics.DestroyAPIView):
     queryset = UserEmail.objects.all()
 
+def get_emails(request):
+    collection = db['base_useremail']
+    data = list(collection.find())  
+    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+
 
 class SendNotificationEmailView(APIView):
     serializer_class = ENotificationSerializer

@@ -11,8 +11,8 @@ from twilio.rest import Client
 from django.utils import timezone
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
-from base.models import Flow, Notification, UserEmail
-from base.serializers import FlowSerializer, NotificationSerializer, ENotificationSerializer,SMSNotificationSerializer, EmailSerializer, UserEmailSerializer
+from base.models import Flow, Notification, UserEmail, UserPhone
+from base.serializers import FlowSerializer, NotificationSerializer, ENotificationSerializer,SMSNotificationSerializer, EmailSerializer, UserEmailSerializer, UserPhoneSerializer
 from django.conf import settings
 from pymongo import MongoClient
 from bson import ObjectId
@@ -394,6 +394,28 @@ def get_emails_BE(request):
     emails = UserEmail.objects.values_list('EmailAddress', flat=True)
     email_list = list(emails)
     return email_list
+
+
+#Phone
+class UserPhoneDetailView(generics.RetrieveAPIView):
+    queryset = UserPhone.objects.all()
+    serializer_class = UserPhoneSerializer
+
+class UserPhoneCreateView(generics.CreateAPIView):
+    queryset = UserPhone.objects.all()
+    serializer_class = UserPhoneSerializer
+
+class UserPhoneUpdateView(generics.UpdateAPIView):
+    queryset = UserPhone.objects.all()
+    serializer_class = UserPhoneSerializer
+
+class UserPhoneDeleteView(generics.DestroyAPIView):
+    queryset = UserPhone.objects.all()
+
+def get_phones(request):
+    collection = db['base_userphone']
+    data = list(collection.find())  
+    return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
 
 def delete_email(request,call):
     if request.method == "DELETE":

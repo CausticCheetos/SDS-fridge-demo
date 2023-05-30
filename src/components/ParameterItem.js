@@ -19,7 +19,7 @@ import api from '../services/api'
         api.toggle(newParam,data._id)
         setState(state+1)
     }
-    console.log(data);
+
     return (
         <>
         <Modal

@@ -23,6 +23,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
     const handleSelect = (e) => setSelected(e)
     const handleClose = () => setEditShow(false)
     const [emailList, setEmailList] = useState([])
+    const [smsList, setSmsList] = useState([])
     const handleDelete = (index,data) => {
         const newData = fridgeData.concat()
         newData[selected]['params'].splice(index, 1)
@@ -37,12 +38,17 @@ const Parameters = ({fridgeData, setFridgeData}) => {
     }
 
     const handleEmailSubmit = () => {
-        const list = emailList.concat(email)
-        setEmailList(list)
+        let test1 =[...emailList, email]
+        console.log(test1)
+        
+        setEmailList(test1)
+        console.log(emailList);
     }
 
     const handleRemoveEmail = (index) => {
-        emailList.splice(index, 1)
+        let test1 =[...emailList]
+        test1.splice(index, 1)
+        setEmailList(test1)
     }
 
     const handleEmail = (e) => {
@@ -50,7 +56,14 @@ const Parameters = ({fridgeData, setFridgeData}) => {
     }
 
     const handleSMSSubmit = () => {
-        console.log(sms);
+        let test1 =[...smsList, sms]
+        setSmsList(test1)
+    }
+
+    const handleRemoveSMS = (index) => {
+        let test1 =[...smsList]
+        test1.splice(index, 1)
+        setSmsList(test1)
     }
 
     const handleSMS = (e) => {
@@ -86,24 +99,24 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     Email form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
-                    <button className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
+                    <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
                     </Form>
 
        
-                    {emailList?.map((e,index) => {
+                    {emailList.map((e,index) => {
                         return(
                             <div style={{display: 'flex'}}>
                         <div className='childItem'>
                         {e}
                         </div>
-                        <button className='paramButton'  onClick={handleRemoveEmail(index)} >
+                        <button className='paramButton' onClick={() => handleRemoveEmail(index)} >
+                        <IconTrash/>
                         </button>
-                            <IconTrash/>
+                            
                         <button className='paramButton'  /*onClick={handleRemoveEmail(index)}*/ >
                         </button>
                     </div>
-                        )
-                    })}
+                        )})}
                 </div>
         </Modal>
 
@@ -118,15 +131,20 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     </Form>
 
                     {/* Map SMS here */}
-                    <div style={{display: 'flex'}}>
+                    {smsList.map((e,index) => {
+                        return(
+                            <div style={{display: 'flex'}}>
                         <div className='childItem'>
-                        numbers here 
+                        {e}
                         </div>
-
-                        <button className='paramButton' /* onClick={} */>
-                            <IconTrash/>
+                        <button className='paramButton' onClick={() => handleRemoveSMS(index)} >
+                        <IconTrash/>
+                        </button>
+                            
+                        <button className='paramButton'  /*onClick={handleRemoveEmail(index)}*/ >
                         </button>
                     </div>
+                        )})}
                 </div>
         </Modal>
 

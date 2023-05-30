@@ -103,10 +103,10 @@
     flex-direction: row;
   }
   
-  .button:hover {background-color: #354836}
+  .button:hover {background-color: #00000090}
   
   .button:active {
-    background-color: #324733;
+    background-color: #00000050;
   
     transform: translateY(4px);
   }
@@ -125,6 +125,10 @@
 
   .addGraphContainer {
     padding-bottom: 8px;
+  }
+
+  .dropdown-menu.show {
+    min-width: auto !important;
   }
 
   /* Desktop */

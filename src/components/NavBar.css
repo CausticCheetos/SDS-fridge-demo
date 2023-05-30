@@ -10,16 +10,14 @@
     left: 0;
 }
 
-button {
-    color: rgba(255, 255, 255, 0.5) !important;
+.btn.btn-nav {
+    color: rgba(255, 255, 255, 0.4);
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
-
 button:hover {
     color: #FFFEFE !important;
 }
-
 p {
     padding-left: 0px;
 }

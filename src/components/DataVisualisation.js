@@ -140,7 +140,7 @@ const DataVisualisation = () => {
     const handleBottom = (event, index) => {
         const newRange = rangeValues.concat()
         const yStart = event.target.value
-        newRange[index] = [rangeValues[index][0], rangeValues[index][1], yStart, rangeValues[index][2]]
+        newRange[index] = [rangeValues[index][0], rangeValues[index][1], yStart, rangeValues[index][3]]
         setRangeValues(newRange)
     }
 
@@ -194,7 +194,7 @@ const DataVisualisation = () => {
                             onSelect={(e) => handleSelect(e, 0, 0)}>
                                 {selectedChannel?.[0]?.[0]?.map((channel, index) => {
                                     return(
-                                    <Dropdown.Item eventKey={index} active={channel['state']}>
+                                    <Dropdown.Item eventKey={index} key={index} active={channel['state']}>
                                         { typeof(channel['name']) != "undefined" ? channel['name'].replace("channel", "Channel ") : ""}
                                     </Dropdown.Item>
                                 )})}
@@ -202,7 +202,7 @@ const DataVisualisation = () => {
 
                             {filter[0].map((data, index) => 
                             <Form.Check 
-                            label={data.dataName}
+                            label={(data.dataName).charAt(0).toUpperCase() + (data.dataName).slice(1)}
                             key={index}
                             checked={data.dataState}
                             onChange={() => onChecked(0, index)}/>
@@ -213,7 +213,7 @@ const DataVisualisation = () => {
                             onSelect={(e) => handleSelect(e, 0, 1)}>
                                 {selectedChannel?.[0]?.[1]?.map((channel, index) => {
                                     return(
-                                        <Dropdown.Item eventKey={index} active={channel['state']}>
+                                        <Dropdown.Item eventKey={index} key={index} active={channel['state']}>
                                             { typeof(channel['name']) != "undefined" ? channel['name'].replace("channel", "Channel ") : ""}
                                         </Dropdown.Item>
                                 )})}
@@ -221,12 +221,13 @@ const DataVisualisation = () => {
 
                             {filter2[0].map((data, index) => 
                             <Form.Check 
-                            label={data.dataName}
+                            label={(data.dataName).charAt(0).toUpperCase() + (data.dataName).slice(1)}
                             key={index}
                             checked={data.dataState}
                             onChange={() => onChecked2(0, index)}/>
                             )}
                         </div>
+
                         <h3>Range</h3>
                         <div className="range">
                             <Form className="rangeForm"
@@ -270,7 +271,7 @@ const DataVisualisation = () => {
                             onSelect={(e) => handleSelect(e, newIndex, 0)}>
                                 {selectedChannel?.[newIndex]?.[0]?.map((channel, index) => {
                                     return(
-                                    <Dropdown.Item eventKey={index} active={channel['state']}>
+                                    <Dropdown.Item eventKey={index} key={index} active={channel['state']}>
                                         {channel['name'].replace("channel", "Channel ")}
                                     </Dropdown.Item>
                                 )})}
@@ -278,7 +279,7 @@ const DataVisualisation = () => {
 
                             {filter[newIndex].map((data, index) => 
                             <Form.Check 
-                            label={data.dataName}
+                            label={(data.dataName).charAt(0).toUpperCase() + (data.dataName).slice(1)}
                             key={index}
                             checked={data.dataState}
                             onChange={() => onChecked(newIndex, index)}/>
@@ -289,7 +290,7 @@ const DataVisualisation = () => {
                             onSelect={(e) => handleSelect(e, newIndex, 1)}>
                                 {selectedChannel?.[newIndex]?.[1]?.map((channel, index) => {
                                     return(
-                                        <Dropdown.Item eventKey={index} active={channel['state']}>
+                                        <Dropdown.Item eventKey={index} key={index} active={channel['state']}>
                                             {channel['name'].replace("channel", "Channel ")}
                                         </Dropdown.Item>
                                 )})}
@@ -297,12 +298,14 @@ const DataVisualisation = () => {
 
                             {filter2[newIndex].map((data, index) => 
                             <Form.Check 
-                            label={data.dataName}
+                            label={(data.dataName).charAt(0).toUpperCase() + (data.dataName).slice(1)}
                             key={index}
                             checked={data.dataState}
                             onChange={() => onChecked2(newIndex, index)}/>
                             )}
                         </div>
+
+                        <h3>Range</h3>
                         <div className="range">
                             <Form className="rangeForm"
                                 onKeyDown={handleSubmit}>

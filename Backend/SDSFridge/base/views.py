@@ -261,7 +261,9 @@ def post_parameters(request):
             "operator": data["operator"],
             "range": data["range"],
             "threshold": data["threshold"],
-            "toggle": True
+            "toggle": True,
+            "emailList": data["emailList"],
+            "smsList":data["smsList"]
         }
         collection.insert_one(item)
         return HttpResponse(200)
@@ -299,6 +301,8 @@ def put_parameters(request, call):
             "threshold": data["threshold"],
             "RTP" : data["RTP"],
             "toggle": data["toggle"],
+            "emailList": data["emailList"],
+            "smsList":data["smsList"]
         }
         test = {"_id" : ObjectId(query)}
         collection.replace_one(test,item)

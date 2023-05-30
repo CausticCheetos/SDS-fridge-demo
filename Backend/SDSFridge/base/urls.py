@@ -29,6 +29,7 @@ urlpatterns = [
     path('create_Email/', views.UserEmailCreateView.as_view(), name = 'create_Email'),
     path('update_Email/<int:pk>/', views.UserEmailUpdateView.as_view(), name = 'update_Email'),
     path('delete_Email/<int:pk>/', views.UserEmailDeleteView.as_view(), name = 'delete_Email'),
+    path('getEmails/',views.get_emails, name = 'get_emails'),
     path('send_notification_email/', views.SendNotificationEmailView.as_view(), name='send_notification_email'),
     path('send_specific_notification_email/', views.SendSpecificNotificationEmailView.as_view(), name='end_specific_notification_email'),
     path('send_specific_notification_sms/', views.SendNotificationSMSView.as_view(), name = 'send_specific_notification_sms')

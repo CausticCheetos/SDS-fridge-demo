@@ -11,9 +11,13 @@ import api from '../services/api'
     const [infoShow, setInfoShow] = useState(false);
     const handleClose = () => {setInfoShow(false)}
     const handleInfo = () => setInfoShow(true)
+
     const handleToggle = () => {
-        setState(state)
-        api.to
+        const newParam = {
+            toggle: data.toggle
+        }
+        api.toggle(newParam,data._id)
+        setState(state+1)
     }
     console.log(data);
     return (
@@ -73,7 +77,7 @@ import api from '../services/api'
                 <button className='paramButton' onClick={handleInfo}>
                     <IconExclamationCircle/>
                 </button>
-                <ToggleButton type='checkbox' variant='outline-primary' onClick = {() => handleToggle} checked={data.toggle} >Toggle</ToggleButton>
+                <ToggleButton type='checkbox' variant='outline-primary' checked={data.toggle} onClick = {handleToggle}>Toggle</ToggleButton>
             </div>
         </div>
         </>

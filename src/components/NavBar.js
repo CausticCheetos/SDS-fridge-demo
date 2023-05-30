@@ -27,6 +27,11 @@ const NavBar = ({user}) => {
             name: "Warning Parameters",
             path: '/parameters',
             icon: <IconCpu/>
+        },
+        {
+            name: "Email",
+            path: '/email',
+            icon: <IconCpu/>
         }]
 
     const navigate = useNavigate()

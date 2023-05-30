@@ -10,19 +10,19 @@ const EmailForm = ({data, selected, editShow, editTarget,state,setState}) => {
     const handleEmail = (e) => setEmail(e.target.value)
     const handleName = (e) => setName(e.target.value)
     //TODO prevent unexpected values
-    const handleSubmit = async() => {
+    const handleSubmit = () => {
         const newParam = {
             name: name,
             EmailAddress: email
         }
         if (!editShow) {
-            await api.createEmail(newParam)
+             api.createEmail(newParam)
             setState(state+1)
         }
         else
         {
             console.log("Success!");
-            await api.updateEmail(newParam,id)
+             api.updateEmail(newParam,id)
             setState(state+1)
         }
         

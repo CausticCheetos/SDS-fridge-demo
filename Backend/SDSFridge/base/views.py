@@ -153,6 +153,7 @@ def alert():
             sent = all( operator(y[search],range) for y in warning)
             if sent:
                 print("works")
+                
                 #implemet sending email
                 #sent emails
         time.sleep(60) #check everyminute 
@@ -297,7 +298,7 @@ def put_parameters(request, call):
             "operator": data["operator"],
             "threshold": data["threshold"],
             "RTP" : data["RTP"],
-            "toggle": data["toggle"]
+            "toggle": data["toggle"],
         }
         test = {"_id" : ObjectId(query)}
         collection.replace_one(test,item)
@@ -309,12 +310,14 @@ def toggle_parameters(request, call):
         collection = db['parameters']
         data = json.loads(request.body)
         query = str(call)
+        print(data["toggle"])
         item = {
-            "toggle": not data
+            "toggle": not data["toggle"]
         }
         test = {"_id" : ObjectId(query)}    
         collection.update_one(test,{"$set":item})
         return HttpResponse(200)
+    
 
 def login(request):
     if request.method == "POST":
@@ -392,6 +395,7 @@ def get_emails_BE(request):
     email_list = list(emails)
     return email_list
 
+
 #Phone
 class UserPhoneDetailView(generics.RetrieveAPIView):
     queryset = UserPhone.objects.all()
@@ -412,6 +416,41 @@ def get_phones(request):
     collection = db['base_userphone']
     data = list(collection.find())  
     return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+
+def delete_email(request,call):
+    if request.method == "DELETE":
+        collection = db['base_useremail']
+        query = str(call)
+        test = {"_id" : ObjectId(query)}
+        collection.delete_one(test)
+        return HttpResponse(200)
+
+
+def create_email(request):
+    collection = db['base_useremail']
+    if request.method == "POST":
+        data = json.loads(request.body)
+        item = {
+            "name" : data["name"],
+            "EmailAddress": data["EmailAddress"]
+        }
+        collection.insert_one(item)
+        return HttpResponse(200)
+    return HttpResponse(404)
+
+def put_email(request, call):
+    if request.method == "PUT":
+        collection = db['base_useremail']
+        data = json.loads(request.body)
+        query = str(call)
+        item = {
+            "name" : data["name"],
+            "EmailAddress": data["EmailAddress"],
+        }
+        test = {"_id" : ObjectId(query)}
+        collection.replace_one(test,item)
+        return HttpResponse(200)
+
 
 
 class SendNotificationEmailView(APIView):
@@ -442,6 +481,7 @@ class SendNotificationEmailView(APIView):
 class SendSpecificNotificationEmailView(APIView):
 
     def post(self, request, format=None):
+
             request = HttpRequest()
             emails = get_emails_BE(request)
             notifications = get_parameters_BE(request)
@@ -451,6 +491,7 @@ class SendSpecificNotificationEmailView(APIView):
                 message += f"{notification}\n\n\n\n"
 
             mail_subject = 'User Warning Parameter Notifications'
+
             for email in emails:
                 email_message = EmailMessage(mail_subject, message, to=[email])
                 email_message.send()

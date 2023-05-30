@@ -1,7 +1,4 @@
 .dataVisualisationContents {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-between; */
   max-height: 100%;
   overflow-y: auto;
 }
@@ -20,26 +17,28 @@
     border: whitesmoke;
     border-radius: 5px;
   }
+  .button:hover {background-color: #00000090}
+  .button:active {
+    background-color: #00000050;
+    transform: translateY(4px);
+  }
 
+  .graphHeader,
+  .filter,
   .content {
     display: flex;
     flex-direction: column;
-   /*  overflow-y: auto; */
   }
 
   .graphHeader {
     flex-basis: 100%;
-    display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
     padding: 10px;
     justify-content: flex-end;
   }
 
   .filter {
-    display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
     background-color: #F6F7F7;
     border-radius: 15px;
     padding: 10px;
@@ -101,14 +100,6 @@
   .graph {
     display: flex;
     flex-direction: row;
-  }
-  
-  .button:hover {background-color: #00000090}
-  
-  .button:active {
-    background-color: #00000050;
-  
-    transform: translateY(4px);
   }
 
   .recharts-tooltip-label {

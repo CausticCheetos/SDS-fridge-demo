@@ -45,8 +45,10 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         <Modal
             show={editShow}
             onHide={handleClose}>
-                <h3>Edit</h3>
-                <ParameterForm {...{data, setFridgeData, selected, editShow, editTarget}}/> 
+                <div style={{padding: 10}}>
+                    <h3>Edit</h3>
+                    <ParameterForm {...{data, setFridgeData, selected, editShow, editTarget}}/> 
+                </div>
         </Modal>
 
         <div className="warningParamsContent">
@@ -75,7 +77,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>
                             {data.map((data, index) =>
-                                <ParameterItem key={index} {...{data, index, handleDelete, handleOpenEdit}}/>
+                                <ParameterItem key={index} {...{data, index, handleDelete, handleOpenEdit,state,setState}}/>
                             )}       
                         </div>
                         

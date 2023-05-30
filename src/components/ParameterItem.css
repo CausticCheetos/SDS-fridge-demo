@@ -6,6 +6,7 @@
 }
 
 .childItem {
+    display: flex;
     margin-right: 15px;
     
     border-width: 1px;
@@ -17,6 +18,7 @@
     padding-left: 10px;
     padding-right: 10px;
     background-color: #FFFFFF;
+    align-items: center;
 }
 
 .itemButtons {
@@ -27,9 +29,12 @@
 .paramButton {
     padding: 0 !important;
     border-style: none !important;
-    color: #374060 !important;
+    color: #000000 !important;
     background-color: transparent;
 }
 .paramButton:hover {
     color: #37406038 !important;
+}
+.btn-outline-primary{
+    margin-left: 5px;
 }

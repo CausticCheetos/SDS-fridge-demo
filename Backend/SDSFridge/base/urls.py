@@ -30,7 +30,7 @@ urlpatterns = [
     path('update_Email/<str:call>/', views.put_email, name = 'update_Email'),
     path('delete_Email/<str:call>/', views.delete_email, name = 'delete_Email'),
     path('getEmails/',views.get_emails, name = 'get_emails'),
-    path('send_notification_email/', views.SendNotificationEmailView.as_view(), name='send_notification_email'),
+    # path('send_notification_email/', views.SendNotificationEmailView.as_view(), name='send_notification_email'),
     path('send_specific_notification_email/', views.SendSpecificNotificationEmailView.as_view(), name='end_specific_notification_email'),
     path('send_specific_notification_sms/', views.SendNotificationSMSView.as_view(), name = 'send_specific_notification_sms')
 ]

@@ -31,34 +31,35 @@ import api from '../services/api'
                     </h4>
                 </Modal.Header>
                 <Modal.Body>
-                    Description
                     <Row>
+                        <h5 style={{padding: 0}}>Description</h5>
                         {data.description}
                     </Row>
-                    <Row> Type</Row>
                     <Row>
-                        {data.paramType}
+                        <h5 style={{padding: 0}}>Type</h5>
+                        {data.paramType} <br/>
                         {data.RTP}
                     </Row>
-                    <Row>Range</Row>
                     <Row>
-                        <Col>
-                            Start
+                    <h5 style={{padding: 0}}>Acceptable Range</h5>
+                        <Col style={{padding: 0}}>
+                            <h6 style={{padding: 0}}>Operator</h6>
                         </Col>
                         <Col>
-                            End
+                        <h6 style={{padding: 0}}>Range</h6>
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col style={{padding: 0}}>
                             {data.operator}
                         </Col>
                         <Col>
                             {data.range}
                         </Col>
                     </Row>
-                    Threshold
+
                     <Row>
+                    <h5 style={{padding: 0}}>Threshold</h5>
                         {data.threshold}
                     </Row>
                 </Modal.Body>    

@@ -13,6 +13,7 @@ import api from '../services/api'
     const handleInfo = () => setInfoShow(true)
     const handleToggle = () => {
         setState(state)
+        api.to
     }
     console.log(data);
     return (

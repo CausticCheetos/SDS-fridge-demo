@@ -26,6 +26,13 @@ class UserEmail(models.Model):
     def _str_(self):
          return self.EmailAddress
 
+class UserPhone(models.Model):
+    UserPhoneId = models.AutoField(primary_key=True)
+    Phone = models.CharField(max_length=15, unique=True)
+    def _str_(self):
+         return self.Phone
+
+
 class User(models.Model):
 
     type = (

@@ -102,13 +102,13 @@ paramsList = {
     "pump_accelerates": "turbo1",
     "rotation_speed_switch_point_attained": "turbo1",
     "setting_speed_attained": "turbo1",
-    "active_rotational_speed": "turbo2",
-    "drive_power": "turbo2",
-    "driver_temperature_too_high": "turbo2",
-    "pump_temperature_too_high": "turbo2",
-    "pump_accelerates": "turbo2",
-    "rotation_speed_switch_point_attained": "turbo2",
-    "setting_speed_attained": "turbo2",
+    #"active_rotational_speed": "turbo2",
+    #"drive_power": "turbo2",
+    #"driver_temperature_too_high": "turbo2",
+    #"pump_temperature_too_high": "turbo2",
+    #"pump_accelerates": "turbo2",
+    #"rotation_speed_switch_point_attained": "turbo2",
+    #"setting_speed_attained": "turbo2",
     "stillenabled" : "heater",
     "sampleenabled" : "heater",
     "stilloutput_power" : "heater",
@@ -124,40 +124,44 @@ ops = {
     "=": operator.eq
 } 
 
-"""""
+
 def alert():
     while True:
         collection = db['parameters']
         data = list(collection.find())  
         for x in data:
             #times needs to be implemented on front end 
-            times = x["times"]
+            if not x["toggle"]:
+                continue
+            threshold = x["threshold"]
+            threshold = int(threshold)
             collectionName = paramsList[x["paramType"]]
             #times needs to be implemented on front end 
-            threshold = x["threshold"]
+            range = x["range"]
             #times needs to be implemented on front end 
             operator = ops[x['operator']]
-            #rtp need another variable just for resistance, power, temperature
-            rtp = x['rtp']
+            #RTP need another variable just for resistance, power, temperature
+            RTP = x['RTP']
             innerCollection = db[collectionName]
             #check the latest numbers of log 
-            warning = list(innerCollection.find({"id":x["paramType"]}).limit(times).sort("date",-1)) 
-            #return true if they are above/below threshold value
-            if rtp == "null":
+            warning = list(innerCollection.find({"id":x["paramType"]}).limit(threshold).sort("date",-1)) 
+            #return true if they are above/below range value
+            if RTP == "null":
                 search = "value"
             else:
-                search = rtp;
-            sent = all( operator(y[search],threshold) for y in warning)
-            #if sent:
+                search = RTP
+            sent = all( operator(y[search],range) for y in warning)
+            if sent:
+                print("works")
                 #implemet sending email
                 #sent emails
-        #time.sleep(60) #check everyminute 
+        time.sleep(60) #check everyminute 
 
 
 t = threading.Thread(target=alert, kwargs={})
 t.setDaemon(True)
 t.start()
-"""
+
 
 def actualTimeToUnixTime(time):
     unixTimestamp = 1622095790 # replace with your Unix timestamp
@@ -284,15 +288,29 @@ def put_parameters(request, call):
             "name" : data["name"],
             "description": data["description"],
             "paramType" : data["paramType"],
-            "start": data["start"],
-            "end": data["end"],
+            "range": data["range"],
+            "operator": data["operator"],
             "threshold": data["threshold"],
-            "toggle": True
+            "RTP" : data["RTP"],
+            "toggle": data["toggle"]
         }
         test = {"_id" : ObjectId(query)}
         collection.replace_one(test,item)
         return HttpResponse(200)
+
     
+def toggle_parameters(request, call):
+    if request.method == "PUT":
+        collection = db['parameters']
+        data = json.loads(request.body)
+        query = str(call)
+        item = {
+            "toggle": not data
+        }
+        test = {"_id" : ObjectId(query)}    
+        collection.update_one(test,{"$set":item})
+        return HttpResponse(200)
+
 def login(request):
     if request.method == "POST":
         email = request.POST.get('email')

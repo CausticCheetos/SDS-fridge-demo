@@ -153,6 +153,7 @@ def alert():
             sent = all( operator(y[search],range) for y in warning)
             if sent:
                 print("works")
+                
                 #implemet sending email
                 #sent emails
         time.sleep(60) #check everyminute 
@@ -304,12 +305,14 @@ def toggle_parameters(request, call):
         collection = db['parameters']
         data = json.loads(request.body)
         query = str(call)
+        print(data["toggle"])
         item = {
-            "toggle": not data
+            "toggle": not data["toggle"]
         }
         test = {"_id" : ObjectId(query)}    
         collection.update_one(test,{"$set":item})
         return HttpResponse(200)
+    
 
 def login(request):
     if request.method == "POST":

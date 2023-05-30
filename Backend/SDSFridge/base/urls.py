@@ -19,6 +19,7 @@ urlpatterns = [
     path('parameters/',views.post_parameters, name = 'post_parameters'),
     path('getParameters/',views.get_parameters, name = 'get_parameters'),
     path('deleteParameters/<str:call>',views.delete_parameters, name = 'delete_parameters'),
+    path('putParameters/<str:call>',views.put_parameters, name = 'put_parameters'),
     path('notifications/<int:pk>/', views.NotificationDetailView.as_view(), name='read_notification'),
     path('notifications/', views.NotificationCreateView.as_view(), name='create_notification'),
     path('update_notifications/<int:pk>/', views.NotificationUpdateView.as_view(), name='update_notification'),

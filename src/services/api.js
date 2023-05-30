@@ -34,6 +34,17 @@ const postParameters = async(newParam) =>{
         body: JSON.stringify(newParam)
         })
 }
+const putParameters = async(newParam, id) =>{
+    await fetch(`${baseUrl}/putParameters/${id}`,{
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newParam)
+        })
+}
+
 
 const getFlow = () => {
     return fetch(`${baseUrl}/flow/latest`)
@@ -47,7 +58,8 @@ const exported = {
     deleteParameters,
     getParameters,
     postParameters,
-    getFlow
+    putParameters,
+    getFlow,
 }
 
 export default exported

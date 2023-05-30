@@ -2,9 +2,9 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form'
 import api from '../services/api'
 
-const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,state,setState}) => {
-    const [id, setId] = useState((i) => editShow ? data[editTarget]['_id'] : '');
-    const [toggle, setToggle] = useState((i) => editShow ? data[editTarget]['toggle'] : '');
+const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,state,setState,emailList, smsList}) => {
+    const [id] = useState((i) => editShow ? data[editTarget]['_id'] : '');
+    const [toggle] = useState((i) => editShow ? data[editTarget]['toggle'] : '');
     const [name, setName] = useState((i) => editShow ? data[editTarget]['name'] : '');
     const [description, setDescription] = useState((i) => editShow ? data[editTarget]['description'] : '');
     const [paramType, setParamType] = useState((i) => editShow ? data[editTarget]['paramType'] : 'Pressure 1');
@@ -31,7 +31,9 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
             operator: operator,
             range: range,
             threshold: threshold,
-            toggle: toggle
+            toggle: toggle,
+            emailList: emailList,
+            smsList: smsList
         }
         if (!editShow) {
             await api.postParameters(newParam)

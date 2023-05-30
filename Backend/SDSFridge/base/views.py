@@ -274,6 +274,24 @@ def delete_parameters(request,call):
         collection.delete_one(test)
         return HttpResponse(200)
     
+def put_parameters(request, call):
+    if request.method == "PUT":
+        collection = db['parameters']
+        data = json.loads(request.body)
+        query = str(call)
+        item = {
+            "name" : data["name"],
+            "description": data["description"],
+            "paramType" : data["paramType"],
+            "start": data["start"],
+            "end": data["end"],
+            "threshold": data["threshold"],
+            "toggle": True
+        }
+        test = {"_id" : ObjectId(query)}
+        collection.replace_one(test,item)
+        return HttpResponse(200)
+    
 def login(request):
     if request.method == "POST":
         email = request.POST.get('email')

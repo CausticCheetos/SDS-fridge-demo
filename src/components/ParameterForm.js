@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form'
 import api from '../services/api'
 
 const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,state,setState}) => {
+    const [id, setId] = useState((i) => editShow ? data[editTarget]['_id'] : '');
     const [name, setName] = useState((i) => editShow ? data[editTarget]['name'] : '');
     const [description, setDescription] = useState((i) => editShow ? data[editTarget]['description'] : '');
     const [paramType, setParamType] = useState((i) => editShow ? data[editTarget]['paramType'] : 'Pressure 1');
@@ -34,6 +35,8 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
         else
         {
             console.log("Success!");
+            await api.putParameters(newParam,id)
+            setState(state+1)
         }
         
     }

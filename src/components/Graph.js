@@ -9,25 +9,29 @@ import {
   Tooltip,
   ReferenceArea,
   ResponsiveContainer,
+  Label
 } from 'recharts';
 import api from '../services/api'
 
-const Graph = ({filtered, filtered2, rangeValues, setChannels, selectedChannel}) => {
+const Graph = ({filtered, filtered2, rangeValues, setChannels, channels, selectedChannel}) => {
 
 const [data, setData] = useState([])
-const [group, setGroup] = useState([])
 
 const getData = () =>{
   api.getRTP().then((a) => setData(a))
-  let unique = [... new Set(data.map(a => a.id))]
-  setChannels(unique)
-  setGroup(groupBy(data, 'id'))
 } 
 
 useEffect(()=>{
   const interval = setInterval(() => {
       getData();
-  }, 5000)
+      let unique = [...new Set(data.map(a => a.id))]
+      
+      //Are channels always the same???
+      if (channels.toString() !== unique.sort().toString()) {
+        setChannels(unique.sort())
+      }
+
+  }, 1000)
   return () => clearInterval(interval)
 }, [data])
 
@@ -42,28 +46,14 @@ const [refAreaRight, setRefAreaRight] = useState('')
 const [top, setTop] = useState('dataMax')
 const [bottom, setBottom] = useState('dataMin')
 
-
-
-/* const [scrollIn, setScrollIn] = useState(0) */
-
 const UNIXConvert = (unix) => {
   const time = new Date(unix).toLocaleString('en-AU')
   return time
 }
 
-//Sorting function
-const groupBy = (arr, key) => {
-  return arr.reduce((rv, x) => {
-    (rv[x[key]] = rv[x[key]] || []).push(x);
-    return rv;
-  }, {});
-};
-
 //Second Y-Axis
 const [top2, setTop2] = useState('dataMax')
 const [bottom2, setBottom2] = useState('dataMin')
-
-/*  const [animation, setAnimation] = useState(true) */
 
 const zoom = () => {
   let _refAreaLeft = refAreaLeft;
@@ -90,23 +80,18 @@ const zoom = () => {
 }
 
 const zoomOut = () => {
-  /* var _data = data;
-  setData(_data.slice()); */
   setRefAreaLeft("");
   setRefAreaRight("");
   setLeft("dataMin");
   setRight("dataMax");
-  setTop("dataMax+" + zoomAmount);
-  setBottom("dataMin-" + zoomAmount);
-  setTop2("dataMax+" + zoomAmount);
-  setBottom2("dataMin-" + zoomAmount);
+  setTop("dataMax");
+  setBottom("dataMin");
+  setTop2("dataMax");
+  setBottom2("dataMin");
 };
 
-const zoomHandle = (e) => {
-  setZoomAmount(Number(e.target.value))
-}
-
 useEffect(() => {
+  if(rangeValues !== undefined) {
   const newLeft = Date.parse(rangeValues[0])
   const newRight = Date.parse(rangeValues[1])
   const newTop = rangeValues[3]
@@ -116,6 +101,7 @@ useEffect(() => {
   setRight(newRight)
   setTop(parseFloat(newTop))
   setBottom(parseFloat(newBot))
+  }
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [rangeValues])
 
@@ -125,16 +111,12 @@ useEffect(() => {
       
       <div className='zoomContainer'>
         <button type="button" className="button" onClick={() => zoomOut()}> Zoom Out </button>
-        {/* <Form.Group>
-          <Form.Control onChange={(e) => zoomHandle(e)}/>
-        </Form.Group> */}
       </div>
 
       <ResponsiveContainer width="100%" height={600}>
         <LineChart
           width={800}
           height={400}
-          /* data={data.map(i => ({...i, "resistance" : parseFloat(i.resistance)}))} */
           margin={{
               top: 20,
               left: 30,
@@ -149,7 +131,8 @@ useEffect(() => {
             allowDataOverflow 
             dataKey="date" 
             domain={[left, right]} 
-            type="number" scale="time" 
+            type="number" 
+            scale="time" 
             tickFormatter={UNIXConvert}
             tick={{ angle: -25 }}
             textAnchor="end" 
@@ -157,15 +140,28 @@ useEffect(() => {
             // change tick intervals
             /* interval={0} */
             />
-          <YAxis allowDataOverflow domain={[bottom, top]} type="number" yAxisId="1" />
-          <YAxis orientation="right" allowDataOverflow domain={[bottom2, top2]} type="number" yAxisId="2" />
+          <YAxis 
+            allowDataOverflow domain={[bottom, top]} 
+            type="number" 
+            yAxisId="1"
+            width={100}
+          />
+          <YAxis 
+            orientation="right" 
+            allowDataOverflow domain={[bottom2, top2]} 
+            type="number" 
+            yAxisId="2"
+            width={100}
+          />
           <Tooltip labelFormatter={(value) => new Date(value).toLocaleString('en-AU', {timeZone: "Australia/Sydney", timeZoneName: "short"})}/>
           <Legend />
           {newData.map(filter => 
             <Line 
               yAxisId="1" 
               type="linear" 
-              data={group[selectedChannel[0]]}
+              data={data.filter(obj => 
+                ((selectedChannel?.[0]?.filter(obj => obj.state))?.map(obj => obj.name))?.includes(obj.id)
+             )}
               dataKey={filter.dataName} 
               animationDuration={300}
               stroke={filter.colour}
@@ -175,7 +171,9 @@ useEffect(() => {
             <Line 
               yAxisId="2" 
               type="linear"
-              data={group[selectedChannel[1]]}
+              data={data.filter(obj => 
+                ((selectedChannel?.[1]?.filter(obj => obj.state))?.map(obj => obj.name))?.includes(obj.id)
+             )}
               dataKey={filter.dataName} 
               animationDuration={300}
               stroke={filter.colour}

@@ -27,7 +27,7 @@ const BlueFors = () => {
     getPressure();
   },[]);
 
-  const [flow, setFlow] = useState([])
+  const [flow, setFlow] = useState([0])
   const getFlow = () => {
         api.getFlow().then((flow) => setFlow(flow));
     };
@@ -64,8 +64,7 @@ const BlueFors = () => {
         </div>}
 
         {flow && <div className="flow">
-            {console.log(flow)}
-            <body className="text">{flow.value}</body>
+            <body className="text">{Number(flow[0].value).toExponential(2)}</body>
         </div>}
 
         <img 

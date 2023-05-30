@@ -30,22 +30,25 @@
   .graphHeader {
     flex-basis: 100%;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     padding: 10px;
     justify-content: flex-end;
   }
 
   .filter {
-    display: grid;
-    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
     background-color: #F6F7F7;
     border-radius: 15px;
+    padding: 10px;
   }
 
   .filterItem {
     display: grid;
-    grid-template-rows: repeat(5, auto);
-    grid-auto-flow: column;
+    grid-template-rows: repeat(1, auto);
+    grid-auto-flow: row;
     justify-content: left;
     padding-left: 20px;
     grid-column: 1;
@@ -72,6 +75,7 @@
   }
   .rangeItem > .form-control {
     margin-left: 0px !important;
+    width: min-content;
   }
 
   .form-control {
@@ -99,10 +103,10 @@
     flex-direction: row;
   }
   
-  .button:hover {background-color: #354836}
+  .button:hover {background-color: #00000090}
   
   .button:active {
-    background-color: #324733;
+    background-color: #00000050;
   
     transform: translateY(4px);
   }
@@ -119,6 +123,14 @@
     display: flex;
   }
 
+  .addGraphContainer {
+    padding-bottom: 8px;
+  }
+
+  .dropdown-menu.show {
+    min-width: auto !important;
+  }
+
   /* Desktop */
 @media screen and (min-width: 768px) {
   .addGraph {
@@ -126,8 +138,25 @@
       padding-right: 5px !important;
   }
 
+  .graphHeader {
+    flex-direction: row;
+  }
+  
   .rangeForm {
     grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+  }
+  .rangeItem > .form-control {
+    width: 100%;
+  }
+
+  .filter {
+    display: grid;
+    flex-basis: 100%;
+  }
+
+  .filterItem {
+    grid-template-rows: repeat(5, auto);
     grid-auto-flow: column;
   }
 

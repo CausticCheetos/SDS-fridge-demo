@@ -22,7 +22,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
     const [sms, setSms] = useState('');
     const handleSelect = (e) => setSelected(e)
     const handleClose = () => setEditShow(false)
-
+    const [emailList, setEmailList] = useState([])
     const handleDelete = (index,data) => {
         const newData = fridgeData.concat()
         newData[selected]['params'].splice(index, 1)
@@ -37,7 +37,12 @@ const Parameters = ({fridgeData, setFridgeData}) => {
     }
 
     const handleEmailSubmit = () => {
-        console.log(email);
+        const list = emailList.concat(email)
+        setEmailList(list)
+    }
+
+    const handleRemoveEmail = (index) => {
+        emailList.splice(index, 1)
     }
 
     const handleEmail = (e) => {
@@ -56,6 +61,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         api.getParameters()
             .then((data) => setData(data))
     }
+
 
     useEffect(() =>{
         getData();
@@ -83,16 +89,21 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <button className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
                     </Form>
 
-                    {/* Map Email here */}
-                    <div style={{display: 'flex'}}>
+       
+                    {emailList?.map((e,index) => {
+                        return(
+                            <div style={{display: 'flex'}}>
                         <div className='childItem'>
-                        emails here 
+                        {e}
                         </div>
-
-                        <button className='paramButton' /* onClick={} */>
+                        <button className='paramButton'  onClick={handleRemoveEmail(index)} >
+                        </button>
                             <IconTrash/>
+                        <button className='paramButton'  /*onClick={handleRemoveEmail(index)}*/ >
                         </button>
                     </div>
+                        )
+                    })}
                 </div>
         </Modal>
 

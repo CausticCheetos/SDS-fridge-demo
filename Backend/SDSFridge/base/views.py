@@ -11,8 +11,8 @@ from twilio.rest import Client
 from django.utils import timezone
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
-from base.models import Flow, Notification
-from base.serializers import FlowSerializer, NotificationSerializer, ENotificationSerializer,SMSNotificationSerializer, EmailSerializer
+from base.models import Flow, Notification, UserEmail
+from base.serializers import FlowSerializer, NotificationSerializer, ENotificationSerializer,SMSNotificationSerializer, EmailSerializer, UserEmailSerializer
 from django.conf import settings
 from pymongo import MongoClient
 from bson import ObjectId
@@ -253,7 +253,9 @@ def post_parameters(request):
             "description": data["description"],
             "paramType" : data["paramType"],
             "start": data["start"],
-            "end": data["end"]
+            "end": data["end"],
+            "threshold": data["threshold"],
+            "toggle": True
         }
         collection.insert_one(item)
         return HttpResponse(200)
@@ -321,6 +323,24 @@ class NotificationUpdateView(generics.UpdateAPIView):
 class NotificationDeleteView(generics.DestroyAPIView):
     queryset = Notification.objects.all()
 
+
+#For Email
+class UserEmailDetailView(generics.RetrieveAPIView):
+    queryset = UserEmail.objects.all()
+    serializer_class = UserEmailSerializer
+
+class UserEmailCreateView(generics.CreateAPIView):
+    queryset = UserEmail.objects.all()
+    serializer_class = UserEmailSerializer
+
+class UserEmailUpdateView(generics.UpdateAPIView):
+    queryset = UserEmail.objects.all()
+    serializer_class = UserEmailSerializer
+
+class UserEmailDeleteView(generics.DestroyAPIView):
+    queryset = UserEmail.objects.all()
+
+
 class SendNotificationEmailView(APIView):
     serializer_class = ENotificationSerializer
 
@@ -351,7 +371,7 @@ class SendSpecificNotificationEmailView(APIView):
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            email = serializer.validated_data.get('email')
+            emails = serializer.validated_data.get('emails')
             notification_id = serializer.validated_data.get('notification_id')
 
             try:
@@ -369,11 +389,12 @@ class SendSpecificNotificationEmailView(APIView):
             """
 
             mail_subject = 'User Warning Parameter Notification'
-            to_email = email
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
+            for email in emails:
+                email_message = EmailMessage(mail_subject, message, to=[email])
+                email_message.send()
             return Response({"message": "Email sent successfully."}, status=200)
         return Response(serializer.errors, status=400)
+
     
 class SendNotificationSMSView(APIView):
     serializer_class = SMSNotificationSerializer

@@ -4,7 +4,6 @@ import './ParameterItem.css'
 import Modal from 'react-bootstrap/Modal'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import ToggleButton from 'react-bootstrap/ToggleButton'
 
  const EmailItem = ({data, index, handleDelete, handleOpenEdit}) => {
     const [infoShow, setInfoShow] = useState(false);
@@ -36,7 +35,6 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
                 <button className='paramButton' onClick={handleInfo}>
                     <IconExclamationCircle/>
                 </button>
-                <ToggleButton type='checkbox' variant='outline-primary' >Toggle</ToggleButton>
             </div>
         </div>
         </>

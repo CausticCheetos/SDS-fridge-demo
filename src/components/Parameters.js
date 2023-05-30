@@ -75,7 +75,12 @@ const Parameters = ({fridgeData, setFridgeData}) => {
             .then((data) => setData(data))
     }
 
-
+    const handleEmailClear = () =>{
+        setEmailList([])
+    }
+    const handleSmsClear = () =>{
+        setSmsList([])
+    }
     useEffect(() =>{
         getData();
     }, [state])
@@ -100,6 +105,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
+                    <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailClear}>Clear</button>
                     </Form>
 
        
@@ -128,6 +134,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleSMS} placeholder="Email"/>
                     <button className='createButton' type='submit' onClick={handleSMSSubmit}>Submit</button>
+                    <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleSmsClear}>Clear</button>
                     </Form>
 
                     {/* Map SMS here */}
@@ -169,7 +176,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <div className='paramContainer'>
                         <div className='createContainer'>
                             <h3>Create/Edit Parameter</h3>
-                            <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState}}/>  
+                            <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState,emailList,smsList}}/>  
                             <button onClick={() => setEmailShow(true)}>Email</button>
                             <button onClick={() => setSmsShow(true)}>SMS</button>
                         </div>

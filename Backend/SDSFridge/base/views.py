@@ -152,8 +152,12 @@ def alert():
                 search = RTP
             sent = all( operator(y[search],range) for y in warning)
             if sent:
-                print("works")
-                
+                for email in x["emailList"]:
+                    print(email)
+                    #send email to email
+                for number in x["smsList"]:
+                    print(number)
+                    #send sms to number
                 #implemet sending email
                 #sent emails
         time.sleep(60) #check everyminute 

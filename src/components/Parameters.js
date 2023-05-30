@@ -37,7 +37,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
 
     useEffect(() =>{
         getData();
-    },[state])
+    }, [state])
 
     return (
         <>
@@ -46,7 +46,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
             show={editShow}
             onHide={handleClose}>
                 <h3>Edit</h3>
-                <ParameterForm {...{fridgeData, setFridgeData, selected, editShow, editTarget}}/> 
+                <ParameterForm {...{data, setFridgeData, selected, editShow, editTarget}}/> 
         </Modal>
 
         <div className="warningParamsContent">
@@ -70,7 +70,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <div className='paramContainer'>
                         <div className='createContainer'>
                             <h3>Create/Edit Parameter</h3>
-                            <ParameterForm {...{fridgeData, setFridgeData, selected, editShow,state,setState}}/>  
+                            <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState}}/>  
                         </div>
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>

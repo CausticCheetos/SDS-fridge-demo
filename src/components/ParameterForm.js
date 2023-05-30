@@ -7,16 +7,18 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
     const [name, setName] = useState((i) => editShow ? data[editTarget]['name'] : '');
     const [description, setDescription] = useState((i) => editShow ? data[editTarget]['description'] : '');
     const [paramType, setParamType] = useState((i) => editShow ? data[editTarget]['paramType'] : 'Pressure 1');
-    const [rangeStart, setRangeStart] = useState((i) => editShow ? data[editTarget]['start'] : '');
-    const [rangeEnd, setRangeEnd] = useState((i) => editShow ? data[editTarget]['end'] : '');
+    const [operator, setOperator] = useState((i) => editShow ? data[editTarget]['operator'] : '=');
+    const [range, setRange] = useState((i) => editShow ? data[editTarget]['range'] : '');
     const [threshold, setThreshold] = useState((i) => editShow ? data[editTarget]['threshold'] : '');
+    const [RTP, setRTP] = useState((i) => editShow ? data[editTarget]['RTP'] : 'resistance');
 
     const handleName = (e) => setName(e.target.value)
     const handleDescription = (e) => setDescription(e.target.value)
     const handleParamType = (e) => setParamType(e.target.value)
-    const handleRangeStart = (e) => setRangeStart(e.target.value)
-    const handleRangeEnd = (e) => setRangeEnd(e.target.value)
+    const handleOperator = (e) => setOperator(e.target.value)
+    const handleRange = (e) => setRange(e.target.value)
     const handleThreshold = (e) => setThreshold(e.target.value)
+    const handleRTP = (e) => setRTP(e.target.value)
     
     //TODO prevent unexpected values
     const handleSubmit = async() => {
@@ -24,8 +26,9 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
             name: name,
             description: description, 
             paramType: paramType,
-            start: rangeStart,
-            end: rangeEnd,
+            RTP: RTP,
+            operator: operator,
+            range: range,
             threshold: threshold
         }
         if (!editShow) {
@@ -45,8 +48,9 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
         setName('');
         setDescription('');
         setParamType('Pressure 1')
-        setRangeStart('');
-        setRangeEnd('');
+        setOperator('=');
+        setRTP('Resistance');
+        setRange('');
     }
 
     return (
@@ -60,10 +64,21 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
                 <option>Pressure 1</option>
                 <option>Pressure 2</option>
             </Form.Select>
+            <Form.Select className="createParam" onChange={handleRTP} value={RTP}>
+                <option>resistance</option>
+                <option>power</option>
+                <option>temperature</option>
+                <option>null</option>
+            </Form.Select>
             <h6>Acceptable Range</h6>
             <div style={{display: "flex"}}>
-            <Form.Control className="createParamRangeL" onChange={handleRangeStart} value={rangeStart} placeholder="Start"/>
-            <Form.Control className="createParamRangeR" onChange={handleRangeEnd} value={rangeEnd} placeholder="End"/>
+            <Form.Select className="createParam" onChange={handleOperator} value={operator}>
+                <option>=</option>
+                <option>{'>'}</option>
+                <option>{'<'}</option>
+            </Form.Select>
+            {/* <Form.Control className="createParamRangeL" onChange={handleRangeStart} value={rangeStart} placeholder="Start"/> */}
+            <Form.Control className="createParamRangeR" onChange={handleRange} value={range} placeholder="Range"/>
             </div>
             <h6>Threshold</h6>
             <Form.Control className="createParam" onChange={handleThreshold} type="number" value={threshold} placeholder="Pass threshold in a row"/>

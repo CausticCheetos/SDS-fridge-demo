@@ -420,7 +420,7 @@ class SendSpecificNotificationEmailView(APIView):
                 notification = Notification.objects.get(NotificationId=notification_id)
             except Notification.DoesNotExist:
                 return Response({"error": "Notification with given id does not exist."}, status=400)
-
+            
             message = f"""
                 Notification Id: {notification.NotificationId}\n
                 Param Name: {notification.ParamName}\n

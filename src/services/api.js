@@ -45,6 +45,18 @@ const putParameters = async(newParam, id) =>{
         })
 }
 
+const toggle = async(newParam, id) =>{
+    await fetch(`${baseUrl}/toggle/${id}`,{
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newParam)
+        })
+}
+
+
 
 const getFlow = () => {
     return fetch(`${baseUrl}/flow/latest`)
@@ -101,6 +113,7 @@ const exported = {
     getParameters,
     postParameters,
     putParameters,
+    toggle
 }
 
 export default exported

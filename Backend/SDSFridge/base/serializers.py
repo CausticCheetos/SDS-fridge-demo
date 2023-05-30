@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from base.models import Flow, Notification
+from base.models import Flow, Notification, UserEmail
 
 class FlowSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,8 +11,18 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = '__all__'
 
+class UserEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserEmail
+        fields = ('UserEmailId', 'EmailAddress')
+
 class ENotificationSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
+class EmailSerializer(serializers.Serializer):
+    emails = serializers.ListField(child=serializers.EmailField())
+    notification_id = serializers.IntegerField()
+
 
 class EmailSerializer(serializers.Serializer):
     email = serializers.EmailField()

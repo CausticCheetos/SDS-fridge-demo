@@ -19,7 +19,13 @@ class Notification(models.Model):
 
     def _str_(self):
          return self.ParamName
-        
+
+class UserEmail(models.Model):
+    UserEmailId = models.AutoField(primary_key=True)
+    EmailAddress = models.EmailField(unique=True)
+    def _str_(self):
+         return self.EmailAddress
+
 class User(models.Model):
 
     type = (

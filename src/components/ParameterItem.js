@@ -22,15 +22,14 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
                     </h4>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row>
-                        Name
-                    </Row>
+                    Description
                     <Row>
                         {data.description}
                     </Row>
                     <Row> Type</Row>
                     <Row>
                         {data.paramType}
+                        {data.RTP}
                     </Row>
                     <Row>Range</Row>
                     <Row>
@@ -43,14 +42,14 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
                     </Row>
                     <Row>
                         <Col>
-                            {data.start}
+                            {data.operator}
                         </Col>
                         <Col>
-                            {data.end}
+                            {data.range}
                         </Col>
                     </Row>
+                    Treshold
                     <Row>
-                        Treshold
                         {data.threshold}
                     </Row>
                 </Modal.Body>    

@@ -252,8 +252,9 @@ def post_parameters(request):
             "name" : data["name"],
             "description": data["description"],
             "paramType" : data["paramType"],
-            "start": data["start"],
-            "end": data["end"],
+            "RTP": data["RTP"],
+            "operator": data["operator"],
+            "range": data["range"],
             "threshold": data["threshold"],
             "toggle": True
         }

@@ -1,3 +1,4 @@
+import tracemalloc
 from django.shortcuts import render
 from django.http import HttpResponse, response, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
@@ -15,7 +16,13 @@ from base.serializers import FlowSerializer, NotificationSerializer, ENotificati
 from django.conf import settings
 from pymongo import MongoClient
 from bson import ObjectId
-import json, vonage
+
+import json
+import time
+import threading
+import operator
+import vonage
+
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -26,6 +33,134 @@ class CustomJSONEncoder(json.JSONEncoder):
 client = MongoClient('mongodb+srv://andie:phT2kDLvOQz7I7dI@cluster0.cumzmxd.mongodb.net/test')
 db = client['fridge']
 
+paramsList = {
+    "p1" : "maxigauge",
+    "p2" : "maxigauge",
+    "p3" : "maxigauge",
+    "p4" : "maxigauge",
+    "p5" : "maxigauge",
+    "p6" : "maxigauge",
+    "scroll1" : "valves",
+    "scroll2": "valves",
+    "turbo1": "valves",
+    "turbo2": "valves",
+    "pulsetube": "valves",
+    "hs-still": "valves",
+    "hs-mc": "valves",
+    "ext": "valves",
+    "compressor": "valves",
+    "v1": "valves",
+    "v2": "valves",
+    "v3": "valves",
+    "v4": "valves",
+    "v5": "valves",
+    "v6": "valves",
+    "v7": "valves",
+    "v8": "valves",
+    "v9": "valves",
+    "v10": "valves",
+    "v11": "valves",
+    "v12": "valves",
+    "v13": "valves",
+    "v14": "valves",
+    "v15": "valves",
+    "v16": "valves",
+    "v17": "valves",
+    "v18": "valves",
+    "v19": "valves",
+    "v20": "valves",
+    "v21": "valves",
+    "v22": "valves",
+    "v23": "valves",
+    "flow": "flow",
+    "channel1" :"rtp",
+    "channel2" :"rtp",
+    "channel3" :"rtp",
+    "channel4" :"rtp",
+    "channel5" :"rtp",
+    "channel6" :"rtp",
+    "channel7" :"rtp",
+    "channel8" :"rtp",
+    "warning_state" : "Pulsetube",
+    "warning_state_text" : "Pulsetube",
+    "alarm_state" : "Pulsetube",
+    "alarm_state_text" : "Pulsetube",
+    "coolant_in_temperature" : "Pulsetube",
+    "coolant_out_temperature" : "Pulsetube",
+    "oil_temperature" : "Pulsetube",
+    "helium_temperature" : "Pulsetube",
+    "low_pressure" : "Pulsetube",
+    "low_pressure_average" : "Pulsetube",
+    "high_pressure": "Pulsetube",
+    "high_pressure_average" : "Pulsetube",
+    "delta_pressure_average" : "Pulsetube",
+    "motor_current": "Pulsetube",
+    "active_rotational_speed": "turbo1",
+    "drive_power": "turbo1",
+    "driver_temperature_too_high": "turbo1",
+    "pump_temperature_too_high": "turbo1",
+    "pump_accelerates": "turbo1",
+    "rotation_speed_switch_point_attained": "turbo1",
+    "setting_speed_attained": "turbo1",
+    #"active_rotational_speed": "turbo2",
+    #"drive_power": "turbo2",
+    #"driver_temperature_too_high": "turbo2",
+    #"pump_temperature_too_high": "turbo2",
+    #"pump_accelerates": "turbo2",
+    #"rotation_speed_switch_point_attained": "turbo2",
+    #"setting_speed_attained": "turbo2",
+    "stillenabled" : "heater",
+    "sampleenabled" : "heater",
+    "stilloutput_power" : "heater",
+    "sampleoutput_power" : "heater",
+}
+
+ops = {
+    "+": operator.add,
+    "-": operator.sub,
+    "*": operator.mul,
+    "<": operator.lt,
+    ">": operator.gt,
+    "=": operator.eq
+} 
+
+
+def alert():
+    while True:
+        collection = db['parameters']
+        data = list(collection.find())  
+        for x in data:
+            #times needs to be implemented on front end 
+            if not x["toggle"]:
+                continue
+            threshold = x["threshold"]
+            threshold = int(threshold)
+            collectionName = paramsList[x["paramType"]]
+            #times needs to be implemented on front end 
+            range = x["range"]
+            #times needs to be implemented on front end 
+            operator = ops[x['operator']]
+            #RTP need another variable just for resistance, power, temperature
+            RTP = x['RTP']
+            innerCollection = db[collectionName]
+            #check the latest numbers of log 
+            warning = list(innerCollection.find({"id":x["paramType"]}).limit(threshold).sort("date",-1)) 
+            #return true if they are above/below range value
+            if RTP == "null":
+                search = "value"
+            else:
+                search = RTP
+            sent = all( operator(y[search],range) for y in warning)
+            if sent:
+                print("works")
+                #implemet sending email
+                #sent emails
+        time.sleep(60) #check everyminute 
+
+
+t = threading.Thread(target=alert, kwargs={})
+t.setDaemon(True)
+t.start()
 
 
 def actualTimeToUnixTime(time):
@@ -121,8 +256,11 @@ def post_parameters(request):
             "name" : data["name"],
             "description": data["description"],
             "paramType" : data["paramType"],
-            "start": data["start"],
-            "end": data["end"]
+            "RTP": data["RTP"],
+            "operator": data["operator"],
+            "range": data["range"],
+            "threshold": data["threshold"],
+            "toggle": True
         }
         collection.insert_one(item)
         return HttpResponse(200)
@@ -146,6 +284,38 @@ def delete_parameters(request,call):
         collection.delete_one(test)
         return HttpResponse(200)
     
+def put_parameters(request, call):
+    if request.method == "PUT":
+        collection = db['parameters']
+        data = json.loads(request.body)
+        query = str(call)
+        item = {
+            "name" : data["name"],
+            "description": data["description"],
+            "paramType" : data["paramType"],
+            "range": data["range"],
+            "operator": data["operator"],
+            "threshold": data["threshold"],
+            "RTP" : data["RTP"],
+            "toggle": data["toggle"]
+        }
+        test = {"_id" : ObjectId(query)}
+        collection.replace_one(test,item)
+        return HttpResponse(200)
+
+    
+def toggle_parameters(request, call):
+    if request.method == "PUT":
+        collection = db['parameters']
+        data = json.loads(request.body)
+        query = str(call)
+        item = {
+            "toggle": not data
+        }
+        test = {"_id" : ObjectId(query)}    
+        collection.update_one(test,{"$set":item})
+        return HttpResponse(200)
+
 def login(request):
     if request.method == "POST":
         email = request.POST.get('email')
@@ -326,3 +496,4 @@ def fridge(request, pk):
             fridge = n
     context = {'fridge': fridge}
     return render(request, 'base/fridge.html', context)
+

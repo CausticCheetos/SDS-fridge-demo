@@ -96,7 +96,7 @@ const updateEmail = async(email) => {
     }
 
 const deleteEmail = (id) => {
-    fetch(`${baseUrl}/delete_Email/${id}`,{method: "DELETE"})
+    fetch(`${baseUrl}/delete_Email/${id}/`,{method: "DELETE"})
 }
 
 const exported = {

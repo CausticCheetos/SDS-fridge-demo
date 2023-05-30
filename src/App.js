@@ -5,7 +5,6 @@ import Dashboard from  './components/Dashboard'
 import DataVisualisation from  './components/DataVisualisation'
 import BlueFors from './components/BlueFors'
 import Parameters from './components/Parameters'
-import Email from './components/Email'
 import Settings from './components/Settings'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Route, Routes } from "react-router-dom"
@@ -122,7 +121,6 @@ function App() {
             <Route path='/bluefors_interface' element={<BlueFors/>}/>
             <Route path='/parameters' element={<Parameters {...{fridgeData, setFridgeData}}/>}/>
             <Route path='/settings' element={<Settings/>}/>
-            <Route path='/email' element={<Email/>}/>
           </Routes>
         </div>
       </div>

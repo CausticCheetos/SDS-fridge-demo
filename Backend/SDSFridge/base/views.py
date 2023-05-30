@@ -293,7 +293,7 @@ def put_parameters(request, call):
             "operator": data["operator"],
             "threshold": data["threshold"],
             "RTP" : data["RTP"],
-            "toggle": data["toggle"]
+            "toggle": data["toggle"],
         }
         test = {"_id" : ObjectId(query)}
         collection.replace_one(test,item)
@@ -384,6 +384,42 @@ def get_emails(request):
     collection = db['base_useremail']
     data = list(collection.find())  
     return JsonResponse(data,encoder=CustomJSONEncoder, safe=False)
+
+
+def delete_email(request,call):
+    if request.method == "DELETE":
+        collection = db['base_useremail']
+        query = str(call)
+        test = {"_id" : ObjectId(query)}
+        collection.delete_one(test)
+        return HttpResponse(200)
+
+
+def create_email(request):
+    collection = db['base_useremail']
+    if request.method == "POST":
+        data = json.loads(request.body)
+        item = {
+            "name" : data["name"],
+            "EmailAddress": data["EmailAddress"]
+        }
+        collection.insert_one(item)
+        return HttpResponse(200)
+    return HttpResponse(404)
+
+def put_email(request, call):
+    if request.method == "PUT":
+        collection = db['base_useremail']
+        data = json.loads(request.body)
+        query = str(call)
+        item = {
+            "name" : data["name"],
+            "EmailAddress": data["EmailAddress"],
+        }
+        test = {"_id" : ObjectId(query)}
+        collection.replace_one(test,item)
+        return HttpResponse(200)
+
 
 
 class SendNotificationEmailView(APIView):

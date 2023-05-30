@@ -439,34 +439,30 @@ class SendNotificationSMSView(APIView):
     serializer_class = SMSNotificationSerializer
 
     def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            phone_number = serializer.validated_data.get('phone_number')
-            notification_id = serializer.validated_data.get('notification_id')
+        # serializer = self.serializer_class(data=request.data)
+        # if serializer.is_valid():
+        #     phone_number = serializer.validated_data.get('phone_number')
+        #     notification_id = serializer.validated_data.get('notification_id')
 
-            try:
-                notification = Notification.objects.get(NotificationId=notification_id)
-            except Notification.DoesNotExist:
-                return Response({"error": "Notification with given id does not exist."}, status=400)
-
-            message = f"""
-                Notification Id: {notification.NotificationId}\n
-                Param Name: {notification.ParamName}\n
-                Param Description: {notification.ParamDescription}\n
-                Param Type: {notification.ParamType}\n
-                Param Start Range: {notification.ParamStartRange}\n
-                Param End Range: {notification.ParamEndRange}\n\n
-            """
-
-            client = vonage.Client(key=settings.VON_KEY, secret=settings.VON_SECRET)
-            sms = vonage.Sms(client)
-            sms.send_message({
-                'from': 'UTS Fridge Monitor',
-                'to': phone_number,
-                'text': message,
-            })
+        #     try:
+        #         notification = Notification.objects.get(NotificationId=notification_id)
+        #     except Notification.DoesNotExist:
+        #         return Response({"error": "Notification with given id does not exist."}, status=400)
+            notifications = get_parameters_BE(request)
+            n = str(notifications[0])
+            ans = n.find("'name': ")
+            des = n.find(", 'description': ")
+            name = n[ans + 8:des]
+        
+            message = f"Warning {name} has exceeded acceptable threshold!"
+            print(message)
+            client = Client(settings.TWILIO_ACCOUNT_SID, '')
+            client.messages.create(
+                body=message,
+                from_=settings.TWILIO_PHONE_NUMBER,
+                to='+61480101085'
+            )
             return Response({"message": "SMS sent successfully."}, status=200)
-        return Response(serializer.errors, status=400)
     
 
 # Create your views here.

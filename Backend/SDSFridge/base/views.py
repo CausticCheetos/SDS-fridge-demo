@@ -159,6 +159,8 @@ def alert():
                     print(number)
                     #send sms to number
                 #implemet sending email
+                SendSpecificNotificationEmailView().post(HttpRequest())
+                SendNotificationSMSView().post(HttpRequest())
                 #sent emails
         time.sleep(60) #check everyminute 
 

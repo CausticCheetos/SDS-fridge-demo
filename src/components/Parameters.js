@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IconTrash} from  '@tabler/icons-react'
+import { IconPencil, IconTrash} from  '@tabler/icons-react'
 import Clock from "./Clock"
 import ParameterForm from './ParameterForm';
 import ParameterItem from "./ParameterItem"
@@ -100,7 +100,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         <Modal
             show={emailShow}
             onHide={() => setEmailShow(false)}>
-                <div>
+                <div style={{ padding: 8}}>
                     Email form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
@@ -129,7 +129,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         <Modal
             show={smsShow}
             onHide={() => setSmsShow(false)}>
-                <div>
+                <div style={{ padding: 8}}>
                     SMS form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleSMS} placeholder="Email"/>

@@ -161,13 +161,13 @@ def alert():
             if sent:
                 for email in x["emailList"]:
                     print(email)
+                    SendSpecificNotificationEmailView().post(HttpRequest())
                     #send email to email
                 for number in x["smsList"]:
                     print(number)
+                    SendNotificationSMSView().post(HttpRequest())
                     #send sms to number
                 #implemet sending email
-                SendSpecificNotificationEmailView().post(HttpRequest())
-                SendNotificationSMSView().post(HttpRequest())
                 #sent emails
         time.sleep(60) #check everyminute 
 

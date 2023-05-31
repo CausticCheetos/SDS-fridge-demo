@@ -104,12 +104,9 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     Email form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
-<<<<<<<<< Temporary merge branch 1
-                    <button className='createButton' style={{ marginBottom: 8}} type='submit' onClick={handleEmailSubmit}>Submit</button>
-=========
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailClear}>Clear</button>
->>>>>>>>> Temporary merge branch 2
+
                     </Form>
 
        
@@ -122,10 +119,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
 
                         <button className='paramButton' onClick={() => handleRemoveEmail(index)} >
                         <IconTrash/>
-                        </button>
-                            
-                        <button className='paramButton'  /*onClick={handleRemoveEmail(index)}*/ >
->>>>>>>>> Temporary merge branch 2
+
                         </button>
                     </div>
                         )})}

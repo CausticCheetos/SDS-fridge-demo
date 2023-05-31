@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IconTrash} from  '@tabler/icons-react'
+import { IconPencil, IconTrash} from  '@tabler/icons-react'
 import Clock from "./Clock"
 import ParameterForm from './ParameterForm';
 import ParameterItem from "./ParameterItem"
@@ -76,11 +76,11 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         <Modal
             show={emailShow}
             onHide={() => setEmailShow(false)}>
-                <div>
+                <div style={{ padding: 8}}>
                     Email form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
-                    <button className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
+                    <button className='createButton' style={{ marginBottom: 8}} type='submit' onClick={handleEmailSubmit}>Submit</button>
                     </Form>
 
                     {/* Map Email here */}
@@ -88,7 +88,9 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         <div className='childItem'>
                         emails here 
                         </div>
-
+                        <button className='paramButton' /* onClick={} */>
+                            <IconPencil/>
+                        </button>
                         <button className='paramButton' /* onClick={} */>
                             <IconTrash/>
                         </button>
@@ -99,11 +101,11 @@ const Parameters = ({fridgeData, setFridgeData}) => {
         <Modal
             show={smsShow}
             onHide={() => setSmsShow(false)}>
-                <div>
+                <div style={{ padding: 8}}>
                     SMS form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleSMS} placeholder="Email"/>
-                    <button className='createButton' type='submit' onClick={handleSMSSubmit}>Submit</button>
+                    <button className='createButton' style={{ marginBottom: 8}} type='submit' onClick={handleSMSSubmit}>Submit</button>
                     </Form>
 
                     {/* Map SMS here */}
@@ -111,7 +113,9 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         <div className='childItem'>
                         numbers here 
                         </div>
-
+                        <button className='paramButton' /* onClick={} */>
+                            <IconPencil/>
+                        </button>
                         <button className='paramButton' /* onClick={} */>
                             <IconTrash/>
                         </button>
@@ -141,8 +145,8 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         <div className='createContainer'>
                             <h3>Create/Edit Parameter</h3>
                             <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState}}/>  
-                            <button onClick={() => setEmailShow(true)}>Email</button>
-                            <button onClick={() => setSmsShow(true)}>SMS</button>
+                            <button className='createButton' style={{margin: 5}} onClick={() => setEmailShow(true)}>Email</button>
+                            <button className='createButton' style={{margin: 5}} onClick={() => setSmsShow(true)}>SMS</button>
                         </div>
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>

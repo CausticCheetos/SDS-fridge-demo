@@ -104,7 +104,6 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     Email form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
-
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailClear}>Clear</button>
 
@@ -120,8 +119,6 @@ const Parameters = ({fridgeData, setFridgeData}) => {
 
                         <button className='paramButton' onClick={() => handleRemoveEmail(index)} >
                         <IconTrash/>
-                        </button>
-                            
 
                         </button>
                     </div>

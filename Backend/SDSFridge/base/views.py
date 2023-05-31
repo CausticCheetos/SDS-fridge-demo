@@ -95,20 +95,20 @@ paramsList = {
     "high_pressure_average" : "Pulsetube",
     "delta_pressure_average" : "Pulsetube",
     "motor_current": "Pulsetube",
-    "active_rotational_speed": "turbo1",
-    "drive_power": "turbo1",
-    "driver_temperature_too_high": "turbo1",
-    "pump_temperature_too_high": "turbo1",
-    "pump_accelerates": "turbo1",
-    "rotation_speed_switch_point_attained": "turbo1",
-    "setting_speed_attained": "turbo1",
-    #"active_rotational_speed": "turbo2",
-    #"drive_power": "turbo2",
-    #"driver_temperature_too_high": "turbo2",
-    #"pump_temperature_too_high": "turbo2",
-    #"pump_accelerates": "turbo2",
-    #"rotation_speed_switch_point_attained": "turbo2",
-    #"setting_speed_attained": "turbo2",
+    "turbo1.active_rotational_speed": "turbo1",
+    "turbo1.drive_power": "turbo1",
+    "turbo1.driver_temperature_too_high": "turbo1",
+    "turbo1.pump_temperature_too_high": "turbo1",
+    "turbo1.pump_accelerates": "turbo1",
+    "turbo1.rotation_speed_switch_point_attained": "turbo1",
+    "turbo1.setting_speed_attained": "turbo1",
+    "turbo2.active_rotational_speed": "turbo2",
+    "turbo2.drive_power": "turbo2",
+    "turbo2.driver_temperature_too_high": "turbo2",
+    "turbo2.pump_temperature_too_high": "turbo2",
+    "turbo2.pump_accelerates": "turbo2",
+    "turbo2.rotation_speed_switch_point_attained": "turbo2",
+    "turbo2.setting_speed_attained": "turbo2",
     "stillenabled" : "heater",
     "sampleenabled" : "heater",
     "stilloutput_power" : "heater",
@@ -135,7 +135,14 @@ def alert():
                 continue
             threshold = x["threshold"]
             threshold = int(threshold)
-            collectionName = paramsList[x["paramType"]]
+            turboSolve = x["paramType"].split('.')
+            paramtype = x["paramType"]
+            if turboSolve[0] == "turbo1":
+                paramtype = "turbo1"
+            elif turboSolve[0] == "turbo2":
+                paramtype = "turbo2"
+
+            collectionName = paramsList[paramtype]
             #times needs to be implemented on front end 
             range = x["range"]
             #times needs to be implemented on front end 

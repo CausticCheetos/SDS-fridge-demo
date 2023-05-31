@@ -128,13 +128,20 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
                 <option>high_pressure_average</option>
                 <option>delta_pressure_average</option>
                 <option>motor_current</option>
-                <option>active_rotational_speed</option>
-                <option>drive_power</option>
-                <option>driver_temperature_too_high</option>
-                <option>pump_temperature_too_high</option>
-                <option>pump_accelerates</option>
-                <option>rotation_speed_switch_point_attained</option>
-                <option>setting_speed_attained</option>
+                <option>turbo1.active_rotational_speed</option>
+                <option>turbo1.drive_power</option>
+                <option>turbo1.driver_temperature_too_high</option>
+                <option>turbo1.pump_temperature_too_high</option>
+                <option>turbo1.pump_accelerates</option>
+                <option>turbo1.rotation_speed_switch_point_attained</option>
+                <option>turbo1.setting_speed_attained</option>
+                <option>turbo2.active_rotational_speed</option>
+                <option>turbo2.drive_power</option>
+                <option>turbo2.driver_temperature_too_high</option>
+                <option>turbo2.pump_temperature_too_high</option>
+                <option>turbo2.pump_accelerates</option>
+                <option>turbo2.rotation_speed_switch_point_attained</option>
+                <option>turbo2.setting_speed_attained</option>
                 <option>stillenabled</option>
                 <option>sampleenabled</option>
                 <option>stilloutput_power</option>

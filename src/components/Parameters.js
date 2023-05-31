@@ -176,7 +176,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <div className='paramContainer'>
                         <div className='createContainer'>
                             <h3>Create/Edit Parameter</h3>
-                            <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState,emailList,smsList}}/>  
+                            <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState,emailList,smsList,handleEmailClear,handleSmsClear}}/>  
                             <button onClick={() => setEmailShow(true)}>Email</button>
                             <button onClick={() => setSmsShow(true)}>SMS</button>
                         </div>

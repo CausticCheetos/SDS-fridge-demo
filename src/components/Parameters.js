@@ -104,8 +104,12 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     Email form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
+<<<<<<<<< Temporary merge branch 1
+                    <button className='createButton' style={{ marginBottom: 8}} type='submit' onClick={handleEmailSubmit}>Submit</button>
+=========
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailClear}>Clear</button>
+>>>>>>>>> Temporary merge branch 2
                     </Form>
 
        
@@ -115,11 +119,13 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         <div className='childItem'>
                         {e}
                         </div>
+
                         <button className='paramButton' onClick={() => handleRemoveEmail(index)} >
                         <IconTrash/>
                         </button>
                             
                         <button className='paramButton'  /*onClick={handleRemoveEmail(index)}*/ >
+>>>>>>>>> Temporary merge branch 2
                         </button>
                     </div>
                         )})}
@@ -135,6 +141,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <Form.Control className="createParam" onChange={handleSMS} placeholder="Email"/>
                     <button className='createButton' type='submit' onClick={handleSMSSubmit}>Submit</button>
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleSmsClear}>Clear</button>
+
                     </Form>
 
                     {/* Map SMS here */}
@@ -149,6 +156,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         </button>
                             
                         <button className='paramButton'  /*onClick={handleRemoveEmail(index)}*/ >
+
                         </button>
                     </div>
                         )})}
@@ -179,6 +187,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                             <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState,emailList,smsList,handleEmailClear,handleSmsClear}}/>  
                             <button onClick={() => setEmailShow(true)}>Email</button>
                             <button onClick={() => setSmsShow(true)}>SMS</button>
+
                         </div>
                         <div className='manageContainer'>
                         <h3>Manage Parameter</h3>

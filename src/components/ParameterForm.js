@@ -167,6 +167,7 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
             <Form.Control className="createParam" onChange={handleThreshold} type="number" value={threshold} placeholder="Pass threshold in a row"/>
             <button style={{marginRight: 5}} className='createButton' onClick={handleClear}>Clear</button>
             <button style={{marginLeft: 5}} className='createButton' type='submit' onClick={() => {handleSubmit(); handleClear(); handleSmsClear(); handleEmailClear()}}>Confirm</button>
+
         </Form>
     )
 }

@@ -152,13 +152,15 @@ def alert():
             innerCollection = db[collectionName]
             #check the latest numbers of log 
             warning = list(innerCollection.find({"id":x["paramType"]}).limit(threshold).sort("date",-1)) 
+            spam = list(innerCollection.find({"id":x["paramType"]}).limit(threshold+1).sort("date",-1)) 
             #return true if they are above/below range value
             if RTP == "null":
                 search = "value"
             else:
                 search = RTP
             sent = all( operator(y[search],range) for y in warning)
-            if sent:
+            sent2 = all( operator(y[search],range) for y in spam)
+            if sent and not sent2 :
                 for email in x["emailList"]:
                     print(email)
                     SendSpecificNotificationEmailView().post(HttpRequest())

@@ -161,14 +161,14 @@ def alert():
                 search = RTP
             sent = all( operator(y[search],range) for y in warning)
             sent2 = all( operator(y[search],range) for y in spam)
-            if sent and not sent2 :
-                message = (
-                    "Parameter pass threshold",
-                    "{paramType} {rtp} {operator} {threshold}",
-                    'test@email.com',
-                    x["emailList"]
-                )
-                send_mass_mail((message), fail_silently=False)
+            #if sent and not sent2 :
+            if sent:
+                for email in x["emailList"]:
+                    mail_subject = 'User Warning Parameter Notifications'
+                    message = (paramtype + x["operator"] + range)
+                    email_message = EmailMessage(mail_subject, message, to=[email])
+                    email_message.send()
+            
                 for number in x["smsList"]:
                     print(number)
                     SendNotificationSMSView().post(HttpRequest())

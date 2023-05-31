@@ -104,7 +104,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     Email form
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleEmail} placeholder="Email"/>
-                    <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
+                    <button style={{marginBottom: 5, marginRight: 10}} className='createButton' type='submit' onClick={handleEmailSubmit}>Submit</button>
                     <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleEmailClear}>Clear</button>
 
                     </Form>
@@ -134,7 +134,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                     <Form onSubmit={(e) => e.preventDefault()}>
                     <Form.Control className="createParam" onChange={handleSMS} placeholder="Email"/>
                     <button className='createButton' type='submit' onClick={handleSMSSubmit}>Submit</button>
-                    <button style={{marginBottom: 5}} className='createButton' type='submit' onClick={handleSmsClear}>Clear</button>
+                    <button style={{marginBottom: 5, marginLeft: 10}} className='createButton' type='submit' onClick={handleSmsClear}>Clear</button>
 
                     </Form>
 
@@ -179,8 +179,8 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                         <div className='createContainer'>
                             <h3>Create/Edit Parameter</h3>
                             <ParameterForm {...{data, setFridgeData, selected, editShow,state,setState,emailList,smsList,handleEmailClear,handleSmsClear}}/>  
-                            <button onClick={() => setEmailShow(true)}>Email</button>
-                            <button onClick={() => setSmsShow(true)}>SMS</button>
+                            <button style={{marginTop: 5, marginRight: 10}} className='createButton' onClick={() => setEmailShow(true)}>Email</button>
+                            <button className='createButton' onClick={() => setSmsShow(true)}>SMS</button>
 
                         </div>
                         <div className='manageContainer'>

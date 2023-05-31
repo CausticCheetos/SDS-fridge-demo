@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from twilio.rest import Client
 from django.utils import timezone
+from django.core.mail import send_mass_mail
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from base.models import Flow, Notification, UserEmail, UserPhone
@@ -161,16 +162,18 @@ def alert():
             sent = all( operator(y[search],range) for y in warning)
             sent2 = all( operator(y[search],range) for y in spam)
             if sent and not sent2 :
-                for email in x["emailList"]:
-                    print(email)
-                    SendSpecificNotificationEmailView().post(HttpRequest())
-                    #send email to email
+                message = (
+                    "Parameter pass threshold",
+                    "{paramType} {rtp} {operator} {threshold}",
+                    'test@email.com',
+                    x["emailList"]
+                )
+                send_mass_mail((message), fail_silently=False)
                 for number in x["smsList"]:
                     print(number)
                     SendNotificationSMSView().post(HttpRequest())
                     #send sms to number
                 #implemet sending email
-                #sent emails
         time.sleep(60) #check everyminute 
 
 
@@ -502,7 +505,6 @@ class SendSpecificNotificationEmailView(APIView):
     def post(self, request, format=None):
 
             request = HttpRequest()
-            emails = get_emails_BE(request)
             notifications = get_parameters_BE(request)
             print(notifications)
             message = "Detected Parameter Overflow."
@@ -511,9 +513,8 @@ class SendSpecificNotificationEmailView(APIView):
 
             mail_subject = 'User Warning Parameter Notifications'
 
-            for email in emails:
-                email_message = EmailMessage(mail_subject, message, to=[email])
-                email_message.send()
+            email_message = EmailMessage(mail_subject, message, to=[email])
+            email_message.send()
             return Response({"message": "Email sent successfully."}, status=200)
 
     

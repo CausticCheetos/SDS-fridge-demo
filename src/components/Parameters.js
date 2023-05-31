@@ -132,7 +132,7 @@ const Parameters = ({fridgeData, setFridgeData}) => {
                 <div style={{ padding: 8}}>
                     SMS form
                     <Form onSubmit={(e) => e.preventDefault()}>
-                    <Form.Control className="createParam" onChange={handleSMS} placeholder="Email"/>
+                    <Form.Control className="createParam" onChange={handleSMS} placeholder="Phone Number"/>
                     <button className='createButton' type='submit' onClick={handleSMSSubmit}>Submit</button>
                     <button style={{marginBottom: 5, marginLeft: 10}} className='createButton' type='submit' onClick={handleSmsClear}>Clear</button>
 

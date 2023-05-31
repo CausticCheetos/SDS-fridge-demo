@@ -2,9 +2,9 @@ import { useState } from 'react';
 import Form from 'react-bootstrap/Form'
 import api from '../services/api'
 
-const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,state,setState}) => {
-    const [id, setId] = useState((i) => editShow ? data[editTarget]['_id'] : '');
-    const [toggle, setToggle] = useState((i) => editShow ? data[editTarget]['toggle'] : '');
+const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,state,setState,emailList, smsList,handleEmailClear,handleSmsClear}) => {
+    const [id] = useState((i) => editShow ? data[editTarget]['_id'] : '');
+    const [toggle] = useState((i) => editShow ? data[editTarget]['toggle'] : '');
     const [name, setName] = useState((i) => editShow ? data[editTarget]['name'] : '');
     const [description, setDescription] = useState((i) => editShow ? data[editTarget]['description'] : '');
     const [paramType, setParamType] = useState((i) => editShow ? data[editTarget]['paramType'] : 'Pressure 1');
@@ -31,7 +31,9 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
             operator: operator,
             range: range,
             threshold: threshold,
-            toggle: toggle
+            toggle: toggle,
+            emailList: emailList,
+            smsList: smsList
         }
         if (!editShow) {
             await api.postParameters(newParam)
@@ -49,11 +51,13 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
     const handleClear = () => {
         setName('');
         setDescription('');
-        setParamType('Pressure 1')
+        setParamType('p1')
         setOperator('=');
-        setRTP('Resistance');
+        setRTP('resistance');
         setRange('');
-    }
+        setThreshold('');
+
+    }   
 
     return (
         <Form onSubmit={(e) => e.preventDefault()}>
@@ -124,13 +128,20 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
                 <option>high_pressure_average</option>
                 <option>delta_pressure_average</option>
                 <option>motor_current</option>
-                <option>active_rotational_speed</option>
-                <option>drive_power</option>
-                <option>driver_temperature_too_high</option>
-                <option>pump_temperature_too_high</option>
-                <option>pump_accelerates</option>
-                <option>rotation_speed_switch_point_attained</option>
-                <option>setting_speed_attained</option>
+                <option>turbo1.active_rotational_speed</option>
+                <option>turbo1.drive_power</option>
+                <option>turbo1.driver_temperature_too_high</option>
+                <option>turbo1.pump_temperature_too_high</option>
+                <option>turbo1.pump_accelerates</option>
+                <option>turbo1.rotation_speed_switch_point_attained</option>
+                <option>turbo1.setting_speed_attained</option>
+                <option>turbo2.active_rotational_speed</option>
+                <option>turbo2.drive_power</option>
+                <option>turbo2.driver_temperature_too_high</option>
+                <option>turbo2.pump_temperature_too_high</option>
+                <option>turbo2.pump_accelerates</option>
+                <option>turbo2.rotation_speed_switch_point_attained</option>
+                <option>turbo2.setting_speed_attained</option>
                 <option>stillenabled</option>
                 <option>sampleenabled</option>
                 <option>stilloutput_power</option>
@@ -154,8 +165,9 @@ const ParameterForm = ({data, setFridgeData, selected, editShow, editTarget,stat
             </div>
             <h6>Threshold</h6>
             <Form.Control className="createParam" onChange={handleThreshold} type="number" value={threshold} placeholder="Pass threshold in a row"/>
-            <button style={{marginRight: 5}} className='createButton' type='submit' onClick={handleSubmit}>Confirm</button>
-            <button style={{marginLeft: 5}} className='createButton' onClick={handleClear}>Clear</button>
+            <button style={{marginRight: 5}} className='createButton' onClick={handleClear}>Clear</button>
+            <button style={{marginLeft: 5}} className='createButton' type='submit' onClick={() => {handleSubmit(); handleClear(); handleSmsClear(); handleEmailClear()}}>Confirm</button>
+
         </Form>
     )
 }

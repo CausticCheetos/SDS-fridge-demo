@@ -98,15 +98,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'hymbot@outlook.com'
-EMAIL_HOST_PASSWORD = 'Leo112266949@qq'
+EMAIL_HOST_USER = 'Enter your host email'
+EMAIL_HOST_PASSWORD = 'Enter your host email password'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 #SMS
-
-
-VON_KEY="a7f1bf5e"
-VON_SECRET="KQYV0Qc0wC8GJllf"
+TWILIO_ACCOUNT_SID = 'Enter your Twilio SID'
+TWILIO_AUTH_TOKEN = 'Enter your Twilio Auth Token'
+TWILIO_PHONE_NUMBER = 'Enter your phone number'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

@@ -138,6 +138,7 @@ def alert():
             threshold = int(threshold)
             turboSolve = x["paramType"].split('.')
             paramtype = x["paramType"]
+            operatorSMS = x["operator"]
             if turboSolve[0] == "turbo1":
                 paramtype = "turbo1"
             elif turboSolve[0] == "turbo2":
@@ -171,9 +172,15 @@ def alert():
             
                 for number in x["smsList"]:
                     print(number)
-                    SendNotificationSMSView().post(HttpRequest())
+                    message = f"Warning {paramtype} has exceeded acceptable threshold! {paramtype} {operatorSMS} {range}"
+                    print(message)
+                    client = Client(settings.TWILIO_ACCOUNT_SID, '8af1ecaf08dd4050fc7d78eb41c1294b')
+                    client.messages.create(
+                        body=message,
+                        from_=settings.TWILIO_PHONE_NUMBER,
+                        to= number
+                    )
                     #send sms to number
-                #implemet sending email
         time.sleep(60) #check everyminute 
 
 
